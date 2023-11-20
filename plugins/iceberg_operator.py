@@ -1,7 +1,3 @@
-"""
-This module contains a Google BigQuery to Postgres operator.
-"""
-
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 from airflow.plugins_manager import AirflowPlugin
