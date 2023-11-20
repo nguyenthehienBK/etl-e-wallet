@@ -1,4 +1,4 @@
-from airflow.hooks.base import BaseHook
+from airflow.hooks.base_hook import BaseHook
 import json
 from pyhive import hive
 
