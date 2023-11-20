@@ -1,29 +1,38 @@
 from airflow.models.dag import DAG
 from airflow.utils import dates
-from airflow.operators.empty import EmptyOperator
-from utils.variables.variables_utils import get_variables
-
+from airflow.operators.dummy_operator import DummyOperator
+from datetime import timedelta
 
 DAG_NAME = "01_generic_pipeline"
 SCHEDULE_INTERVAL = "00 17 * * *"
 
-with DAG(
-        dag_id=DAG_NAME,
-        start_date=dates.days_ago(1),
-        catchup=False,
-        schedule_interval=SCHEDULE_INTERVAL,
-        tags=["generic"]
-) as dag:
-    variables = get_variables(name=DAG_NAME)
-    start = EmptyOperator(task_id="start")
-    end = EmptyOperator(task_id="end")
+args = {
+    'owner': 'airflow',
+    'start_date': dates.days_ago(1),
+    'retries': 1,
+    'retry_delay': timedelta(minutes=5),
+}
 
-    dummy_task_1 = EmptyOperator(
-        task_id="dummy_task_1"
-    )
+main_dag = DAG(
+    dag_id=DAG_NAME,
+    default_args=args,
+    catchup=False,
+    concurrency=4,
+    max_active_runs=2,
+    schedule_interval=SCHEDULE_INTERVAL
+)
 
-    dummy_task_2 = EmptyOperator(
-        task_id="dummy_task_2"
-    )
+start = DummyOperator(task_id="start", dag=main_dag)
+end = DummyOperator(task_id="end", dag=main_dag)
 
-    start >> dummy_task_1 >> dummy_task_2 >> end
+dummy_task_1 = DummyOperator(
+    task_id="dummy_task_1",
+    dag=main_dag
+)
+
+dummy_task_2 = DummyOperator(
+    task_id="dummy_task_2",
+    dag=main_dag
+)
+
+start >> dummy_task_1 >> dummy_task_2 >> end
