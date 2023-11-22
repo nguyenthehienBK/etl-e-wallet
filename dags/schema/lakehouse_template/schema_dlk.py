@@ -6,6 +6,7 @@ from airflow.models import Variable
 from schema.common.dao_dim import DaoDim
 from schema.common.model import BaseModel, FACT_TABLE_TYPE, DIM_TABLE_TYPE
 from utils.database.db_data_type import UpsertType
+from utils.lakehouse.table_utils import get_content_from_sql_path
 
 
 class DLKBranch(DaoDim, BaseModel):
@@ -225,9 +226,11 @@ def get_sql(table_name, is_fact=False, etl_from=None, etl_to=None):
         "ext_columns": ext_columns
     }
     sql_file = ExtractSQL.SQL_TEMPLATE
+    query = get_content_from_sql_path(sql_file)
 
     return {
         "file": sql_file,
+        "query": query,
         "timestamp_key": timestamp_key,
         "params": sql_val,
         "sql_source_file": sql_source_file

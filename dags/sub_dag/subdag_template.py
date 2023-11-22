@@ -65,7 +65,7 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
             task_id=f"load_{table_name}_to_raw",
             mysql_conn_id=raw_conn_id,
             hdfs_conn_id=hdfs_conn_id,
-            query=tbl_info["sql"]["file"],
+            query=tbl_info["sql"]["query"],
             output_path=tbl_info["filename"],
             schema_raw=tbl_info["schema"],
             params=tbl_info["sql"]["params"],
