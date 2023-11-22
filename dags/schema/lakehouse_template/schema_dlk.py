@@ -180,7 +180,7 @@ def valid_tables(ls_tbl, include_schema=False, except_table=None, include_master
     return results
 
 
-def get_sql(server_key, table_name, is_fact=False, etl_from=None, etl_to=None):
+def get_sql(table_name, is_fact=False, etl_from=None, etl_to=None):
     where_condition = ""
     timestamp = ""
     join = ""
@@ -216,7 +216,6 @@ def get_sql(server_key, table_name, is_fact=False, etl_from=None, etl_to=None):
 
     sql_val = {
         "columns": columns,
-        "server_key": server_key,
         "table_name": prefix,
         "where_condition": where_condition,
         "timestamp": timestamp,

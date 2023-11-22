@@ -103,12 +103,11 @@ File path:
 
 
 def extract_table_info(
-    db_source, server_key, table_name, is_fact=False, etl_from=None, etl_to=None, hdfs_conn_id=None,
+    db_source, table_name, is_fact=False, etl_from=None, etl_to=None, hdfs_conn_id=None,
     layer=None, business_day="19700101"
 ):
     return {
         "sql": get_sql(
-            server_key=server_key,
             table_name=table_name,
             etl_from=etl_from,
             etl_to=etl_to,
