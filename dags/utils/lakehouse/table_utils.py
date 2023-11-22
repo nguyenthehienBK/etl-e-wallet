@@ -11,9 +11,11 @@ def get_hdfs_path(
         bucket: str = None,
         business_day: str = "19700101",
 ) -> str:
-    conn = BaseHook.get_connection(hdfs_conn_id)
-    host = conn.host
-    port = str(conn.port)
+    # conn = BaseHook.get_connection(hdfs_conn_id)
+    # host = conn.host
+    # port = str(conn.port)
+    host = 'host_test'
+    port = 'post_test'
     if table_name is None:
         return ""
     if layer == "RAW":
