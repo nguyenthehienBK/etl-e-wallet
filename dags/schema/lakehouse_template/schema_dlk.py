@@ -210,8 +210,10 @@ def get_sql(table_name, is_fact=False, etl_from=None, etl_to=None):
 
     prefix = table_name
 
-    columns = get_columns(table_name=table_name, prefix=prefix)
-
+    ls_columns = get_columns(table_name=table_name, prefix=prefix)
+    columns = ''
+    for col in ls_columns:
+        columns = columns + col + '\n'
     # Phân biệt Retailer test: có dạng testzxx, ...
     # TODO remove retailer case from automatic generate sql to specific sql file
 
