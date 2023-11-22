@@ -6,6 +6,7 @@ from utils.variables.variables_utils import get_variables
 
 DAG_NAME = "01_generic_pipeline"
 SCHEDULE_INTERVAL = "00 17 * * *"
+SCHEDULE_INTERVAL_2 = "00 17 * * *"
 
 with DAG(
         dag_id=DAG_NAME,
