@@ -5,6 +5,7 @@ from datetime import timedelta
 
 DAG_NAME = "01_generic_pipeline"
 SCHEDULE_INTERVAL = "00 17 * * *"
+SCHEDULE_INTERVAL_2 = "00 17 * * *"
 
 args = {
     'owner': 'airflow',
