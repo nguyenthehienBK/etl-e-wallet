@@ -23,6 +23,17 @@ def get_hdfs_path(
     else:
         return f"hdfs://{host}:{port}/{bucket}/{layer}/{table_name}/"
 
+
+def get_content_from_sql_path(sql_path: str) -> str:
+    data = ''
+    try:
+        with open(sql_path, 'r') as file:
+            data = file.read()
+    except:
+        print(f'Loi doc file sql {sql_path}')
+    return data
+
+
 from schema.lakehouse_template.schema_dlk import (
     get_table_info as dlk_info,
     valid_tables as dlk_valid_tables,
@@ -105,8 +116,8 @@ File path:
 
 
 def extract_table_info(
-    db_source, table_name, is_fact=False, etl_from=None, etl_to=None, hdfs_conn_id=None,
-    layer=None, business_day="19700101"
+        db_source, table_name, is_fact=False, etl_from=None, etl_to=None, hdfs_conn_id=None,
+        layer=None, business_day="19700101"
 ):
     return {
         "sql": get_sql(
