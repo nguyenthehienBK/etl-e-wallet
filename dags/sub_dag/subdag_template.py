@@ -6,7 +6,7 @@ sys.path.append(abs_path)
 from airflow.hooks.base_hook import BaseHook
 from utils.date_time.date_time_utils import get_business_date
 from utils.lakehouse.lakehouse_uri_utils import get_hdfs_path
-from utils.lakehouse.table_utils import extract_table_info
+from utils.lakehouse.table_utils import extract_table_info, get_dlk_valid_table
 from datetime import timedelta
 from airflow.operators import MysqlToHdfsOperator
 from utils.lakehouse.lakehouse_layer_utils import (
@@ -16,7 +16,6 @@ from utils.lakehouse.lakehouse_layer_utils import (
     ICEBERG,
 
 )
-from schema.lakehouse_template.schema_dlk import _TABLE_SCHEMA, valid_tables as dlk_valid_tables
 from airflow.models import DAG
 from airflow.operators import IcebergOperator
 
@@ -25,6 +24,8 @@ RAW_CONN_ID = "raw_conn_id"
 HIVE_SERVER2_CONN_ID = "hive_server2_conn_id"
 BUSSINESS_DATE = "business_date"
 DB_SOURCE = "db_source"
+EXT_TABLE = "extract_table"
+EXCEPT_TABLE = "except_table"
 
 
 def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
@@ -36,10 +37,9 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
     hdfs_conn_id = kwargs.get(HDFS_CONN_ID)
     raw_conn_id = kwargs.get(RAW_CONN_ID)
     db_source = kwargs.get(DB_SOURCE)
-
-    table = ["Branch", "Invoice"]
-    except_table = []
-    ls_tbl = dlk_valid_tables(ls_tbl=table, except_table=except_table)
+    table = kwargs.get(EXT_TABLE)
+    except_table = kwargs.get(EXCEPT_TABLE)
+    ls_tbl = get_dlk_valid_table(db_source=db_source, ls_table=table, except_table=except_table)
     for tbl in ls_tbl:
         is_fact = tbl["is_fact"]
         table_name = tbl["name"]

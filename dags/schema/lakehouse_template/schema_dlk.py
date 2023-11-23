@@ -104,8 +104,8 @@ class ExtractSQL:
 _ALL = "all"
 """ ALL table name in database """
 
-DLK_BRANCH = "Branch"
-DLK_INVOICE = "Invoice"
+DLK_BRANCH = "Temp1"
+DLK_INVOICE = "Temp2"
 
 
 _TABLE_SCHEMA = {

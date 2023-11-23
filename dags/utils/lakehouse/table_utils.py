@@ -2,6 +2,19 @@ import datetime
 from dateutil.relativedelta import relativedelta
 from airflow.models import Variable
 from airflow.hooks.base_hook import BaseHook
+from schema.lakehouse_template.schema_dlk import valid_tables as template_dlk_valid_table
+from schema.generic.schema_dlk import valid_tables as generic_dlk_valid_table
+
+
+def get_dlk_valid_table(
+        db_source: str = None,
+        ls_table: list = None,
+        except_table: list = None,
+):
+    if db_source == 'template':
+        return template_dlk_valid_table(ls_tbl=ls_table, except_table=except_table)
+    if db_source == 'generic':
+        return generic_dlk_valid_table(ls_tbl=ls_table, except_table=except_table)
 
 
 def get_hdfs_path(
