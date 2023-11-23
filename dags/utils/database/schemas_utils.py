@@ -3,11 +3,7 @@ from schema.lakehouse_template.schema_dlk import valid_tables as template_dlk_va
 from schema.generic.schema_dlk import valid_tables as generic_dlk_valid_table
 
 
-def get_dlk_valid_table(
-        db_source: str = None,
-        ls_table: list = [],
-        except_table: list = [],
-):
+def get_dlk_valid_table(db_source, ls_table, except_table):
     if db_source == 'template':
         return template_dlk_valid_table(ls_tbl=ls_table, except_table=except_table)
     else:
