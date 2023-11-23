@@ -5,8 +5,8 @@ abs_path = os.path.dirname(os.path.abspath(__file__)) + "/../../../.."
 sys.path.append(abs_path)
 from airflow.hooks.base_hook import BaseHook
 from utils.date_time.date_time_utils import get_business_date
-from utils.lakehouse.lakehouse_uri_utils import get_hdfs_path
-from utils.lakehouse.table_utils import extract_table_info, get_dlk_valid_table
+from utils.lakehouse.table_utils import extract_table_info
+from utils.database.schemas_utils import get_dlk_valid_table
 from datetime import timedelta
 from airflow.operators import MysqlToHdfsOperator
 from utils.lakehouse.lakehouse_layer_utils import (
