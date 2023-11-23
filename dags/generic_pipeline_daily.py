@@ -16,7 +16,7 @@ BUSINESS_DATE = get_business_date(days=-1, business_date=variables.get("business
 LIST_TABLE_MIGRATION = variables.get('list_table_migration')
 variables['business_date'] = BUSINESS_DATE
 DELETE_OLD_FILE_RAW_TASK_NAME = 'delete_old_file_raw'
-LOAD_TO_RAW_TASK_NAME = 'load_to_raw'
+LOAD_TO_RAW_TASK_NAME = 'load_to_raw1'
 LOAD_TO_STAGING_TASK_NAME = 'load_to_staging'
 LOAD_TO_WAREHOUSE_TASK_NAME = 'load_to_warehouse'
 START_TASK_NAME = 'start'
