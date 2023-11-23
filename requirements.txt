@@ -23,6 +23,7 @@ configparser==3.5.3
 croniter==0.3.37
 cryptography==3.3.1
 curlify==2.2.1
+cx-Oracle==8.3.0
 defusedxml==0.6.0
 dill==0.3.3
 dnspython==2.1.0
