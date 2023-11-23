@@ -1,0 +1,18 @@
+variables:
+  GIT_STRATEGY: clone
+
+stages:
+  - test
+  - deploy
+
+deploy_dev:
+  stage: deploy
+  only:
+    - develop
+  tags:
+    - etl
+  script:
+    - echo "Deploy to dev server"
+    - pwd
+    - whoami
+    - rsync -ah --stats * /home/itadmin/on-vds-dmp-etl --delete
