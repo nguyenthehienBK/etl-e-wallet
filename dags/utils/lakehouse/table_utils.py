@@ -191,7 +191,7 @@ def get_sql_param(tbl):
     ls_columns = [s["name"] for s in tbl.SCHEMA]
     columns = ''
     for col in ls_columns:
-        columns = columns + col + ',\n'
+        columns = columns + col + '\n'
 
     sql_val = {
         "columns": columns,

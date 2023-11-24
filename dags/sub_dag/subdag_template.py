@@ -9,6 +9,7 @@ from utils.lakehouse.table_utils import get_hdfs_path, get_sql_param
 from datetime import timedelta
 from schema.lakehouse_template.schema_dlk import TEMPLATE_TABLE_SCHEMA
 from schema.generic.schema_dlk import GENERIC_TABLE_SCHEMA
+from schema.w3_core_mdm.schema_dlk import W3_CORE_MDM_TABLE_SCHEMA
 from airflow.operators import MysqlToHdfsOperator
 from utils.lakehouse.lakehouse_layer_utils import (
     RAW,
@@ -45,10 +46,11 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
     # except_table = []
     # ls_tbl = dlk_valid_tables(ls_tbl=table, except_table=except_table)
     # ls_tbl = get_all_database_table(db_source=db_source)
+    ls_tbl = GENERIC_TABLE_SCHEMA
     if db_source == "template":
         ls_tbl = TEMPLATE_TABLE_SCHEMA
-    else:
-        ls_tbl = GENERIC_TABLE_SCHEMA
+    if db_source == "w3_core_mdm":
+        ls_tbl = W3_CORE_MDM_TABLE_SCHEMA
     for table in ls_tbl:
         is_fact = True
         tbl = ls_tbl.get(table)
