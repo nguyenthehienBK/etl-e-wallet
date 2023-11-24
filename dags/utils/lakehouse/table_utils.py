@@ -189,9 +189,9 @@ def get_sql_param(tbl):
     order_by = tbl.EXTRACT["ORDER_BY"]
     timestamp_key = tbl.EXTRACT["TIMESTAMP_KEY"]
     ls_columns = [s["name"] for s in tbl.SCHEMA]
-    columns = ''
-    for col in ls_columns:
-        columns = columns + col + '\n'
+    columns = ls_columns[0]
+    for col in ls_columns[1:]:
+        columns = columns + ',' + col + '\n'
 
     sql_val = {
         "columns": columns,
