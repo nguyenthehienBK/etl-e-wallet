@@ -261,13 +261,13 @@ def get_sql_param(tbl):
     table_name = tbl.TABLE_NAME
     prefix = table_name
     timestamp = tbl.EXTRACT["TIMESTAMP"]
-    join = tbl.EXTRACT["TIMESTAMP"]
-    order_by = tbl.EXTRACT["TIMESTAMP"]
+    join = tbl.EXTRACT["JOIN"]
+    order_by = tbl.EXTRACT["ORDER_BY"]
     timestamp_key = tbl.EXTRACT["TIMESTAMP_KEY"]
     ls_columns = [s["name"] for s in tbl.SCHEMA]
     columns = ''
     for col in ls_columns:
-        columns = columns + col + '\n'
+        columns = columns + col + ',\n'
 
     sql_val = {
         "columns": columns,
