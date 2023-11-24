@@ -5,8 +5,9 @@ abs_path = os.path.dirname(os.path.abspath(__file__)) + "/../../../.."
 sys.path.append(abs_path)
 from airflow.hooks.base_hook import BaseHook
 from utils.date_time.date_time_utils import get_business_date
-from utils.lakehouse.table_utils import extract_table_info, dlk_valid_tables
+from utils.lakehouse.table_utils import extract_table_info, dlk_valid_tables, get_hdfs_path, get_content_from_sql_path
 from datetime import timedelta
+from schema.lakehouse_template.schema_dlk import _ALL_TABLE
 from airflow.operators import MysqlToHdfsOperator
 from utils.lakehouse.lakehouse_layer_utils import (
     RAW,
@@ -42,9 +43,11 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
     table = ["Temp1", "Temp2"]
     except_table = []
     ls_tbl = dlk_valid_tables(ls_tbl=table, except_table=except_table)
+    ls_tbl = _ALL_TABLE
     for tbl in ls_tbl:
         is_fact = tbl["is_fact"]
-        table_name = tbl["name"]
+        table_name = tbl.TABLE_NAME
+        schema = tbl.SCHEMA
         if is_fact:
             extract_from = kwargs["extract_from"]
             extract_to = kwargs["extract_to"]
@@ -53,24 +56,27 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
             extract_from = get_business_date(days=-1, date_format="%Y-%m-%d")
             extract_to = get_business_date(days=-1, date_format="%Y-%m-%d")
             date_info = {"from": extract_from, "to": extract_to}
-        tbl_info = extract_table_info(
-            db_source=db_source,
-            table_name=table_name,
-            is_fact=is_fact,
-            etl_from=extract_from,
-            etl_to=extract_to,
-            hdfs_conn_id=hdfs_conn_id,
-            layer="RAW",
-            business_day='20231121'
-        )
+        # tbl_info = extract_table_info(
+        #     db_source=db_source,
+        #     table_name=table_name,
+        #     is_fact=is_fact,
+        #     etl_from=extract_from,
+        #     etl_to=extract_to,
+        #     hdfs_conn_id=hdfs_conn_id,
+        #     layer="RAW",
+        #     business_day='20231121'
+        # )
+        output_path = get_hdfs_path(table_name=table_name, hdfs_conn_id=hdfs_conn_id,
+                                    layer="RAW", bucket=db_source, business_day="19700101")
+        query = get_content_from_sql_path(tbl.SQL)
         MysqlToHdfsOperator(
             task_id=f"load_{table_name}_to_raw",
             mysql_conn_id=raw_conn_id,
             hdfs_conn_id=hdfs_conn_id,
-            query=tbl_info["sql"]["query"],
-            output_path=tbl_info["filename"],
-            schema_raw=tbl_info["schema"],
-            params=tbl_info["sql"]["params"],
+            query=query,
+            output_path=output_path,
+            schema_raw=schema,
+            params={},
             dag=dag,
         )
     return dag
