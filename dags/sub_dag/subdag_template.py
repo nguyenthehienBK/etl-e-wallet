@@ -45,7 +45,7 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
     ls_tbl = dlk_valid_tables(ls_tbl=table, except_table=except_table)
     ls_tbl = _ALL_TABLE
     for tbl in ls_tbl:
-        is_fact = tbl["is_fact"]
+        is_fact = Tr
         table_name = tbl.TABLE_NAME
         schema = tbl.SCHEMA
         if is_fact:
