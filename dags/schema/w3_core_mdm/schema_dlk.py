@@ -26,6 +26,21 @@ class DLKTiers(DaoDim, BaseModel):
             , {"name": "deleted_at", "mode": "NULLABLE", "type": "timestamp"}
             , {"name": "deleted_by", "mode": "NULLABLE", "type": "bigint"}
         ]
+        self.SCHEMA_RAW = {
+            'id': 'int64'
+            , 'description': 'str'
+            , 'role_type_id': 'int64'
+            , 'status': 'str'
+            , 'tier_code': 'str'
+            , 'tier_name': 'str'
+            , 'created_at': 'datetime64[ns]'
+            , 'created_by': 'int64'
+            , 'updated_at': 'datetime64[ns]'
+            , 'updated_by': 'int64'
+            , 'deleted_at': 'datetime64[ns]'
+            , 'deleted_by': 'int64'
+        }
+
         # self.COLUMNS_SCHEMA = self.DEFAULT_COLUMNS + self.SCHEMA
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True

@@ -55,7 +55,7 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
         is_fact = True
         tbl = ls_tbl.get(table)
         table_name = tbl.TABLE_NAME
-        schema = tbl.SCHEMA
+        schema = tbl.SCHEMA_RAW
         if is_fact:
             extract_from = kwargs["extract_from"]
             extract_to = kwargs["extract_to"]
