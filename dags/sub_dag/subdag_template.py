@@ -51,7 +51,7 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
         ls_tbl = GENERIC_TABLE_SCHEMA
     for table in ls_tbl:
         is_fact = True
-        tbl = ls_tbl.get(table_name)
+        tbl = ls_tbl.get(table)
         table_name = tbl.TABLE_NAME
         schema = tbl.SCHEMA
         if is_fact:
