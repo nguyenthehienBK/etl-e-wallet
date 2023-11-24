@@ -43,7 +43,8 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
     # table = ["Temp1", "Temp2"]
     # except_table = []
     # ls_tbl = dlk_valid_tables(ls_tbl=table, except_table=except_table)
-    ls_tbl = get_all_database_table(db_source=db_source)
+    # ls_tbl = get_all_database_table(db_source=db_source)
+    ls_tbl = _TABLE_SCHEMA
     for table_name in ls_tbl:
         is_fact = True
         tbl = _TABLE_SCHEMA.get(table_name)
