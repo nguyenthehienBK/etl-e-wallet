@@ -93,6 +93,7 @@ class DLKInvoice(DaoDim, BaseModel):
         ]
         self.MIGRATION_TYPE = 'SQL_ID'
         self.TABLE_TYPE = FACT_TABLE_TYPE
+        self.SQL = ExtractSQL.SQL_TEMPLATE
 
 
 class ExtractSQL:
