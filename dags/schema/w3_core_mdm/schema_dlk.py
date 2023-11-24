@@ -13,18 +13,18 @@ class DLKTiers(DaoDim, BaseModel):
     def __init__(self, table_name):
         super().__init__(table_name)
         self.SCHEMA = [
-            {"name": "`id`", "mode": "NULLABLE", "type": "bigint"}
-            , {"name": "`description`", "mode": "NULLABLE", "type": "string"}
-            , {"name": "`role_type_id`", "mode": "NULLABLE", "type": "bigint"}
-            , {"name": "`status`", "mode": "NULLABLE", "type": "string"}
-            , {"name": "`tier_code`", "mode": "NULLABLE", "type": "string"}
-            , {"name": "`tier_name`", "mode": "NULLABLE", "type": "string"}
-            , {"name": "`created_at`", "mode": "NULLABLE", "type": "timestamp"}
-            , {"name": "`created_by`", "mode": "NULLABLE", "type": "bigint"}
-            , {"name": "`updated_at`", "mode": "NULLABLE", "type": "timestamp"}
-            , {"name": "`updated_by`", "mode": "NULLABLE", "type": "bigint"}
-            , {"name": "`deleted_at`", "mode": "NULLABLE", "type": "timestamp"}
-            , {"name": "`deleted_by`", "mode": "NULLABLE", "type": "bigint"}
+            {"name": "id", "mode": "NULLABLE", "type": "bigint"}
+            , {"name": "description", "mode": "NULLABLE", "type": "string"}
+            , {"name": "role_type_id", "mode": "NULLABLE", "type": "bigint"}
+            , {"name": "status", "mode": "NULLABLE", "type": "string"}
+            , {"name": "tier_code", "mode": "NULLABLE", "type": "string"}
+            , {"name": "tier_name", "mode": "NULLABLE", "type": "string"}
+            , {"name": "created_at", "mode": "NULLABLE", "type": "timestamp"}
+            , {"name": "created_by", "mode": "NULLABLE", "type": "bigint"}
+            , {"name": "updated_at", "mode": "NULLABLE", "type": "timestamp"}
+            , {"name": "updated_by", "mode": "NULLABLE", "type": "bigint"}
+            , {"name": "deleted_at", "mode": "NULLABLE", "type": "timestamp"}
+            , {"name": "deleted_by", "mode": "NULLABLE", "type": "bigint"}
         ]
         # self.COLUMNS_SCHEMA = self.DEFAULT_COLUMNS + self.SCHEMA
         self.COLUMNS_SCHEMA = self.SCHEMA
