@@ -161,6 +161,49 @@ def get_partition_column_expr(table, alias_table=None):
 
 
 class ExtractSQL:
-    SQL_TEMPLATE = "dags/sql/template/extract_sql_template_dim.sql"
+    SQL_TEMPLATE_DIM = "dags/sql/template/extract_sql_template_dim.sql"
+    SQL_TEMPLATE_FACT = "dags/sql/template/extract_sql_template_facts.sql"
     EQUAL_FORMAT = "WHERE {} = '{}'"
     BETWEEN_FORMAT = "WHERE {} BETWEEN '{}' AND '{}'"
+
+def get_sql_param(tbl):
+    where_condition = ""
+    timestamp = ""
+    join = ""
+    order_by = ""
+    ext_columns = ""
+    timestamp_key = ""
+    sql_source_file = False
+
+    table_name = tbl.TABLE_NAME
+    prefix = table_name
+    timestamp = tbl.EXTRACT["TIMESTAMP"]
+    join = tbl.EXTRACT["JOIN"]
+    order_by = tbl.EXTRACT["ORDER_BY"]
+    timestamp_key = tbl.EXTRACT["TIMESTAMP_KEY"]
+    ls_columns = [s["name"] for s in tbl.SCHEMA]
+    columns = ''
+    for col in ls_columns:
+        columns = columns + col + ',\n'
+
+    sql_val = {
+        "columns": columns,
+        "table_name": prefix,
+        "where_condition": where_condition,
+        "timestamp": timestamp,
+        "join": join,
+        "order_by": order_by,
+    }
+    if tbl.TABLE_TYPE == "DIM":
+        sql_file = ExtractSQL.SQL_TEMPLATE_DIM
+    else:
+        sql_file = ExtractSQL.SQL_TEMPLATE_FACT
+    query = get_content_from_sql_path(sql_file)
+
+    return {
+        "file": sql_file,
+        "query": query,
+        "timestamp_key": timestamp_key,
+        "params": sql_val,
+        "sql_source_file": sql_source_file
+    }
