@@ -7,7 +7,7 @@ from airflow.hooks.base_hook import BaseHook
 from utils.date_time.date_time_utils import get_business_date
 from utils.lakehouse.table_utils import get_hdfs_path, get_content_from_sql_path
 from datetime import timedelta
-from schema.lakehouse_template.schema_dlk import _TABLE_SCHEMA
+from schema.lakehouse_template.schema_dlk import _TABLE_SCHEMA, get_sql_param
 from airflow.operators import MysqlToHdfsOperator
 from utils.lakehouse.lakehouse_layer_utils import (
     RAW,
@@ -69,7 +69,8 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
         # )
         output_path = get_hdfs_path(table_name=table_name, hdfs_conn_id=hdfs_conn_id,
                                     layer="RAW", bucket=db_source, business_day="19700101")
-        query = get_content_from_sql_path(tbl.SQL)
+        query = get_sql_param(tbl=tbl).get("query")
+        params = get_sql_param(tbl=tbl).get("params")
         MysqlToHdfsOperator(
             task_id=f"load_{table_name}_to_raw",
             mysql_conn_id=raw_conn_id,
@@ -77,7 +78,7 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
             query=query,
             output_path=output_path,
             schema_raw=schema,
-            params={},
+            params=params,
             dag=dag,
         )
     return dag

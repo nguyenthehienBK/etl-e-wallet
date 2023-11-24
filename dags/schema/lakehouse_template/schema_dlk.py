@@ -39,9 +39,9 @@ class DLKBranch(DaoDim, BaseModel):
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
         self.TABLE_TYPE = DIM_TABLE_TYPE
-        self.SQL = ExtractSQL.SQL_TEMPLATE
         self.EXTRACT = {
             "TIMESTAMP": "",
+            "SQL": ExtractSQL.SQL_TEMPLATE_DIM,
             "TIMESTAMP_KEY": "",
             "ORDER_BY": "Id",
             "JOIN": ""
@@ -82,6 +82,7 @@ class DLKInvoice(DaoDim, BaseModel):
         self._TIMESTAMP = "CAST(CASE WHEN [Order].ModifiedDate is NULL THEN [Order].CreatedDate ELSE [Order].ModifiedDate END as Date)"
         self.EXTRACT = {
             "TIMESTAMP": self._TIMESTAMP,
+            "SQL": ExtractSQL.SQL_TEMPLATE_FACT,
             "TIMESTAMP_KEY": "timestamp",
             "ORDER_BY": self._TIMESTAMP + ", Id",
             "JOIN": ""
@@ -94,11 +95,11 @@ class DLKInvoice(DaoDim, BaseModel):
         ]
         self.MIGRATION_TYPE = 'SQL_ID'
         self.TABLE_TYPE = FACT_TABLE_TYPE
-        self.SQL = ExtractSQL.SQL_TEMPLATE
 
 
 class ExtractSQL:
-    SQL_TEMPLATE = "dags/sql/template/extract_sql_template.sql"
+    SQL_TEMPLATE_DIM = "dags/sql/template/extract_sql_template_dim.sql"
+    SQL_TEMPLATE_FACT = "dags/sql/template/extract_sql_template_facts.sql"
     EQUAL_FORMAT = "WHERE {} = '{}'"
     BETWEEN_FORMAT = "WHERE {} BETWEEN '{}' AND '{}'"
 
@@ -248,3 +249,44 @@ def is_fact_table(table_name):
     return table_name in _ALL_FACT
 
 
+def get_sql_param(tbl):
+    where_condition = ""
+    timestamp = ""
+    join = ""
+    order_by = ""
+    ext_columns = ""
+    timestamp_key = ""
+    sql_source_file = False
+
+    table_name = tbl.TABLE_NAME
+    prefix = table_name
+    timestamp = tbl.EXTRACT["TIMESTAMP"]
+    join = tbl.EXTRACT["TIMESTAMP"]
+    order_by = tbl.EXTRACT["TIMESTAMP"]
+    timestamp_key = tbl.EXTRACT["TIMESTAMP_KEY"]
+    ls_columns = [s["name"] for s in tbl.SCHEMA]
+    columns = ''
+    for col in ls_columns:
+        columns = columns + col + '\n'
+
+    sql_val = {
+        "columns": columns,
+        "table_name": prefix,
+        "where_condition": where_condition,
+        "timestamp": timestamp,
+        "join": join,
+        "order_by": order_by,
+    }
+    if tbl.TABLE_TYPE == DIM_TABLE_TYPE:
+        sql_file = ExtractSQL.SQL_TEMPLATE_DIM
+    else:
+        sql_file = ExtractSQL.SQL_TEMPLATE_FACT
+    query = get_content_from_sql_path(sql_file)
+
+    return {
+        "file": sql_file,
+        "query": query,
+        "timestamp_key": timestamp_key,
+        "params": sql_val,
+        "sql_source_file": sql_source_file
+    }
