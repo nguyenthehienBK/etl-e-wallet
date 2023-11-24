@@ -7,7 +7,7 @@ from airflow.hooks.base_hook import BaseHook
 from utils.date_time.date_time_utils import get_business_date
 from utils.lakehouse.table_utils import extract_table_info, dlk_valid_tables, get_hdfs_path, get_content_from_sql_path
 from datetime import timedelta
-from schema.lakehouse_template.schema_dlk import _ALL_TABLE
+from schema.lakehouse_template.schema_dlk import _TABLE_SCHEMA
 from airflow.operators import MysqlToHdfsOperator
 from utils.lakehouse.lakehouse_layer_utils import (
     RAW,
@@ -42,8 +42,8 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
     db_source = "template"
     table = ["Temp1", "Temp2"]
     except_table = []
-    ls_tbl = dlk_valid_tables(ls_tbl=table, except_table=except_table)
-    ls_tbl = _ALL_TABLE
+    # ls_tbl = dlk_valid_tables(ls_tbl=table, except_table=except_table)
+    ls_tbl = _TABLE_SCHEMA
     for tbl in ls_tbl:
         is_fact = True
         table_name = tbl.TABLE_NAME
