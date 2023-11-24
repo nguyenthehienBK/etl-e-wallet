@@ -39,6 +39,7 @@ class DLKBranch(DaoDim, BaseModel):
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
         self.TABLE_TYPE = DIM_TABLE_TYPE
+        self.SQL = ExtractSQL.SQL_TEMPLATE
         self.EXTRACT = {
             "TIMESTAMP": "",
             "TIMESTAMP_KEY": "",
