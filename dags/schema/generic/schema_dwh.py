@@ -95,7 +95,7 @@ class DLKInvoice(DaoDim, BaseModel):
 
 
 class ExtractSQL:
-    SQL_TEMPLATE = "sql/ext/template/extract_sql_template.sql"
+    SQL_TEMPLATE = "sql/ext/template/extract_sql_template_dim.sql"
     EQUAL_FORMAT = "WHERE {} = '{}'"
     BETWEEN_FORMAT = "WHERE {} BETWEEN '{}' AND '{}'"
 
