@@ -13,7 +13,7 @@ class DLKTiers(DaoDim, BaseModel):
     def __init__(self, table_name):
         super().__init__(table_name)
         self.SCHEMA = [
-            {"name": "`id`", "mode": "NOTNULL", "type": "bigint"}
+            {"name": "`id`", "mode": "NULLABLE", "type": "bigint"}
             , {"name": "`description`", "mode": "NULLABLE", "type": "string"}
             , {"name": "`role_type_id`", "mode": "NULLABLE", "type": "bigint"}
             , {"name": "`status`", "mode": "NULLABLE", "type": "string"}
