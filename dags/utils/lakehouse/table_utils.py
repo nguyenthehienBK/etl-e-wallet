@@ -34,20 +34,20 @@ def get_content_from_sql_path(sql_path: str) -> str:
     return data
 
 
-from schema.lakehouse_template.schema_dlk import (
-    get_table_info as dlk_info,
-    valid_tables as dlk_valid_tables,
-    valid_all_tables as dlk_valid_all_tables,
-    get_columns,
-    get_sql,
-    is_fact_table as dlk_is_fact_table,
-)
-from schema.lakehouse_template.schema_dwh import (
-    get_table_info as dwh_info,
-    valid_tables as dwh_valid_tables,
-    valid_all_tables as dwh_valid_all_tables,
-    is_fact_table as dwh_is_fact_table,
-)
+# from schema.lakehouse_template.schema_dlk import (
+#     get_table_info as dlk_info,
+#     valid_tables as dlk_valid_tables,
+#     valid_all_tables as dlk_valid_all_tables,
+#     get_columns,
+#     get_sql,
+#     is_fact_table as dlk_is_fact_table,
+# )
+# from schema.lakehouse_template.schema_dwh import (
+#     get_table_info as dwh_info,
+#     valid_tables as dwh_valid_tables,
+#     valid_all_tables as dwh_valid_all_tables,
+#     is_fact_table as dwh_is_fact_table,
+# )
 from utils.database.db_data_type import UpsertType
 
 PAGING = 100000
@@ -67,22 +67,22 @@ def get_etl_time():
     return from_date, to_date
 
 
-def table_info_factory(table_name, is_dlk=False, only_schema=False):
-    if is_dlk:
-        return dlk_info(table_name=table_name, only_schema=only_schema)
-    return dwh_info(table_name=table_name, only_schema=only_schema)
+# def table_info_factory(table_name, is_dlk=False, only_schema=False):
+#     if is_dlk:
+#         return dlk_info(table_name=table_name, only_schema=only_schema)
+#     return dwh_info(table_name=table_name, only_schema=only_schema)
 
 
-def valid_all_tables_factory(ls_tbl, is_dlk=False):
-    if is_dlk:
-        return dlk_valid_all_tables(ls_tbl=ls_tbl)
-    return dwh_valid_all_tables(ls_tbl=ls_tbl)
-
-
-def is_fact_table_factory(table_name, is_dlk=False):
-    if is_dlk:
-        return dlk_is_fact_table(table_name=table_name)
-    return dwh_is_fact_table(table_name=table_name)
+# def valid_all_tables_factory(ls_tbl, is_dlk=False):
+#     if is_dlk:
+#         return dlk_valid_all_tables(ls_tbl=ls_tbl)
+#     return dwh_valid_all_tables(ls_tbl=ls_tbl)
+#
+#
+# def is_fact_table_factory(table_name, is_dlk=False):
+#     if is_dlk:
+#         return dlk_is_fact_table(table_name=table_name)
+#     return dwh_is_fact_table(table_name=table_name)
 
 
 """
@@ -115,28 +115,28 @@ File path:
 """
 
 
-def extract_table_info(
-        db_source, table_name, is_fact=False, etl_from=None, etl_to=None, hdfs_conn_id=None,
-        layer=None, business_day="19700101"
-):
-    return {
-        "sql": get_sql(
-            table_name=table_name,
-            etl_from=etl_from,
-            etl_to=etl_to,
-            is_fact=is_fact,
-        ),
-        "filename": get_hdfs_path(
-            table_name=table_name,
-            hdfs_conn_id=hdfs_conn_id,
-            layer=layer,
-            bucket=db_source,
-            business_day=business_day,
-        ),
-        "schema": table_info_factory(
-            table_name=table_name, is_dlk=True, only_schema=True
-        ),
-    }
+# def extract_table_info(
+#         db_source, table_name, is_fact=False, etl_from=None, etl_to=None, hdfs_conn_id=None,
+#         layer=None, business_day="19700101"
+# ):
+#     return {
+#         "sql": get_sql(
+#             table_name=table_name,
+#             etl_from=etl_from,
+#             etl_to=etl_to,
+#             is_fact=is_fact,
+#         ),
+#         "filename": get_hdfs_path(
+#             table_name=table_name,
+#             hdfs_conn_id=hdfs_conn_id,
+#             layer=layer,
+#             bucket=db_source,
+#             business_day=business_day,
+#         ),
+#         "schema": table_info_factory(
+#             table_name=table_name, is_dlk=True, only_schema=True
+#         ),
+#     }
 
 
 def get_partition_column_expr(table, alias_table=None):
@@ -158,3 +158,9 @@ def get_partition_column_expr(table, alias_table=None):
         return partition_colum_expr
     else:
         return None
+
+
+class ExtractSQL:
+    SQL_TEMPLATE = "dags/sql/template/extract_sql_template.sql"
+    EQUAL_FORMAT = "WHERE {} = '{}'"
+    BETWEEN_FORMAT = "WHERE {} BETWEEN '{}' AND '{}'"
