@@ -110,8 +110,8 @@ DLK_INVOICE = "Temp2"
 
 
 _TABLE_SCHEMA = {
-    DLK_BRANCH: DLKBranch(DLK_BRANCH),
-    DLK_INVOICE: DLKInvoice(DLK_INVOICE),
+    DLKBranch(DLK_BRANCH),
+    DLKInvoice(DLK_INVOICE),
 }
 
 
