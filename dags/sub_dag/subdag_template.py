@@ -5,7 +5,7 @@ abs_path = os.path.dirname(os.path.abspath(__file__)) + "/../../../.."
 sys.path.append(abs_path)
 from airflow.hooks.base_hook import BaseHook
 from utils.date_time.date_time_utils import get_business_date
-from utils.lakehouse.table_utils import get_hdfs_path, get_sql_param
+from utils.lakehouse.table_utils import get_hdfs_path, get_sql_param, get_all_database_table
 from datetime import timedelta
 from schema.lakehouse_template.schema_dlk import _TABLE_SCHEMA
 from airflow.operators import MysqlToHdfsOperator
@@ -36,14 +36,14 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
     )
     hdfs_conn_id = kwargs.get(HDFS_CONN_ID)
     raw_conn_id = kwargs.get(RAW_CONN_ID)
-    # db_source = kwargs.get(EXT_DB_SOURCE)
+    db_source = kwargs.get(EXT_DB_SOURCE)
     # table = kwargs.get(EXT_TABLE)
     # except_table = kwargs.get(EXCEPT_TABLE)
-    db_source = "template"
-    table = ["Temp1", "Temp2"]
-    except_table = []
+    # db_source = "template"
+    # table = ["Temp1", "Temp2"]
+    # except_table = []
     # ls_tbl = dlk_valid_tables(ls_tbl=table, except_table=except_table)
-    ls_tbl = _TABLE_SCHEMA
+    ls_tbl = get_all_database_table(db_source=db_source)
     for table_name in ls_tbl:
         is_fact = True
         tbl = _TABLE_SCHEMA.get(table_name)

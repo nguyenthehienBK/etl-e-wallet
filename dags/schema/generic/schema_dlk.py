@@ -23,6 +23,11 @@ class DLKBranch(DaoDim, BaseModel):
             {"name": "CreatedDate", "type": "TIMESTAMP", "mode": "NULLABLE"},
             {"name": "ModifiedDate", "type": "TIMESTAMP", "mode": "NULLABLE"},
             {"name": "RetailerId", "type": "BIGINT", "mode": "NULLABLE"},
+            {"name": "PharmacySyncStatus", "type": "BOOLEAN", "mode": "NULLABLE"},
+            {"name": "PharmacyConnectCode", "type": "STRING", "mode": "NULLABLE"},
+            {"name": "GmbStatus", "type": "BIGINT", "mode": "NULLABLE"},
+            {"name": "GmbLocationName", "type": "STRING", "mode": "NULLABLE"},
+            {"name": "LimitAccess", "type": "BOOLEAN", "mode": "NULLABLE"}
         ]
         # self.COLUMNS_SCHEMA = self.DEFAULT_COLUMNS + self.SCHEMA
         self.COLUMNS_SCHEMA = self.SCHEMA
@@ -36,6 +41,7 @@ class DLKBranch(DaoDim, BaseModel):
         self.TABLE_TYPE = DIM_TABLE_TYPE
         self.EXTRACT = {
             "TIMESTAMP": "",
+            "SQL": ExtractSQL.SQL_TEMPLATE_DIM,
             "TIMESTAMP_KEY": "",
             "ORDER_BY": "Id",
             "JOIN": ""
@@ -47,6 +53,13 @@ class DLKInvoice(DaoDim, BaseModel):
         super().__init__(table_name)
         self.SQL_SOURCE_FILE = True
         self.SCHEMA = [
+            {"name": "ServerKey", "mode": "NULLABLE", "type": "BIGINT"},
+            {"name": "Id", "mode": "NULLABLE", "type": "BIGINT"},
+            {"name": "CustomerId", "mode": "NULLABLE", "type": "BIGINT"},
+            {"name": "PurchaseDate", "mode": "NULLABLE", "type": "TIMESTAMP"},
+            {"name": "Code", "mode": "NULLABLE", "type": "STRING"},
+            {"name": "PaymentType", "mode": "NULLABLE", "type": "STRING"},
+            {"name": "BranchId", "mode": "NULLABLE", "type": "BIGINT"},
             {"name": "Status", "mode": "NULLABLE", "type": "BIGINT"},
             {"name": "ModifiedDate", "mode": "NULLABLE", "type": "TIMESTAMP"},
             {"name": "CreatedDate", "mode": "NULLABLE", "type": "TIMESTAMP"},
@@ -54,6 +67,10 @@ class DLKInvoice(DaoDim, BaseModel):
             {"name": "TotalPayment", "mode": "NULLABLE", "type": "DECIMAL(38, 9)"},
             {"name": "UsingCod", "mode": "NULLABLE", "type": "BIGINT"},
             {"name": "SaleChannelId", "mode": "NULLABLE", "type": "BIGINT"},
+            {"name": "RetailerId", "mode": "NULLABLE", "type": "BIGINT"},
+            {"name": "Uuid", "mode": "NULLABLE", "type": "STRING"},
+            {"name": "CreatedBy", "mode": "NULLABLE", "type": "BIGINT"},
+            {"name": "ModifiedBy", "mode": "NULLABLE", "type": "BIGINT"}
         ]
 
         self.TIME_PARTITIONING = {
@@ -65,6 +82,7 @@ class DLKInvoice(DaoDim, BaseModel):
         self._TIMESTAMP = "CAST(CASE WHEN [Order].ModifiedDate is NULL THEN [Order].CreatedDate ELSE [Order].ModifiedDate END as Date)"
         self.EXTRACT = {
             "TIMESTAMP": self._TIMESTAMP,
+            "SQL": ExtractSQL.SQL_TEMPLATE_FACT,
             "TIMESTAMP_KEY": "timestamp",
             "ORDER_BY": self._TIMESTAMP + ", Id",
             "JOIN": ""
@@ -80,7 +98,8 @@ class DLKInvoice(DaoDim, BaseModel):
 
 
 class ExtractSQL:
-    SQL_TEMPLATE = "dags/sql/template/extract_sql_template_dim.sql"
+    SQL_TEMPLATE_DIM = "dags/sql/template/extract_sql_template_dim.sql"
+    SQL_TEMPLATE_FACT = "dags/sql/template/extract_sql_template_facts.sql"
     EQUAL_FORMAT = "WHERE {} = '{}'"
     BETWEEN_FORMAT = "WHERE {} BETWEEN '{}' AND '{}'"
 
@@ -88,8 +107,8 @@ class ExtractSQL:
 _ALL = "all"
 """ ALL table name in database """
 
-DLK_BRANCH = "Gene1"
-DLK_INVOICE = "Gene2"
+DLK_BRANCH = "Gen11"
+DLK_INVOICE = "Gen2"
 
 
 _TABLE_SCHEMA = {
