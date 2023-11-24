@@ -43,21 +43,9 @@ start_pipeline = DummyOperator(
     dag=main_dag
 )
 
-load_to_raw = SubDagOperator(
-    subdag=sub_load_to_raw(
-        parent_dag_name=DAG_NAME,
-        child_dag_name=LOAD_TO_RAW_TASK_NAME,
-        args=args,
-        **variables
-    ),
-    task_id=LOAD_TO_RAW_TASK_NAME,
-    executor=get_default_executor(),
-    dag=main_dag
-)
-
 end_pipeline = DummyOperator(
     task_id=END_TASK_NAME,
     dag=main_dag
 )
 
-start_pipeline >> load_to_raw >> end_pipeline
+start_pipeline >> end_pipeline
