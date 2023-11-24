@@ -2,8 +2,15 @@ import datetime
 from dateutil.relativedelta import relativedelta
 from airflow.models import Variable
 from airflow.hooks.base_hook import BaseHook
+from dags.schema.generic.schema_dlk import _TABLE_SCHEMA as generic_tbl
+from dags.schema.lakehouse_template.schema_dlk import _TABLE_SCHEMA as lakehouse_tbl
 
 
+def get_all_database_table(db_source):
+    if db_source == "template":
+        return lakehouse_tbl
+    if db_source == "generic":
+        return generic_tbl
 def get_hdfs_path(
         table_name: str = None,
         hdfs_conn_id: str = None,
