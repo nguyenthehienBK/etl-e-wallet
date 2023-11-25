@@ -45,7 +45,7 @@ class DLKTiers(DaoDim, BaseModel):
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "Id", "type": "BIGINT"}
+            {"name": "Id", "type": "bigint"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
