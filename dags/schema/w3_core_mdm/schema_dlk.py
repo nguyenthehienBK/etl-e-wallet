@@ -74,7 +74,7 @@ class DLKAccountingWalletTypes(DaoDim, BaseModel):
         ]
         self.SCHEMA_RAW = {
             'id': 'int64',
-            'description': 'str',
+            'accounting_wallet_type_name': 'str',
             'created_at': 'datetime64[ns]',
             'created_by': 'int64',
             'updated_at': 'datetime64[ns]',
