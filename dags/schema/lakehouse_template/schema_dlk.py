@@ -248,4 +248,3 @@ def is_fact_table(table_name):
     """
     return table_name in _ALL_FACT
 
-

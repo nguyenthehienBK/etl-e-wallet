@@ -46,17 +46,12 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
     hdfs_conn_id = kwargs.get(HDFS_CONN_ID)
     raw_conn_id = kwargs.get(RAW_CONN_ID)
     db_source = kwargs.get(EXT_DB_SOURCE)
+    business_date = kwargs.get("business_date")
     ls_ext_table = kwargs.get(EXT_TABLE)
-    # except_table = kwargs.get(EXCEPT_TABLE)
-    # db_source = "template"
-    # table = ["Temp1", "Temp2"]
-    # except_table = []
-    # ls_tbl = dlk_valid_tables(ls_tbl=table, except_table=except_table)
-    # ls_tbl = get_all_database_table(db_source=db_source)
     ls_tbl = get_table_schema(db_source=db_source)
     for table in ls_tbl:
-        is_fact = True
         tbl = ls_tbl.get(table)
+        is_fact = True
         table_name = tbl.TABLE_NAME
         schema = tbl.SCHEMA_RAW
         if is_fact:
@@ -67,18 +62,9 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
             extract_from = get_business_date(days=-1, date_format="%Y-%m-%d")
             extract_to = get_business_date(days=-1, date_format="%Y-%m-%d")
             date_info = {"from": extract_from, "to": extract_to}
-        # tbl_info = extract_table_info(
-        #     db_source=db_source,
-        #     table_name=table_name,
-        #     is_fact=is_fact,
-        #     etl_from=extract_from,
-        #     etl_to=extract_to,
-        #     hdfs_conn_id=hdfs_conn_id,
-        #     layer="RAW",
-        #     business_day='20231121'
-        # )
+
         output_path = get_hdfs_path(table_name=table_name, hdfs_conn_id=hdfs_conn_id,
-                                    layer="RAW", bucket=db_source, business_day="19700101")
+                                    layer="RAW", bucket=db_source, business_day=business_date)
         query = get_sql_param(tbl=tbl).get("query")
         params = get_sql_param(tbl=tbl).get("params")
         MysqlToHdfsOperator(
