@@ -105,10 +105,12 @@ _ALL = "all"
 """ ALL table name in database """
 
 DLK_TIERS = "tiers"
+DLK_ACCOUNTING_WALLET_TYPES = "accounting_wallet_types"
 DLK_INVOICE = "Temp2"
 
 W3_CORE_MDM_TABLE_SCHEMA = {
     DLK_TIERS: DLKTiers(DLK_TIERS),
+    DLK_ACCOUNTING_WALLET_TYPES: DLKAccountingWalletTypes(DLK_ACCOUNTING_WALLET_TYPES),
 }
 
 _ALL_DIM = [
