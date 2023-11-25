@@ -5,7 +5,7 @@ abs_path = os.path.dirname(os.path.abspath(__file__)) + "/../../../.."
 sys.path.append(abs_path)
 from airflow.hooks.base_hook import BaseHook
 from utils.date_time.date_time_utils import get_business_date
-from utils.lakehouse.table_utils import get_hdfs_path, get_sql_param, get_content_from_sql_path
+from utils.lakehouse.table_utils import get_hdfs_path, get_sql_param
 from datetime import timedelta
 from schema.lakehouse_template.schema_dlk import TEMPLATE_TABLE_SCHEMA
 from schema.generic.schema_dlk import GENERIC_TABLE_SCHEMA
@@ -65,7 +65,15 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
 
         output_path = get_hdfs_path(table_name=table_name, hdfs_conn_id=hdfs_conn_id,
                                     layer="RAW", bucket=db_source, business_day=business_date)
-        query = get_content_from_sql_path("dags/sql/template/extract_sql_template_dim.sql")
+        # query = get_sql_param(tbl=tbl).get("query")
+        query = """
+        SELECT
+            {{params.columns}}
+            FROM {{params.table_name}}
+            {{params.join}}
+            {{params.where_condition}}
+            ORDER BY {{params.order_by}}
+        """
         params = get_sql_param(tbl=tbl).get("params")
         MysqlToHdfsOperator(
             task_id=f"load_{table_name}_to_raw",
