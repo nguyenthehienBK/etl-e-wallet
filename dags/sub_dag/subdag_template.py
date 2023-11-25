@@ -30,6 +30,13 @@ EXT_TABLE = "extract_table"
 EXCEPT_TABLE = "except_table"
 
 
+def get_table_schema(db_source):
+    ls_tbl = TEMPLATE_TABLE_SCHEMA
+    if db_source == "w3_core_mdm":
+        ls_tbl = W3_CORE_MDM_TABLE_SCHEMA
+    return ls_tbl
+
+
 def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
     dag = DAG(
         dag_id="%s.%s" % (parent_dag_name, child_dag_name),
@@ -39,18 +46,14 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
     hdfs_conn_id = kwargs.get(HDFS_CONN_ID)
     raw_conn_id = kwargs.get(RAW_CONN_ID)
     db_source = kwargs.get(EXT_DB_SOURCE)
-    # table = kwargs.get(EXT_TABLE)
+    ls_ext_table = kwargs.get(EXT_TABLE)
     # except_table = kwargs.get(EXCEPT_TABLE)
     # db_source = "template"
     # table = ["Temp1", "Temp2"]
     # except_table = []
     # ls_tbl = dlk_valid_tables(ls_tbl=table, except_table=except_table)
     # ls_tbl = get_all_database_table(db_source=db_source)
-    ls_tbl = GENERIC_TABLE_SCHEMA
-    if db_source == "template":
-        ls_tbl = TEMPLATE_TABLE_SCHEMA
-    if db_source == "w3_core_mdm":
-        ls_tbl = W3_CORE_MDM_TABLE_SCHEMA
+    ls_tbl = get_table_schema(db_source=db_source)
     for table in ls_tbl:
         is_fact = True
         tbl = ls_tbl.get(table)
