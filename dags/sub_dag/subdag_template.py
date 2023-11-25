@@ -65,7 +65,7 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
 
         output_path = get_hdfs_path(table_name=table_name, hdfs_conn_id=hdfs_conn_id,
                                     layer="RAW", bucket=db_source, business_day=business_date)
-        query = get_sql_param(tbl=tbl).get("query")
+        query = get_sql_param(tbl=tbl).get("sql_file")
         params = get_sql_param(tbl=tbl).get("params")
         MysqlToHdfsOperator(
             task_id=f"load_{table_name}_to_raw",
