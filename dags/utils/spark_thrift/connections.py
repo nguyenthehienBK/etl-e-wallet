@@ -20,7 +20,6 @@ def get_spark_thrift_conn(hive_server2_conn_id: str = "hiveserver2_default") -> 
         port=conn_query_params.port,
         username=conn_query_params.login,
         password=password,
-        auth=extra.get("auth", "NOSASL"),
     )
     print("NOTICE: Please close conn after using or use with () statement for auto-closing!")
     return conn
