@@ -11,6 +11,7 @@ from schema.lakehouse_template.schema_dlk import TEMPLATE_TABLE_SCHEMA
 from schema.generic.schema_dlk import GENERIC_TABLE_SCHEMA
 from schema.w3_core_mdm.schema_dlk import W3_CORE_MDM_TABLE_SCHEMA
 from schema.w3_core_uaa.schema_dlk import W3_CORE_UAA_TABLE_SCHEMA
+from schema.w3_common_partner.schema_dlk import W3_COMMON_PARTNER_TABLE_SCHEMA
 from airflow.operators import MysqlToHdfsOperator
 from utils.lakehouse.lakehouse_layer_utils import (
     RAW,
@@ -39,6 +40,8 @@ def get_table_schema(db_source):
         ls_tbl = W3_CORE_MDM_TABLE_SCHEMA
     if db_source == "w3_core_uaa":
         ls_tbl = W3_CORE_UAA_TABLE_SCHEMA
+    if db_source == "w3_common_partner":
+        ls_tbl = W3_COMMON_PARTNER_TABLE_SCHEMA
     return ls_tbl
 
 
