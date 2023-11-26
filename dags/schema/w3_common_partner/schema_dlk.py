@@ -14,7 +14,7 @@ class DLKPartnerInfos(DaoDim, BaseModel):
         self.SCHEMA = [
             {"name": "id", "mode": "NULLABLE", "type": "bigint"},
             {"name": "partner_code", "mode": "NULLABLE", "type": "string"},
-            {"name": "partner_code", "mode": "NULLABLE", "type": "string"},
+            {"name": "partner_name", "mode": "NULLABLE", "type": "string"},
             {"name": "role_type_code", "mode": "NULLABLE", "type": "string"},
             {"name": "is_intermediary", "mode": "NULLABLE", "type": "bit"},
             {"name": "tax_code", "mode": "NULLABLE", "type": "string"},
