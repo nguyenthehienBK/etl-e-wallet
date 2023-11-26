@@ -31,6 +31,61 @@ def get_host_port(hdfs_conn_id: str = None):
     return host, port
 
 
+def get_pure_type(col_type: str):
+    if 'decimal' in col_type:
+        return 'decimal'
+    else:
+        return col_type
+
+
+def is_cast_column(col_type: str):
+    if get_pure_type(col_type) in ('bigint', 'decimal'):
+        return True
+    else:
+        return False
+
+
+def get_merge_query_dwh(tbl):
+    # create table statement
+    create_table_sql = '`' + tbl.SCHEMA[0]["name"] + '`' + ' ' + tbl.SCHEMA[0]["type"]
+    for schema in tbl.SCHEMA[1:]:
+        create_table_sql = create_table_sql + '\n,`' + schema["name"] + '`' + ' ' + schema["type"]
+    # print(create_table_sql)
+
+    # select statement
+    select_sql = "SELECT "
+    if is_cast_column(tbl.SCHEMA[0]["type"]):
+        select_sql = select_sql + get_pure_type(tbl.SCHEMA[0]["type"]) + '(' + tbl.SCHEMA[0]["name"] + ') AS ' + tbl.SCHEMA[0][
+            "name"]
+    else:
+        select_sql = select_sql + tbl.SCHEMA[0]["name"] + ' AS ' + tbl.SCHEMA[0]["name"]
+    for schema in tbl.SCHEMA[1:]:
+        if is_cast_column(schema["type"]):
+            select_sql = select_sql + '\n,' + get_pure_type(schema["type"]) + '(' + schema["name"] + ') AS ' + schema[
+                "name"]
+        else:
+            select_sql = select_sql + '\n,' + schema["name"] + ' AS ' + schema["name"]
+
+    # on match statement
+    match_conditions = ' '
+    match_conditions = match_conditions + 't.' + tbl.KEY_COLUMNS[0]["name"] + '= s.' + tbl.KEY_COLUMNS[0]["name"]
+    for schema in tbl.KEY_COLUMNS[1:]:
+        match_conditions = match_conditions + ' AND t.' + schema["name"] + '= s.' + schema["name"]
+
+    # merge statement
+    merge_clause = ''
+    merge_clause = merge_clause + 't.' + tbl.SCHEMA[0]["name"] + ' = s.' + tbl.SCHEMA[0]["name"]
+    for schema in tbl.SCHEMA[1:]:
+        merge_clause = merge_clause + '\n,t.' + schema["name"] + ' = s.' + schema["name"]
+
+    return {
+        "create_table_sql": create_table_sql,
+        "select_sql": select_sql,
+        "match_conditions": match_conditions,
+        "merge_clause": merge_clause
+    }
+
+
 def get_content_from_sql_path(sql_path: str) -> str:
     data = ''
     try:
