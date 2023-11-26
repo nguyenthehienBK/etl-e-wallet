@@ -1,6 +1,5 @@
 """
 Define table schema for staging
-File dags/schema/kv_mssql/schema_dlk.py
 """
 from airflow.models import Variable
 from schema.common.dao_dim import DaoDim

@@ -8,16 +8,19 @@ from utils.database.db_data_type import UpsertType
 from utils.lakehouse.table_utils import get_content_from_sql_path
 
 
-class DLKTiers(DaoDim, BaseModel):
+class DLKPartnerInfos(DaoDim, BaseModel):
     def __init__(self, table_name):
         super().__init__(table_name)
         self.SCHEMA = [
             {"name": "id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "description", "mode": "NULLABLE", "type": "string"},
-            {"name": "role_type_id", "mode": "NULLABLE", "type": "bigint"},
+            {"name": "partner_code", "mode": "NULLABLE", "type": "string"},
+            {"name": "partner_code", "mode": "NULLABLE", "type": "string"},
+            {"name": "role_type_code", "mode": "NULLABLE", "type": "string"},
+            {"name": "is_intermediary", "mode": "NULLABLE", "type": "bit"},
+            {"name": "tax_code", "mode": "NULLABLE", "type": "string"},
+            {"name": "business_license", "mode": "NULLABLE", "type": "string"},
             {"name": "status", "mode": "NULLABLE", "type": "string"},
-            {"name": "tier_code", "mode": "NULLABLE", "type": "string"},
-            {"name": "tier_name", "mode": "NULLABLE", "type": "string"},
+            {"name": "description", "mode": "NULLABLE", "type": "string"},
             {"name": "created_at", "mode": "NULLABLE", "type": "timestamp"},
             {"name": "created_by", "mode": "NULLABLE", "type": "bigint"},
             {"name": "updated_at", "mode": "NULLABLE", "type": "timestamp"},
@@ -27,11 +30,14 @@ class DLKTiers(DaoDim, BaseModel):
         ]
         self.SCHEMA_RAW = {
             'id': 'int64',
-            'description': 'str',
-            'role_type_id': 'int64',
+            'partner_code': 'str',
+            'partner_name': 'str',
+            'role_type_code': 'str',
+            'is_intermediary': 'bool',
+            'tax_code': 'str',
+            'business_license': 'str',
             'status': 'str',
-            'tier_code': 'str',
-            'tier_name': 'str',
+            'description': 'str',
             'created_at': 'datetime64[ns]',
             'created_by': 'int64',
             'updated_at': 'datetime64[ns]',
@@ -44,7 +50,7 @@ class DLKTiers(DaoDim, BaseModel):
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "Id", "type": "bigint"}
+            {"name": "id", "type": "bigint"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
@@ -57,37 +63,51 @@ class DLKTiers(DaoDim, BaseModel):
         }
 
 
-class DLKAccountingWalletTypes(DaoDim, BaseModel):
+class DLKServices(DaoDim, BaseModel):
     def __init__(self, table_name):
         super().__init__(table_name)
         self.SCHEMA = [
             {"name": "id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "accounting_wallet_type_name", "mode": "NULLABLE", "type": "string"},
+            {"name": "service_code", "mode": "NULLABLE", "type": "string"},
+            {"name": "service_name", "mode": "NULLABLE", "type": "string"},
+            {"name": "trans_type_id", "mode": "NULLABLE", "type": "bigint"},
+            {"name": "external_service_code", "mode": "NULLABLE", "type": "string"},
+            {"name": "description", "mode": "NULLABLE", "type": "string"},
+            {"name": "is_financial", "mode": "NULLABLE", "type": "bigint"},
+            {"name": "is_internal", "mode": "NULLABLE", "type": "bigint"},
+            {"name": "type", "mode": "NULLABLE", "type": "string"},
+            {"name": "status", "mode": "NULLABLE", "type": "string"},
             {"name": "created_at", "mode": "NULLABLE", "type": "timestamp"},
             {"name": "created_by", "mode": "NULLABLE", "type": "bigint"},
             {"name": "updated_at", "mode": "NULLABLE", "type": "timestamp"},
             {"name": "updated_by", "mode": "NULLABLE", "type": "bigint"},
             {"name": "deleted_at", "mode": "NULLABLE", "type": "timestamp"},
             {"name": "deleted_by", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "multiple_wallets", "mode": "NULLABLE", "type": "bit"},
         ]
         self.SCHEMA_RAW = {
             'id': 'int64',
-            'accounting_wallet_type_name': 'str',
+            'service_code': 'str',
+            'service_name': 'str',
+            'trans_type_id': 'int64',
+            'external_service_code': 'str',
+            'description': 'str',
+            'is_financial': 'int64',
+            'is_internal': 'int64',
+            'type': 'str',
+            'status': 'str',
             'created_at': 'datetime64[ns]',
             'created_by': 'int64',
             'updated_at': 'datetime64[ns]',
             'updated_by': 'int64',
             'deleted_at': 'datetime64[ns]',
             'deleted_by': 'int64',
-            'multiple_wallets': 'bool',
         }
 
         # self.COLUMNS_SCHEMA = self.DEFAULT_COLUMNS + self.SCHEMA
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "Id", "type": "bigint"}
+            {"name": "id", "type": "bigint"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
@@ -103,16 +123,17 @@ class DLKAccountingWalletTypes(DaoDim, BaseModel):
 _ALL = "all"
 """ ALL table name in database """
 
-DLK_TIERS = "generic_tiers"
-DLK_ACCOUNTING_WALLET_TYPES = "generic_accounting_wallet_types"
+DLK_PARTNER_INFOS = "partner_infos"
+DLK_SERVICES = "services"
 
-TEMPLATE_TABLE_SCHEMA = {
-    DLK_TIERS: DLKTiers(DLK_TIERS),
-    DLK_ACCOUNTING_WALLET_TYPES: DLKAccountingWalletTypes(DLK_ACCOUNTING_WALLET_TYPES),
+W3_COMMON_PARTNER_TABLE_SCHEMA = {
+    DLK_PARTNER_INFOS: DLKPartnerInfos(DLK_PARTNER_INFOS),
+    DLK_SERVICES: DLKServices(DLK_SERVICES),
 }
 
 _ALL_DIM = [
-    DLK_TIERS
+    DLK_PARTNER_INFOS,
+    DLK_SERVICES
 ]
 
 _ALL_FACT = [
