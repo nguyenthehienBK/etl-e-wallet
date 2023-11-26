@@ -45,7 +45,7 @@ class DLKTiers(DaoDim, BaseModel):
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "Id", "type": "bigint"}
+            {"name": "id", "type": "bigint"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
@@ -88,7 +88,7 @@ class DLKAccountingWalletTypes(DaoDim, BaseModel):
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "Id", "type": "bigint"}
+            {"name": "id", "type": "bigint"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
@@ -145,7 +145,7 @@ class DLKAreas(DaoDim, BaseModel):
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "Id", "type": "bigint"}
+            {"name": "id", "type": "bigint"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
@@ -190,7 +190,7 @@ class DLKChannels(DaoDim, BaseModel):
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "Id", "type": "bigint"}
+            {"name": "id", "type": "bigint"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
@@ -255,7 +255,7 @@ class DLKBankWallets(DaoDim, BaseModel):
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "Id", "type": "bigint"}
+            {"name": "id", "type": "bigint"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
@@ -294,7 +294,7 @@ class DLKBankAccounts(DaoDim, BaseModel):
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "Id", "type": "bigint"}
+            {"name": "id", "type": "bigint"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
@@ -353,7 +353,7 @@ class DLKCurrencies(DaoDim, BaseModel):
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "Id", "type": "bigint"}
+            {"name": "id", "type": "bigint"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
@@ -400,7 +400,7 @@ class DLKPaperType(DaoDim, BaseModel):
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "Id", "type": "bigint"}
+            {"name": "id", "type": "bigint"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
@@ -453,7 +453,7 @@ class DLKTransTypes(DaoDim, BaseModel):
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "Id", "type": "bigint"}
+            {"name": "id", "type": "bigint"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
@@ -509,7 +509,7 @@ class DLKRoleTypes(DaoDim, BaseModel):
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "Id", "type": "bigint"}
+            {"name": "id", "type": "bigint"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
