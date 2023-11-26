@@ -7,6 +7,9 @@ RAW = "raw"
 STAGING = "staging"
 WAREHOUSE = "warehouse"
 MART = "mart"
+BRONZE = "bronze"
+SILVER = "silver"
+GOLD = "gold"
 
 ICEBERG = 'iceberg'
 PARQUET_FORMAT = 'parquet'

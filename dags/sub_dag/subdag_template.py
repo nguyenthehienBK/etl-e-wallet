@@ -5,7 +5,7 @@ abs_path = os.path.dirname(os.path.abspath(__file__)) + "/../../../.."
 sys.path.append(abs_path)
 from airflow.hooks.base_hook import BaseHook
 from utils.date_time.date_time_utils import get_business_date
-from utils.lakehouse.table_utils import get_hdfs_path, get_sql_param
+from utils.lakehouse.table_utils import get_hdfs_path, get_sql_param, get_host_port
 from datetime import timedelta
 from schema.lakehouse_template.schema_dlk import TEMPLATE_TABLE_SCHEMA
 from schema.generic.schema_dlk import GENERIC_TABLE_SCHEMA
@@ -16,7 +16,9 @@ from utils.lakehouse.lakehouse_layer_utils import (
     WAREHOUSE,
     STAGING,
     ICEBERG,
-
+    BRONZE,
+    SILVER,
+    GOLD,
 )
 from airflow.models import DAG
 from airflow.operators import IcebergOperator
@@ -64,7 +66,7 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
             date_info = {"from": extract_from, "to": extract_to}
 
         output_path = get_hdfs_path(table_name=table_name, hdfs_conn_id=hdfs_conn_id,
-                                    layer="RAW", bucket=db_source, business_day=business_date)
+                                    layer="BRONZE", bucket=db_source, business_day=business_date)
         # query = get_sql_param(tbl=tbl).get("query")
         query = """
         SELECT
@@ -85,4 +87,94 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
             params=params,
             dag=dag,
         )
+    return dag
+
+
+def sub_load_to_staging(parent_dag_name, child_dag_name, args, **kwargs):
+    dag = DAG(
+        dag_id="%s.%s" % (parent_dag_name, child_dag_name),
+        default_args=args,
+        schedule_interval=None,
+    )
+    hdfs_conn_id = kwargs.get(HDFS_CONN_ID)
+    raw_conn_id = kwargs.get(RAW_CONN_ID)
+    db_source = kwargs.get(EXT_DB_SOURCE)
+    business_date = kwargs.get("business_date")
+    ls_ext_table = kwargs.get(EXT_TABLE)
+    ls_tbl = get_table_schema(db_source=db_source)
+    for table in ls_tbl:
+        tbl = ls_tbl.get(table)
+        is_fact = True
+        table_name = tbl.TABLE_NAME
+        schema = tbl.SCHEMA
+        output_path = get_hdfs_path(table_name=table_name, hdfs_conn_id=hdfs_conn_id,
+                                    layer="BRONZE", bucket=db_source, business_day=business_date)
+        sql = f"dags/sql/template/load_staging_template.sql"
+        host, port = get_host_port(hdfs_conn_id=hdfs_conn_id)
+        load_data_raw_to_table_staging = IcebergOperator(
+            task_id=f"load_{table_name}_to_staging",
+            execution_timeout=timedelta(hours=2),
+            sql=sql,
+            hive_server2_conn_id=kwargs.get(HIVE_SERVER2_CONN_ID),
+            params={
+                "iceberg_catalog": ICEBERG,
+                "bucket_lakehouse": f"{db_source}",
+                "bucket_staging": f"{db_source}_staging",
+                "bucket_warehouse": f"{db_source}_datawarehouse",
+                "business_date": kwargs.get(BUSSINESS_DATE),
+                "table_name_raw": table_name,
+                "table_name_warehouse": table_name,
+                "raw_layer": BRONZE,
+                "hdfs_host": host,
+                "hdfs_port": port,
+                "hdfs_path": output_path,
+            },
+            dag=dag,
+        )
+        load_data_raw_to_table_staging
+    return dag
+
+
+def sub_load_to_warehouse(parent_dag_name, child_dag_name, args, **kwargs):
+    dag = DAG(
+        dag_id="%s.%s" % (parent_dag_name, child_dag_name),
+        default_args=args,
+        schedule_interval=None,
+    )
+    hdfs_conn_id = kwargs.get(HDFS_CONN_ID)
+    raw_conn_id = kwargs.get(RAW_CONN_ID)
+    db_source = kwargs.get(EXT_DB_SOURCE)
+    business_date = kwargs.get("business_date")
+    ls_ext_table = kwargs.get(EXT_TABLE)
+    ls_tbl = get_table_schema(db_source=db_source)
+    for table in ls_tbl:
+        tbl = ls_tbl.get(table)
+        is_fact = True
+        table_name = tbl.TABLE_NAME
+        schema = tbl.SCHEMA
+        output_path = get_hdfs_path(table_name=table_name, hdfs_conn_id=hdfs_conn_id,
+                                    layer="BRONZE", bucket=db_source, business_day=business_date)
+        sql = f"dags/sql/template/load_staging_template.sql"
+        host, port = get_host_port(hdfs_conn_id=hdfs_conn_id)
+        load_data_to_warehouse = IcebergOperator(
+            task_id=f"load_{table_name}_to_staging",
+            execution_timeout=timedelta(hours=2),
+            sql=sql,
+            hive_server2_conn_id=kwargs.get(HIVE_SERVER2_CONN_ID),
+            params={
+                "iceberg_catalog": ICEBERG,
+                "bucket_lakehouse": f"{db_source}",
+                "bucket_staging": f"{db_source}_staging",
+                "bucket_warehouse": f"{db_source}_datawarehouse",
+                "business_date": kwargs.get(BUSSINESS_DATE),
+                "table_name_raw": table_name,
+                "table_name_warehouse": table_name,
+                "raw_layer": BRONZE,
+                "hdfs_host": host,
+                "hdfs_port": port,
+                "hdfs_path": output_path,
+            },
+            dag=dag,
+        )
+        load_data_to_warehouse
     return dag
