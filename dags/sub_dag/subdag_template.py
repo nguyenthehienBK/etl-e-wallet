@@ -156,7 +156,7 @@ def sub_load_to_warehouse(parent_dag_name, child_dag_name, args, **kwargs):
         host, port = get_host_port(hdfs_conn_id=hdfs_conn_id)
         sql_param = get_merge_query_dwh(tbl=tbl)
         load_data_to_warehouse = IcebergOperator(
-            task_id=f"load_{table_name}_to_staging",
+            task_id=f"load_{table_name}_to_warehouse",
             execution_timeout=timedelta(hours=2),
             sql=sql,
             hive_server2_conn_id=kwargs.get(HIVE_SERVER2_CONN_ID),
