@@ -7,7 +7,7 @@ from utils.dag.dag_utils import CONCURRENCY, MAX_ACTIVE_RUNS
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.subdag_operator import SubDagOperator
 from airflow.executors import get_default_executor
-from sub_dag.subdag_template import sub_load_to_raw
+from sub_dag.subdag_template import sub_load_to_raw, sub_load_to_staging, sub_load_to_warehouse
 
 DAG_NAME = "01_w3_core_mdm_daily"
 SCHEDULE_INTERVAL = '00 17 * * *'
@@ -55,9 +55,22 @@ load_to_raw = SubDagOperator(
     dag=main_dag
 )
 
+load_to_staging = SubDagOperator(
+    subdag=sub_load_to_staging(
+        parent_dag_name=DAG_NAME,
+        child_dag_name=LOAD_TO_STAGING_TASK_NAME,
+        args=args,
+        **variables
+    ),
+    task_id=LOAD_TO_STAGING_TASK_NAME,
+    executor=get_default_executor(),
+    dag=main_dag
+)
+
+
 end_pipeline = DummyOperator(
     task_id=END_TASK_NAME,
     dag=main_dag
 )
 
-start_pipeline >> load_to_raw >> end_pipeline
+start_pipeline >> load_to_raw >> load_to_staging >> end_pipeline

@@ -18,10 +18,17 @@ def get_hdfs_path(
     # port = 'post_test'
     if table_name is None:
         return ""
-    if layer == "RAW":
+    if layer == "BRONZE":
         return f"hdfs://{host}:{port}/{bucket}/{layer}/{table_name}/{business_day}/"
     else:
         return f"hdfs://{host}:{port}/{bucket}/{layer}/{table_name}/"
+
+
+def get_host_port(hdfs_conn_id: str = None):
+    conn = BaseHook.get_connection(hdfs_conn_id)
+    host = conn.host
+    port = str(conn.port)
+    return host, port
 
 
 def get_content_from_sql_path(sql_path: str) -> str:
