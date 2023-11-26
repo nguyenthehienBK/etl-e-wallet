@@ -67,10 +67,20 @@ load_to_staging = SubDagOperator(
     dag=main_dag
 )
 
-
+load_to_warehouse = SubDagOperator(
+    subdag=sub_load_to_warehouse(
+        parent_dag_name=DAG_NAME,
+        child_dag_name=LOAD_TO_WAREHOUSE_TASK_NAME,
+        args=args,
+        **variables
+    ),
+    task_id=LOAD_TO_WAREHOUSE_TASK_NAME,
+    executor=get_default_executor(),
+    dag=main_dag
+)
 end_pipeline = DummyOperator(
     task_id=END_TASK_NAME,
     dag=main_dag
 )
 
-start_pipeline >> load_to_raw >> load_to_staging >> end_pipeline
+start_pipeline >> load_to_raw >> load_to_staging >> load_to_warehouse >>end_pipeline

@@ -5,7 +5,7 @@ abs_path = os.path.dirname(os.path.abspath(__file__)) + "/../../../.."
 sys.path.append(abs_path)
 from airflow.hooks.base_hook import BaseHook
 from utils.date_time.date_time_utils import get_business_date
-from utils.lakehouse.table_utils import get_hdfs_path, get_sql_param, get_host_port
+from utils.lakehouse.table_utils import get_hdfs_path, get_sql_param, get_host_port, get_merge_query_dwh
 from datetime import timedelta
 from schema.lakehouse_template.schema_dlk import TEMPLATE_TABLE_SCHEMA
 from schema.generic.schema_dlk import GENERIC_TABLE_SCHEMA
@@ -142,10 +142,8 @@ def sub_load_to_warehouse(parent_dag_name, child_dag_name, args, **kwargs):
         schedule_interval=None,
     )
     hdfs_conn_id = kwargs.get(HDFS_CONN_ID)
-    raw_conn_id = kwargs.get(RAW_CONN_ID)
     db_source = kwargs.get(EXT_DB_SOURCE)
     business_date = kwargs.get("business_date")
-    ls_ext_table = kwargs.get(EXT_TABLE)
     ls_tbl = get_table_schema(db_source=db_source)
     for table in ls_tbl:
         tbl = ls_tbl.get(table)
@@ -153,9 +151,10 @@ def sub_load_to_warehouse(parent_dag_name, child_dag_name, args, **kwargs):
         table_name = tbl.TABLE_NAME
         schema = tbl.SCHEMA
         output_path = get_hdfs_path(table_name=table_name, hdfs_conn_id=hdfs_conn_id,
-                                    layer="BRONZE", bucket=db_source, business_day=business_date)
-        sql = f"dags/sql/template/load_staging_template.sql"
+                                    layer=SILVER, bucket=db_source, business_day=business_date)
+        sql = f"dags/sql/template/load_to_warehouse_template.sql"
         host, port = get_host_port(hdfs_conn_id=hdfs_conn_id)
+        sql_param = get_merge_query_dwh(tbl=tbl)
         load_data_to_warehouse = IcebergOperator(
             task_id=f"load_{table_name}_to_staging",
             execution_timeout=timedelta(hours=2),
@@ -173,6 +172,10 @@ def sub_load_to_warehouse(parent_dag_name, child_dag_name, args, **kwargs):
                 "hdfs_host": host,
                 "hdfs_port": port,
                 "hdfs_path": output_path,
+                "create_table_sql": sql_param["create_table_sql"],
+                "select_sql": sql_param["select_sql"],
+                "match_conditions": sql_param["match_conditions"],
+                "merge_clause": sql_param["merge_clause"]
             },
             dag=dag,
         )
