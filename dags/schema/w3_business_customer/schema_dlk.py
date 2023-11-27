@@ -112,7 +112,6 @@ class DLKProfile(DaoDim, BaseModel):
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "customer_id", "mode": "NULLABLE", "type": "string"},
             {"name": "id", "type": "bigint"},
         ]
         self.TIME_PARTITIONING = None
