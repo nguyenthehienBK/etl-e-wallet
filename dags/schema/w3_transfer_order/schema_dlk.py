@@ -33,7 +33,7 @@ class DLKTransferOrder(DaoDim, BaseModel):
             {"name": "carrier_role_id", "mode": "NULLABLE", "type": "bigint"},
             {"name": "carrier_tier_id", "mode": "NULLABLE", "type": "bigint"},
             {"name": "is_deleted", "mode": "NULLABLE", "type": "bit"},
-            {"name": "request_id", "mode": "NULLABLE", "type": "string"},            {"name": "profile_id", "mode": "NULLABLE", "type": "bigint"},
+            {"name": "request_id", "mode": "NULLABLE", "type": "string"},
             {"name": "sub_transfer_type", "mode": "NULLABLE", "type": "bigint"},
             {"name": "payment_source", "mode": "NULLABLE", "type": "string"},
             {"name": "sender_cus_id", "mode": "NULLABLE", "type": "bigint"},
