@@ -79,7 +79,7 @@ def sub_load_to_raw(parent_dag_name, child_dag_name, args, **kwargs):
         params = get_sql_param(tbl=tbl).get("params")
         OracleToHdfsOperator(
             task_id=f"load_{table_name}_to_raw",
-            mysql_conn_id=raw_conn_id,
+            oracle_conn_id=raw_conn_id,
             hdfs_conn_id=hdfs_conn_id,
             query=query,
             output_path=output_path,
