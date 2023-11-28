@@ -1,7 +1,7 @@
 from datetime import timedelta, datetime
 from utils.spark_thrift.connections import get_spark_thrift_conn
 from airflow.models import DAG
-from airflow.operators import MsSqlToHdfsOperator, IcebergOperator, SourceFileToIcebergOperator
+from airflow.operators import IcebergOperator
 
 
 def sub_load_datamart(parent_dag_name, child_dag_name, args, **kwargs):
