@@ -18,9 +18,9 @@ def sub_load_datamart(parent_dag_name, child_dag_name, args, **kwargs):
 
     for table in ls_dim_tbl:
         load_table_datamart = IcebergOperator(
-            task_id=f"load_level_{table}_to_datamart",
+            task_id=f"load_{table}_to_datamart",
             execution_timeout=timedelta(hours=2),
-            sql=f"sql/datamart{datamart_name}/load_{table}_datamart.sql",
+            sql=f"sql/datamart/{datamart_name}/load_{table}_datamart.sql",
             hive_server2_conn_id="hiveserver2_default_1",
             dag=dag_subdag,
             iceberg_db=f"iceberg.{datamart_name}",
@@ -49,9 +49,9 @@ def sub_load_mysql(parent_dag_name, child_dag_name, args, **kwargs):
 
     for table in ls_mysql_tbl:
         load_table_datamart = IcebergOperator(
-            task_id=f"load_level_{table}_to_mysql",
+            task_id=f"load_{table}_to_mysql",
             execution_timeout=timedelta(hours=2),
-            sql=f"sql/datamart{datamart_name}/load_{table}_datamart.sql",
+            sql=f"sql/datamart/{datamart_name}/load_{table}_datamart.sql",
             hive_server2_conn_id="hiveserver2_default_1",
             dag=dag_subdag,
             iceberg_db=f"iceberg.{datamart_name}",

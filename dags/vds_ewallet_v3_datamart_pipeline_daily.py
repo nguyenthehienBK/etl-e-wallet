@@ -72,4 +72,4 @@ end_pipeline = DummyOperator(
     dag=main_dag
 )
 
-start_pipeline >> load_to_datamart >> end_pipeline
+start_pipeline >> load_to_datamart >> load_to_mysql >> end_pipeline
