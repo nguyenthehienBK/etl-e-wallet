@@ -10,6 +10,7 @@ from datetime import timedelta
 from schema.lakehouse_template.schema_dlk import TEMPLATE_TABLE_SCHEMA
 from schema.generic.schema_dlk import GENERIC_TABLE_SCHEMA
 from schema.w3_system_accounting.schema_dlk import W3_SYSTEM_ACCOUNTING_TABLE_SCHEMA
+from schema.w3_cp_payment_business.schema_dlk import W3_CP_PAYMENT_BUSINESS_TABLE_SCHEMA
 from airflow.operators import OracleToHdfsOperator
 from utils.lakehouse.lakehouse_layer_utils import (
     RAW,
@@ -36,6 +37,8 @@ def get_table_schema(db_source):
     ls_tbl = TEMPLATE_TABLE_SCHEMA
     if db_source == "w3_system_accounting":
         ls_tbl = W3_SYSTEM_ACCOUNTING_TABLE_SCHEMA
+    if db_source == "w3_cp_payment_business":
+        ls_tbl = W3_CP_PAYMENT_BUSINESS_TABLE_SCHEMA
     return ls_tbl
 
 
