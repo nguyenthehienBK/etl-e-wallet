@@ -112,7 +112,7 @@ class IcebergToMysqlOperator(BaseOperator):
         return sql_create_tbl
 
     def generate_sql_insert(self, df_data):
-        values = str(df_data).replace("[", "").replace("]", "").replace("None", "")
+        values = str(df_data).replace("[", "").replace("]", "").replace("None", "null")
         insert_sql = f"INSERT INTO `{self.mysql_database}`.`{self.mysql_table_name}` {self.get_list_column_mysql()} VALUES {values}"
         return insert_sql
 
