@@ -70,17 +70,16 @@ class IcebergToMysqlOperator(BaseOperator):
         mysql_hook = MySqlHook(mysql_conn_id=self.mysql_conn_id)
         conn = mysql_hook.get_conn()
 
-        insert_sql = self.generate_sql_insert()
-        self.log.info(insert_sql)
-
-        cursor = conn.cursor()
-
         self.log.info(self.generate_sql_create_tbl())
-        cursor.execute(self.generate_sql_create_tbl())
+        cursor_create = conn.cursor()
+        cursor_create.execute(self.generate_sql_create_tbl())
 
         self.log.info("Insert to table MySQL")
         self.log.info("Execute MySQL query")
-        cursor.execute(insert_sql)
+        insert_sql = self.generate_sql_insert()
+        self.log.info(insert_sql)
+        cursor_insert = conn.cursor()
+        cursor_insert.execute(insert_sql)
 
     def generate_sql_create_tbl(self):
         list_col_schema = []
@@ -99,7 +98,7 @@ class IcebergToMysqlOperator(BaseOperator):
     def generate_sql_insert(self):
         df_data = self._query()
         values = str(df_data).replace("[", "").replace("]", "")
-        insert_sql = f"INSERT INTO {self.mysql_database}.{self.mysql_table_name} {self.get_list_column_mysql()} VALUES {values}"
+        insert_sql = f"INSERT INTO `{self.mysql_database}`.`{self.mysql_table_name}` {self.get_list_column_mysql()} VALUES {values}"
         return insert_sql
 
     def get_list_column_mysql(self):
