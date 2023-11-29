@@ -27,7 +27,7 @@ main_dag = DAG(
 schema = [
     {"name": "id", "mode": "NULLABLE", "type": "int"},
     {"name": "role_type_id", "mode": "NULLABLE", "type": "int"},
-    {"name": "order_id", "mode": "NULLABLE", "type": "string"},
+    {"name": "order_id", "mode": "NULLABLE", "type": "VARCHAR(10)"},
 ]
 test_operator_1 = IcebergToMysqlOperator(
     task_id="test_operator",

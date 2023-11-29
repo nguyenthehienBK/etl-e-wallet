@@ -59,28 +59,34 @@ class IcebergToMysqlOperator(BaseOperator):
         cursor.execute(sql)
         res = []
         for row in cursor:
-            print(row)
             res.append(row)
         cursor.close()
         conn.close()
         return res
 
     def execute(self, context):
-        # self.log.info(df_data[0])
+
         mysql_hook = MySqlHook(mysql_conn_id=self.mysql_conn_id)
         conn = mysql_hook.get_conn()
 
+        self.log.info(f"Create table {self.mysql_table_name} MySQL")
+        self.log.info(self.generate_sql_create_tbl())
+        cursor_create = conn.cursor()
+        cursor_create.execute(self.generate_sql_create_tbl())
+        self.log.info(cursor_create.fetchall())
+        cursor_create.close()
+        conn.close()
+
+        mysql_hook_2 = MySqlHook(mysql_conn_id=self.mysql_conn_id)
+        conn_2 = mysql_hook_2.get_conn()
+        self.log.info("Insert to table MySQL")
         insert_sql = self.generate_sql_insert()
         self.log.info(insert_sql)
-
-        cursor = conn.cursor()
-
-        self.log.info(self.generate_sql_create_tbl())
-        cursor.execute(self.generate_sql_create_tbl())
-
-        self.log.info("Insert to table MySQL")
-        self.log.info("Execute MySQL query")
-        cursor.execute(insert_sql)
+        cursor_insert = conn_2.cursor()
+        cursor_insert.execute(insert_sql)
+        self.log.info(cursor_insert.fetchall())
+        cursor_insert.close()
+        conn_2.close()
 
     def generate_sql_create_tbl(self):
         list_col_schema = []
@@ -99,14 +105,14 @@ class IcebergToMysqlOperator(BaseOperator):
     def generate_sql_insert(self):
         df_data = self._query()
         values = str(df_data).replace("[", "").replace("]", "")
-        insert_sql = f"INSERT INTO {self.mysql_table_name} {self.get_list_column_mysql()} VALUES {values}"
+        insert_sql = f"INSERT INTO `{self.mysql_database}`.`{self.mysql_table_name}` {self.get_list_column_mysql()} VALUES {values}"
         return insert_sql
 
     def get_list_column_mysql(self):
         cols = []
         for col in self.mysql_schema:
             cols.append(col.get("name"))
-        str_cols = str(cols).replace("[", "(").replace("]", ")")
+        str_cols = str(cols).replace("[", "(").replace("]", ")").replace("'", "")
         return str_cols
 
 
