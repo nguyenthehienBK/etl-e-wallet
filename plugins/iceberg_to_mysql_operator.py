@@ -106,7 +106,7 @@ class IcebergToMysqlOperator(BaseOperator):
         cols = []
         for col in self.mysql_schema:
             cols.append(col.get("name"))
-        str_cols = str(cols).replace("[", "(").replace("]", ")")
+        str_cols = str(cols).replace("[", "(").replace("]", ")").replace("'", "")
         return str_cols
 
 
