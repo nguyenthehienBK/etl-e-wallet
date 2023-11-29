@@ -74,7 +74,7 @@ class IcebergToMysqlOperator(BaseOperator):
         conn = mysql_hook.get_conn()
 
         self.log.info("Insert to table MySQL")
-        self.log.ingo("Execute MySQL query")
+        self.log.info("Execute MySQL query")
         insert_sql = self.get_list_column_mysql()
         self.log.info(insert_sql)
 
