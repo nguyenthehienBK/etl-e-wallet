@@ -16,6 +16,7 @@ from schema.w3_business_agent.schema_dlk import W3_BUSINESS_AGENT_TABLE_SCHEMA
 from schema.w3_business_customer.schema_dlk import W3_BUSINESS_CUSTOMER_TABLE_SCHEMA
 from schema.w3_transfer_order.schema_dlk import W3_TRANSFER_ORDER_TABLE_SCHEMA
 from schema.w3_transfer_business.schema_dlk import W3_TRANSFER_BUSINESS_TABLE_SCHEMA
+from schema.w3_utility_management.schema_dlk import W3_UTILITY_MANAGEMENT_TABLE_SCHEMA
 from airflow.operators import MysqlToHdfsOperator
 from utils.lakehouse.lakehouse_layer_utils import (
     RAW,
@@ -54,6 +55,8 @@ def get_table_schema(db_source):
         ls_tbl = W3_TRANSFER_ORDER_TABLE_SCHEMA
     if db_source == "w3_transfer_business":
         ls_tbl = W3_TRANSFER_BUSINESS_TABLE_SCHEMA
+    if db_source == "w3_utility_management":
+        ls_tbl = W3_UTILITY_MANAGEMENT_TABLE_SCHEMA
     return ls_tbl
 
 
