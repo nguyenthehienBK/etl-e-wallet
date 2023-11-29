@@ -54,6 +54,7 @@ class IcebergToMysqlOperator(BaseOperator):
         conn = get_spark_thrift_conn(self.hive_server2_conn_id)
         cursor = conn.cursor()
         cursor.execute(sql)
+        field_names = [i[0] for i in cursor.description]
         res = []
         for row in cursor:
             print(row)
@@ -61,8 +62,8 @@ class IcebergToMysqlOperator(BaseOperator):
 
         cursor.close()
         conn.close()
-
-        return res
+        list_res = [field_names, res]
+        return list_res
 
     def execute(self, context):
         df_data = self._query()
