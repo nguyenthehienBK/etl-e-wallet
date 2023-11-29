@@ -65,6 +65,7 @@ class IcebergToMysqlOperator(BaseOperator):
         return res
 
     def execute(self, context):
+        df_data = self._query()
 
         mysql_hook = MySqlHook(mysql_conn_id=self.mysql_conn_id)
         conn = mysql_hook.get_conn()
@@ -88,7 +89,7 @@ class IcebergToMysqlOperator(BaseOperator):
 
         conn_3 = mysql_hook.get_conn()
         self.log.info("Insert to table MySQL")
-        insert_sql = self.generate_sql_insert()
+        insert_sql = self.generate_sql_insert(df_data=df_data)
         self.log.info(insert_sql)
         cursor_insert = conn_3.cursor()
         cursor_insert.execute(insert_sql)
@@ -110,8 +111,7 @@ class IcebergToMysqlOperator(BaseOperator):
         sql_create_tbl = f"CREATE TABLE IF NOT EXISTS `{self.mysql_database}`.`{self.mysql_table_name}` {schema}"
         return sql_create_tbl
 
-    def generate_sql_insert(self):
-        df_data = self._query()
+    def generate_sql_insert(self, df_data):
         values = str(df_data).replace("[", "").replace("]", "")
         insert_sql = f"INSERT INTO `{self.mysql_database}`.`{self.mysql_table_name}` {self.get_list_column_mysql()} VALUES {values}"
         return insert_sql
