@@ -69,25 +69,25 @@ class IcebergToMysqlOperator(BaseOperator):
         mysql_hook = MySqlHook(mysql_conn_id=self.mysql_conn_id)
         conn = mysql_hook.get_conn()
 
-        # self.log.info(f"Create table {self.mysql_table_name} MySQL")
-        # self.log.info(self.generate_sql_create_tbl())
-        # cursor_create = conn.cursor()
-        # cursor_create.execute(self.generate_sql_create_tbl())
-        # cursor_create.close()
-        #
-        # mysql_hook_2 = MySqlHook(mysql_conn_id=self.mysql_conn_id)
-        # conn_2 = mysql_hook_2.get_conn()
-        # self.log.info("Insert to table MySQL")
-        # insert_sql = self.generate_sql_insert()
-        # self.log.info(insert_sql)
-        # cursor_insert = conn_2.cursor()
-        # cursor_insert.execute(insert_sql)
-        # cursor_insert.close()
+        self.log.info(f"Create table {self.mysql_table_name} MySQL")
+        self.log.info(self.generate_sql_create_tbl())
+        cursor_create = conn.cursor()
+        cursor_create.execute(self.generate_sql_create_tbl())
+        create_tbl = cursor_create.close()
+        self.log.info(create_tbl)
+        conn.close()
 
-        cursor = conn.cursor()
-        operation = f"{self.generate_sql_create_tbl()} ; {self.generate_sql_insert()}"
-        result = cursor.execute(operation)
-        self.log.info(result)
+        mysql_hook_2 = MySqlHook(mysql_conn_id=self.mysql_conn_id)
+        conn_2 = mysql_hook_2.get_conn()
+        self.log.info("Insert to table MySQL")
+        insert_sql = self.generate_sql_insert()
+        self.log.info(insert_sql)
+        cursor_insert = conn_2.cursor()
+        cursor_insert.execute(insert_sql)
+        cursor_insert.close()
+        insert_tbl = cursor_insert.close()
+        self.log.info(insert_tbl)
+        conn_2.close()
 
     def generate_sql_create_tbl(self):
         list_col_schema = []
