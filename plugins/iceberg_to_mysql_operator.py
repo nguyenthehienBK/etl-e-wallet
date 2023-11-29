@@ -59,23 +59,22 @@ class IcebergToMysqlOperator(BaseOperator):
         cursor.execute(sql)
         res = []
         for row in cursor:
-            print(row)
             res.append(row)
         cursor.close()
         conn.close()
         return res
 
     def execute(self, context):
-        # self.log.info(df_data[0])
+
         mysql_hook = MySqlHook(mysql_conn_id=self.mysql_conn_id)
         conn = mysql_hook.get_conn()
 
+        self.log.info(f"Create table {self.mysql_table_name} MySQL")
         self.log.info(self.generate_sql_create_tbl())
         cursor_create = conn.cursor()
         cursor_create.execute(self.generate_sql_create_tbl())
 
         self.log.info("Insert to table MySQL")
-        self.log.info("Execute MySQL query")
         insert_sql = self.generate_sql_insert()
         self.log.info(insert_sql)
         cursor_insert = conn.cursor()
