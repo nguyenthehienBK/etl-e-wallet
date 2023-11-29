@@ -29,6 +29,9 @@ class IcebergToMysqlOperator(BaseOperator):
             sql,
             hive_server2_conn_id,
             mysql_conn_id,
+            mysql_database,
+            mysql_table_name,
+            mysql_schema,
             *args,
             **kwargs,
     ):
@@ -36,6 +39,9 @@ class IcebergToMysqlOperator(BaseOperator):
         self.sql = sql[len("dags/"):] if sql.find("dags/") != -1 else sql
         self.hive_server2_conn_id = hive_server2_conn_id
         self.mysql_conn_id = mysql_conn_id
+        self.mysql_table = mysql_table_name
+        self.mysql_schema = mysql_schema
+        self.mysql_database = mysql_database
 
     def _query(self):
         """
@@ -54,24 +60,55 @@ class IcebergToMysqlOperator(BaseOperator):
         conn = get_spark_thrift_conn(self.hive_server2_conn_id)
         cursor = conn.cursor()
         cursor.execute(sql)
-        field_names = [i[0] for i in cursor.description]
         res = []
         for row in cursor:
             print(row)
             res.append(row)
-
         cursor.close()
         conn.close()
-        list_res = [field_names, res]
-        return list_res
+        return res
 
     def execute(self, context):
-        df_data = self._query()
+        # self.log.info(df_data[0])
         mysql_hook = MySqlHook(mysql_conn_id=self.mysql_conn_id)
         conn = mysql_hook.get_conn()
-        conn.set_autocommit(conn, False)
-        self.log.info(df_data[0])
-        self.log.info(df_data[1])
+
+        self.log.info("Insert to table MySQL")
+        self.log.ingo("Execute MySQL query")
+        insert_sql = self.get_list_column_mysql()
+        self.log.info(insert_sql)
+
+        cursor = conn.cursor()
+        cursor.execute(insert_sql)
+        self.log.info(self.generate_sql_create_tbl())
+        cursor.execute(self.generate_sql_create_tbl())
+
+    def generate_sql_create_tbl(self):
+        list_col_schema = []
+        for col in self.mysql_schema:
+            nullable = "NOT NULL" if col.get("mode").upper() == "REQUIRED" else "NULL"
+            col_schema = f""" `{col.get("name")}` {col.get("type")} {nullable} """
+            list_col_schema.append(col_schema)
+        schema = (str(list_col_schema)
+                  .replace("[", "(")
+                  .replace("]", ")")
+                  .replace("'", "")
+                  )
+        sql_create_tbl = f"CREATE TABLE IF NOT EXIST `{self.mysql_database}`.`{self.mysql_table}` {schema}"
+        return sql_create_tbl
+
+    def generate_sql_insert(self):
+        df_data = self._query()
+        values = str(df_data).replace("[", "").replace("]", "")
+        insert_sql = f"INSERT INTO {self.mysql_table} {self.get_list_column_mysql()} VALUES {values}"
+        return insert_sql
+
+    def get_list_column_mysql(self):
+        cols = []
+        for col in self.mysql_schema:
+            cols.append(col.get("name"))
+        str_cols = str(cols).replace("[", "(").replace("]", ")")
+        return str_cols
 
 
 class IcebergToMysqlPlugin(AirflowPlugin):
