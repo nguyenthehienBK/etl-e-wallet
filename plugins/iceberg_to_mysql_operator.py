@@ -54,9 +54,6 @@ class IcebergToMysqlOperator(BaseOperator):
                 from the destination table's schema.
         """
         sql = self.sql
-        self.log.info("Execute SQL: ")
-        self.log.info(sql)
-
         conn = get_spark_thrift_conn(self.hive_server2_conn_id)
         cursor = conn.cursor()
         cursor.execute(sql)
@@ -94,13 +91,13 @@ class IcebergToMysqlOperator(BaseOperator):
                   .replace("]", ")")
                   .replace("'", "")
                   )
-        sql_create_tbl = f"CREATE TABLE IF NOT EXIST `{self.mysql_database}`.`{self.mysql_table}` {schema}"
+        sql_create_tbl = f"CREATE TABLE IF NOT EXIST `{self.mysql_database}`.`{self.mysql_table_name}` {schema}"
         return sql_create_tbl
 
     def generate_sql_insert(self):
         df_data = self._query()
         values = str(df_data).replace("[", "").replace("]", "")
-        insert_sql = f"INSERT INTO {self.mysql_table} {self.get_list_column_mysql()} VALUES {values}"
+        insert_sql = f"INSERT INTO {self.mysql_table_name} {self.get_list_column_mysql()} VALUES {values}"
         return insert_sql
 
     def get_list_column_mysql(self):
