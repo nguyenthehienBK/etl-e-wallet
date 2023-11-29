@@ -48,8 +48,8 @@ class IcebergToMysqlOperator(BaseOperator):
                 from the destination table's schema.
         """
         sql = self.sql
-        print("Execute SQL: ")
-        print(sql)
+        self.log.info("Execute SQL: ")
+        self.log.info(sql)
 
         conn = get_spark_thrift_conn(self.hive_server2_conn_id)
         cursor = conn.cursor()
