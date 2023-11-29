@@ -9,8 +9,8 @@ from airflow.operators.subdag_operator import SubDagOperator
 from airflow.executors import get_default_executor
 from sub_dag.subdag_datamart_template import sub_load_datamart, sub_load_mysql
 
-DAG_NAME = "01_vds_ewallet_v3_daily"
-SCHEDULE_INTERVAL = '00 17 * * *'
+DAG_NAME = "01_w3_presenter_daily"
+SCHEDULE_INTERVAL = '00 19 * * *'
 variables = get_variables(name=DAG_NAME)
 BUSINESS_DATE = get_business_date(days=-1, business_date=variables.get("business_date"))
 LIST_TABLE_MIGRATION = variables.get('list_table_migration')
