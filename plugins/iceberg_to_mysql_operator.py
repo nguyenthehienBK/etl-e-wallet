@@ -70,7 +70,6 @@ class IcebergToMysqlOperator(BaseOperator):
         mysql_hook = MySqlHook(mysql_conn_id=self.mysql_conn_id)
         conn = mysql_hook.get_conn()
 
-
         insert_sql = self.generate_sql_insert()
         self.log.info(insert_sql)
 
@@ -94,7 +93,7 @@ class IcebergToMysqlOperator(BaseOperator):
                   .replace("]", ")")
                   .replace("'", "")
                   )
-        sql_create_tbl = f"CREATE TABLE IF NOT EXIST `{self.mysql_database}`.`{self.mysql_table_name}` {schema}"
+        sql_create_tbl = f"CREATE TABLE IF NOT EXISTS `{self.mysql_database}`.`{self.mysql_table_name}` {schema}"
         return sql_create_tbl
 
     def generate_sql_insert(self):
