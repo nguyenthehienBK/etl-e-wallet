@@ -70,7 +70,8 @@ class IcebergToMysqlOperator(BaseOperator):
         mysql_hook = MySqlHook(mysql_conn_id=self.mysql_conn_id)
         conn = mysql_hook.get_conn()
         conn.set_autocommit(conn, False)
-        self.log.info(df_data)
+        self.log.info(df_data[0])
+        self.log.info(df_data[1])
 
 
 class IcebergToMysqlPlugin(AirflowPlugin):
