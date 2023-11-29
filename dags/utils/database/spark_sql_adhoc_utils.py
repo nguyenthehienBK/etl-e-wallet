@@ -101,7 +101,8 @@ class SparkSqlAdhoc:
         if data_format == "json":
             spark_format = "org.apache.spark.sql.json"
         elif data_format == "parquet":
-            spark_format = "org.apache.spark.sql.parquet"
+            # spark_format = "org.apache.spark.sql.parquet"
+            spark_format = "PARQUET"
         else:
             spark_format = data_format
 
