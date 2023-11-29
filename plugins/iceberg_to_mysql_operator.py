@@ -84,7 +84,6 @@ class IcebergToMysqlOperator(BaseOperator):
         cursor_insert = conn_2.cursor()
         cursor_insert.execute(insert_sql)
         conn_2.commit()
-        self.log.info(cursor_insert.fetchall())
         cursor_insert.close()
         conn_2.close()
 
