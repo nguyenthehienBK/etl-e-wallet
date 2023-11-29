@@ -73,6 +73,7 @@ class IcebergToMysqlOperator(BaseOperator):
         self.log.info(self.generate_sql_create_tbl())
         cursor_create = conn.cursor()
         cursor_create.execute(self.generate_sql_create_tbl())
+        cursor_create.close()
 
         self.log.info("Insert to table MySQL")
         insert_sql = self.generate_sql_insert()
