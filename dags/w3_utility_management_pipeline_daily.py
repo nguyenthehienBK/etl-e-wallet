@@ -83,4 +83,4 @@ end_pipeline = DummyOperator(
     dag=main_dag
 )
 
-start_pipeline >> load_to_raw >> load_to_staging >> load_to_warehouse >>end_pipeline
+start_pipeline >> load_to_raw >> load_to_staging >> load_to_warehouse >> end_pipeline
