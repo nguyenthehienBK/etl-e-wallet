@@ -4,10 +4,10 @@ SELECT id,
     status,
     tier_code,
     tier_name,
-    created_at,
+    cast(created_at as string),
     created_by,
-    updated_at,
+    cast(updated_at as string),
     updated_by,
-    deleted_at,
+    cast(deleted_at as string),
     deleted_by
 FROM w3_core_mdm_staging.tiers
