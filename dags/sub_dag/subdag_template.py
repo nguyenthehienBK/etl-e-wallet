@@ -122,7 +122,7 @@ def sub_load_to_staging(parent_dag_name, child_dag_name, args, **kwargs):
     for table in ls_tbl:
         tbl = ls_tbl.get(table)
         table_name = tbl.TABLE_NAME
-        schema = tbl.SCHEMA
+        # schema = tbl.SCHEMA
         output_path = get_hdfs_path(table_name=table_name, hdfs_conn_id=hdfs_conn_id,
                                     layer="BRONZE", bucket=db_source, business_day=business_date)
         staging_path = get_hdfs_path(table_name=table_name, hdfs_conn_id=hdfs_conn_id,
@@ -167,11 +167,11 @@ def sub_load_to_staging(parent_dag_name, child_dag_name, args, **kwargs):
             execution_timeout=timedelta(hours=1),
             source_file_uri=output_path,
             iceberg_table_uri=staging_path,
-            iceberg_table_schema=schema,
+            iceberg_table_schema=tbl,
             hive_server2_conn_id=hive_server2_conn_id,
             source_file_format="parquet",
             iceberg_db=f"iceberg.{db_source}_{STAGING}",
-            iceberg_write_truncate=schema.IS_WRITE_TRUNCATE,
+            iceberg_write_truncate=tbl.IS_WRITE_TRUNCATE,
             dag=dag,
         )
         drop_stg >> load_stg
