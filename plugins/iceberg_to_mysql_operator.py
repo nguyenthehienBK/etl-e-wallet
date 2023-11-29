@@ -117,7 +117,8 @@ class IcebergToMysqlOperator(BaseOperator):
         return insert_sql
 
     def generate_truncate_table(self):
-        return f"TRUNCATE TABLE `{self.mysql_database}`.`{self.mysql_table_name()}`"
+        sql_truncate = f"TRUNCATE TABLE `{self.mysql_database}`.`{self.mysql_table_name}`"
+        return sql_truncate
 
     def get_list_column_mysql(self):
         cols = []
