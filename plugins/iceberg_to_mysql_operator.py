@@ -73,8 +73,8 @@ class IcebergToMysqlOperator(BaseOperator):
         self.log.info(self.generate_sql_create_tbl())
         cursor_create = conn.cursor()
         cursor_create.execute(self.generate_sql_create_tbl())
-        create_tbl = cursor_create.close()
-        self.log.info(create_tbl)
+        self.log.info(cursor_create.fetchall())
+        cursor_create.close()
         conn.close()
 
         mysql_hook_2 = MySqlHook(mysql_conn_id=self.mysql_conn_id)
@@ -84,9 +84,8 @@ class IcebergToMysqlOperator(BaseOperator):
         self.log.info(insert_sql)
         cursor_insert = conn_2.cursor()
         cursor_insert.execute(insert_sql)
+        self.log.info(cursor_insert.fetchall())
         cursor_insert.close()
-        insert_tbl = cursor_insert.close()
-        self.log.info(insert_tbl)
         conn_2.close()
 
     def generate_sql_create_tbl(self):
