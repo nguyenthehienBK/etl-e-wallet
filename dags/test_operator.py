@@ -35,7 +35,7 @@ test_operator_1 = IcebergToMysqlOperator(
     sql="select id, role_type_id, status from w3_core_mdm_staging.tiers",
     mysql_conn_id="mysql_conn_id_test",
     mysql_database="test_operator",
-    mysql_table="test_table",
+    mysql_table_name="test_table",
     mysql_schema=schema,
     dag=main_dag
 

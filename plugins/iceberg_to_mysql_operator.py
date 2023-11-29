@@ -39,7 +39,7 @@ class IcebergToMysqlOperator(BaseOperator):
         self.sql = sql[len("dags/"):] if sql.find("dags/") != -1 else sql
         self.hive_server2_conn_id = hive_server2_conn_id
         self.mysql_conn_id = mysql_conn_id
-        self.mysql_table = mysql_table_name
+        self.mysql_table_name = mysql_table_name
         self.mysql_schema = mysql_schema
         self.mysql_database = mysql_database
 
