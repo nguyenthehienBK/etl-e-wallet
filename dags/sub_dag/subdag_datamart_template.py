@@ -3,7 +3,6 @@ from utils.spark_thrift.connections import get_spark_thrift_conn
 from airflow.models import DAG
 from airflow.operators import IcebergOperator
 from airflow.operators import IcebergToMysqlOperator
-from schema.w3_core_mdm.schema_mart import *
 
 
 def sub_load_datamart(parent_dag_name, child_dag_name, args, **kwargs):
@@ -44,27 +43,38 @@ def sub_load_mysql(parent_dag_name, child_dag_name, args, **kwargs):
     )
     # datamart_name = kwargs.get("datamart_name")
 
-    # ls_mysql_tbl = [
-    #     "dim_account",
-    #     "dim_profile"
-    # ]
+    ls_mysql_tbl = [
+        "mart_tiers"
+    ]
 
+    # test load table to mysql
     datamart_name = "w3_core_mdm"
-    ls_mysql_tbl = W3_CORE_MDM_TABLE_SCHEMA()
+    mysql_schema = [
+        {"name": "id", "mode": "NULLABLE", "type": "int"},
+        {"name": "description", "mode": "NULLABLE", "type": "varchar(255)"},
+        {"name": "role_type_id", "mode": "NULLABLE", "type": "int"},
+        {"name": "status", "mode": "NULLABLE", "type": "varchar(255)"},
+        {"name": "tier_code", "mode": "NULLABLE", "type": "varchar(255)"},
+        {"name": "tier_name", "mode": "NULLABLE", "type": "varchar(255)"},
+        {"name": "created_at", "mode": "NULLABLE", "type": "timestamp"},
+        {"name": "created_by", "mode": "NULLABLE", "type": "int"},
+        {"name": "updated_at", "mode": "NULLABLE", "type": "timestamp"},
+        {"name": "updated_by", "mode": "NULLABLE", "type": "int"},
+        {"name": "deleted_at", "mode": "NULLABLE", "type": "timestamp"},
+        {"name": "deleted_by", "mode": "NULLABLE", "type": "int"},
+    ]
 
     for table in ls_mysql_tbl:
-        tbl = ls_mysql_tbl.get(table)
-        table_name = tbl.TABLE_NAME
-        mysql_schema = tbl.SCHEMA_MYSQL
         load_table_datamart = IcebergToMysqlOperator(
-            task_id=f"load_table_{table_name}_to_mart",
+            task_id=f"load_table_{table}_to_mart",
             hive_server2_conn_id="hiveserver2_conn_id",
-            sql=f"sql/datamart/{datamart_name}/load_{table_name}_datamart",
+            sql=f"sql/datamart/{datamart_name}/load_{table}_datamart",
             mysql_conn_id="mysql_conn_id_test",
             mysql_database="w3_core_mdm",
-            mysql_table_name="tiers_mart",
+            mysql_table_name=table,
             mysql_schema=mysql_schema,
-            dag=dag_subdag)
+            dag=dag_subdag
+        )
         load_table_datamart
 
     return dag_subdag
