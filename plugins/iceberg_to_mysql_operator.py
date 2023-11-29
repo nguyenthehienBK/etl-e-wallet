@@ -99,7 +99,7 @@ class IcebergToMysqlOperator(BaseOperator):
     def generate_sql_insert(self):
         df_data = self._query()
         values = str(df_data).replace("[", "").replace("]", "")
-        insert_sql = f"INSERT INTO {self.mysql_table_name} {self.get_list_column_mysql()} VALUES {values}"
+        insert_sql = f"INSERT INTO {self.mysql_database}.{self.mysql_table_name} {self.get_list_column_mysql()} VALUES {values}"
         return insert_sql
 
     def get_list_column_mysql(self):
