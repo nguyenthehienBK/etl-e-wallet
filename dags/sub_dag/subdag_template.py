@@ -152,7 +152,7 @@ def sub_load_to_staging(parent_dag_name, child_dag_name, args, **kwargs):
         drop_stg = IcebergOperator(
             task_id=f"drop_staging_{table_name}",
             execution_timeout=timedelta(hours=1),
-            sql="DROP TABLE IF EXISTS {{params.staging}}.{{params.table_name}}_stg",
+            sql="DROP TABLE IF EXISTS {{params.staging}}.{{params.table_name}}",
             params={
                 "staging": f"iceberg.{db_source}_{STAGING}",
                 "table_name": table_name,
