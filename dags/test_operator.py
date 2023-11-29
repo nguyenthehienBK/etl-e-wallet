@@ -26,7 +26,7 @@ main_dag = DAG(
 
 test_operator_1 = IcebergToMysqlOperator(
     task_id="test_operator",
-    hive_server2_conn_id="hive_server2_conn_id",
+    hive_server2_conn_id="hiveserver2_conn_id",
     sql="select id, role_type_id, status from w3_core_mdm_staging.tiers",
     mysql_conn_id="mysql_conn_id_test",
     dag=main_dag
