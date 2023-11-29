@@ -78,14 +78,23 @@ class IcebergToMysqlOperator(BaseOperator):
         conn.close()
 
         conn_2 = mysql_hook.get_conn()
+        self.log.info("Truncate table after insert data")
+        cursor_truncate = conn_2.cursor()
+        sql_truncate = self.generate_truncate_table()
+        cursor_truncate.excute(sql_truncate)
+        conn_2.commit()
+        cursor_truncate.close()
+        conn_2.close()
+
+        conn_3 = mysql_hook.get_conn()
         self.log.info("Insert to table MySQL")
         insert_sql = self.generate_sql_insert()
         self.log.info(insert_sql)
-        cursor_insert = conn_2.cursor()
+        cursor_insert = conn_3.cursor()
         cursor_insert.execute(insert_sql)
-        conn_2.commit()
+        conn_3.commit()
         cursor_insert.close()
-        conn_2.close()
+        conn_3.close()
 
     def generate_sql_create_tbl(self):
         list_col_schema = []
@@ -106,6 +115,9 @@ class IcebergToMysqlOperator(BaseOperator):
         values = str(df_data).replace("[", "").replace("]", "")
         insert_sql = f"INSERT INTO `{self.mysql_database}`.`{self.mysql_table_name}` {self.get_list_column_mysql()} VALUES {values}"
         return insert_sql
+
+    def generate_truncate_table(self):
+        return f"TRUNCATE TABLE `{self.mysql_database}`.`{self.generate_sql_insert()}`"
 
     def get_list_column_mysql(self):
         cols = []
