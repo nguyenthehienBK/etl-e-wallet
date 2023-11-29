@@ -81,7 +81,7 @@ class IcebergToMysqlOperator(BaseOperator):
         self.log.info("Truncate table after insert data")
         cursor_truncate = conn_2.cursor()
         sql_truncate = self.generate_truncate_table()
-        cursor_truncate.excute(sql_truncate)
+        cursor_truncate.execute(sql_truncate)
         conn_2.commit()
         cursor_truncate.close()
         conn_2.close()
