@@ -16,7 +16,7 @@ from schema.w3_business_agent.schema_dlk import W3_BUSINESS_AGENT_TABLE_SCHEMA
 from schema.w3_business_customer.schema_dlk import W3_BUSINESS_CUSTOMER_TABLE_SCHEMA
 from schema.w3_transfer_order.schema_dlk import W3_TRANSFER_ORDER_TABLE_SCHEMA
 from schema.w3_transfer_business.schema_dlk import W3_TRANSFER_BUSINESS_TABLE_SCHEMA
-from airflow.operators import MysqlToHdfsOperator
+from airflow.operators import MysqlToHdfsOperator, SourceFileToIcebergOperator
 from utils.lakehouse.lakehouse_layer_utils import (
     RAW,
     WAREHOUSE,
@@ -115,41 +115,66 @@ def sub_load_to_staging(parent_dag_name, child_dag_name, args, **kwargs):
         schedule_interval=None,
     )
     hdfs_conn_id = kwargs.get(HDFS_CONN_ID)
-    raw_conn_id = kwargs.get(RAW_CONN_ID)
+    hive_server2_conn_id = kwargs.get(HIVE_SERVER2_CONN_ID)
     db_source = kwargs.get(EXT_DB_SOURCE)
     business_date = kwargs.get("business_date")
-    ls_ext_table = kwargs.get(EXT_TABLE)
     ls_tbl = get_table_schema(db_source=db_source)
     for table in ls_tbl:
         tbl = ls_tbl.get(table)
-        is_fact = True
         table_name = tbl.TABLE_NAME
         schema = tbl.SCHEMA
         output_path = get_hdfs_path(table_name=table_name, hdfs_conn_id=hdfs_conn_id,
                                     layer="BRONZE", bucket=db_source, business_day=business_date)
-        sql = f"dags/sql/template/load_staging_template.sql"
+        staging_path = get_hdfs_path(table_name=table_name, hdfs_conn_id=hdfs_conn_id,
+                                     layer=STAGING, bucket=db_source, business_day=business_date)
         host, port = get_host_port(hdfs_conn_id=hdfs_conn_id)
-        load_data_raw_to_table_staging = IcebergOperator(
-            task_id=f"load_{table_name}_to_staging",
-            execution_timeout=timedelta(hours=2),
-            sql=sql,
-            hive_server2_conn_id=kwargs.get(HIVE_SERVER2_CONN_ID),
+        # load_data_raw_to_table_staging = IcebergOperator(
+        #     task_id=f"load_{table_name}_to_staging",
+        #     execution_timeout=timedelta(hours=2),
+        #     sql=sql,
+        #     hive_server2_conn_id=kwargs.get(HIVE_SERVER2_CONN_ID),
+        #     params={
+        #         "iceberg_catalog": ICEBERG,
+        #         "bucket_lakehouse": f"{db_source}",
+        #         "bucket_staging": f"{db_source}_staging",
+        #         "bucket_warehouse": f"{db_source}_datawarehouse",
+        #         "business_date": kwargs.get(BUSSINESS_DATE),
+        #         "table_name_raw": table_name,
+        #         "table_name_warehouse": table_name,
+        #         "raw_layer": BRONZE,
+        #         "hdfs_host": host,
+        #         "hdfs_port": port,
+        #         "hdfs_path": output_path,
+        #     },
+        #     dag=dag,
+        # )
+        # load_data_raw_to_table_staging
+        drop_stg = IcebergOperator(
+            task_id=f"drop_staging_{table_name}",
+            execution_timeout=timedelta(hours=1),
+            sql="DROP TABLE IF EXISTS {{params.staging}}.{{params.table_name}}_stg",
             params={
-                "iceberg_catalog": ICEBERG,
-                "bucket_lakehouse": f"{db_source}",
-                "bucket_staging": f"{db_source}_staging",
-                "bucket_warehouse": f"{db_source}_datawarehouse",
-                "business_date": kwargs.get(BUSSINESS_DATE),
-                "table_name_raw": table_name,
-                "table_name_warehouse": table_name,
-                "raw_layer": BRONZE,
-                "hdfs_host": host,
-                "hdfs_port": port,
-                "hdfs_path": output_path,
+                "staging": f"iceberg.{db_source}_{STAGING}",
+                "table_name": table_name,
             },
+            hive_server2_conn_id=hive_server2_conn_id,
+            dag=dag,
+            iceberg_db=f"iceberg.{db_source}_{STAGING}",
+        )
+
+        load_stg = SourceFileToIcebergOperator(
+            task_id=f"load_{table_name}_to_staging",
+            execution_timeout=timedelta(hours=1),
+            source_file_uri=output_path,
+            iceberg_table_uri=staging_path,
+            iceberg_table_schema=schema,
+            hive_server2_conn_id=hive_server2_conn_id,
+            source_file_format="parquet",
+            iceberg_db=f"iceberg.{db_source}_{STAGING}",
+            iceberg_write_truncate=schema.IS_WRITE_TRUNCATE,
             dag=dag,
         )
-        load_data_raw_to_table_staging
+        drop_stg >> load_stg
     return dag
 
 
