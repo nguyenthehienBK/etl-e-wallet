@@ -130,7 +130,7 @@ def sub_load_to_staging(parent_dag_name, child_dag_name, args, **kwargs):
         schema = tbl.SCHEMA
         output_path = get_hdfs_path(table_name=table_name, hdfs_conn_id=hdfs_conn_id,
                                     layer="BRONZE", bucket=db_source, business_day=business_date)
-        sql = f"dags/sql/template/load_staging_template.sql"
+        sql = "dags/sql/template/load_staging_template.sql"
         host, port = get_host_port(hdfs_conn_id=hdfs_conn_id)
         load_data_raw_to_table_staging = IcebergOperator(
             task_id=f"load_{table_name}_to_staging",
@@ -173,7 +173,7 @@ def sub_load_to_warehouse(parent_dag_name, child_dag_name, args, **kwargs):
         schema = tbl.SCHEMA
         output_path = get_hdfs_path(table_name=table_name, hdfs_conn_id=hdfs_conn_id,
                                     layer=SILVER, bucket=db_source, business_day=business_date)
-        sql = f"dags/sql/template/load_to_warehouse_template.sql"
+        sql = "dags/sql/template/load_to_warehouse_template.sql"
         host, port = get_host_port(hdfs_conn_id=hdfs_conn_id)
         sql_param = get_merge_query_dwh(tbl=tbl)
         load_data_to_warehouse = IcebergOperator(
