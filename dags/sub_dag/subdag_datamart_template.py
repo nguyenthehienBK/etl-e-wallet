@@ -68,7 +68,7 @@ def sub_load_mysql(parent_dag_name, child_dag_name, args, **kwargs):
         load_table_datamart = IcebergToMysqlOperator(
             task_id=f"load_table_{table}_to_mart",
             hive_server2_conn_id="hiveserver2_conn_id",
-            sql=f"sql/datamart/{datamart_name}/load_{table}_datamart",
+            sql=f"sql/datamart/{datamart_name}/load_{table}_datamart.sql",
             mysql_conn_id="mysql_conn_id_test",
             mysql_database="w3_core_mdm",
             mysql_table_name=table,
