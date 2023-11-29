@@ -3,6 +3,7 @@ from airflow.plugins_manager import AirflowPlugin
 from airflow.models import BaseOperator
 from airflow.hooks.mysql_hook import MySqlHook
 from utils.spark_thrift.connections import get_spark_thrift_conn
+import pandas as pd
 
 
 class IcebergToMysqlOperator(BaseOperator):
@@ -47,7 +48,8 @@ class IcebergToMysqlOperator(BaseOperator):
                 from the destination table's schema.
         """
         sql = self.sql
-        # print(sql)
+        print("Execute SQL: ")
+        print(sql)
 
         conn = get_spark_thrift_conn(self.hive_server2_conn_id)
         cursor = conn.cursor()
@@ -67,7 +69,7 @@ class IcebergToMysqlOperator(BaseOperator):
         mysql_hook = MySqlHook(mysql_conn_id=self.mysql_conn_id)
         conn = mysql_hook.get_conn()
         conn.set_autocommit(conn, False)
-        # TODO: pass logic here
+        self.log.info(df_data)
 
 
 class IcebergToMysqlPlugin(AirflowPlugin):
