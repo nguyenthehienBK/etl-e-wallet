@@ -75,10 +75,12 @@ class IcebergToMysqlOperator(BaseOperator):
         cursor_create.execute(self.generate_sql_create_tbl())
         cursor_create.close()
 
+        mysql_hook_2 = MySqlHook(mysql_conn_id=self.mysql_conn_id)
+        conn_2 = mysql_hook_2.get_conn()
         self.log.info("Insert to table MySQL")
         insert_sql = self.generate_sql_insert()
         self.log.info(insert_sql)
-        cursor_insert = conn.cursor()
+        cursor_insert = conn_2.cursor()
         cursor_insert.execute(insert_sql)
         cursor_insert.close()
 
