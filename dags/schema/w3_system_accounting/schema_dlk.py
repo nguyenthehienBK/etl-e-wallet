@@ -39,6 +39,9 @@ class DLKWallet(DaoDim, BaseModel):
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
         self.TABLE_TYPE = DIM_TABLE_TYPE
+        self.KEY_COLUMNS = [
+            {"name": "wallet_id", "type": "bigint"}
+        ]
         self.EXTRACT = {
             "TIMESTAMP": "",
             "TIMESTAMP_KEY": "",
@@ -72,6 +75,9 @@ class DLKWalletBalance(DaoDim, BaseModel):
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
         self.TABLE_TYPE = DIM_TABLE_TYPE
+        self.KEY_COLUMNS = [
+            {"name": "wallet_id", "type": "bigint"}
+        ]
         self.EXTRACT = {
             "TIMESTAMP": "",
             "TIMESTAMP_KEY": "",
@@ -125,6 +131,9 @@ class DLKWalletBalanceChange(DaoDim, BaseModel):
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
         self.TABLE_TYPE = DIM_TABLE_TYPE
+        self.KEY_COLUMNS = [
+            {"name": "balance_change_id", "type": "bigint"}
+        ]
         self.EXTRACT = {
             "TIMESTAMP": "",
             "TIMESTAMP_KEY": "",
@@ -158,6 +167,9 @@ class DLKWalletState(DaoDim, BaseModel):
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
         self.TABLE_TYPE = DIM_TABLE_TYPE
+        self.KEY_COLUMNS = [
+            {"name": "wallet_state_id", "type": "bigint"}
+        ]
         self.EXTRACT = {
             "TIMESTAMP": "",
             "TIMESTAMP_KEY": "",
