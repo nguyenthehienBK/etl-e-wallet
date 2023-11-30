@@ -5,7 +5,6 @@ from airflow.hooks.base_hook import BaseHook
 from utils.database.db_data_type import UpsertType
 
 PAGING = 100000
-MAXIMUM_FILE_LOAD_GCS2BQ = 10000
 
 
 def get_hdfs_path(
