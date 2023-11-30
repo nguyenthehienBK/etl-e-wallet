@@ -80,7 +80,7 @@ class DLKPayment(DaoDim, BaseModel):
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "request_id", "type": "bigint"}
+            {"name": "REQUEST_ID", "type": "bigint"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
@@ -88,7 +88,7 @@ class DLKPayment(DaoDim, BaseModel):
         self.EXTRACT = {
             "TIMESTAMP": "",
             "TIMESTAMP_KEY": "",
-            "ORDER_BY": "request_id",
+            "ORDER_BY": "REQUEST_ID",
             "JOIN": ""
         }
         self.WRAP_CHAR = ''
