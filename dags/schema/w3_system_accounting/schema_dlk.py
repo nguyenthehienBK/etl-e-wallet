@@ -3,6 +3,7 @@ Define table schema for staging
 """
 from schema.common.dao_dim import DaoDim
 from schema.common.model import BaseModel, FACT_TABLE_TYPE, DIM_TABLE_TYPE
+from utils.type.data_type import *
 from utils.database.db_data_type import UpsertType
 from utils.lakehouse.table_utils import get_content_from_sql_path
 
@@ -13,24 +14,24 @@ class DLKWallet(DaoDim, BaseModel):
         self.SCHEMA = [
             {"name": "wallet_id", "mode": "NULLABLE", "type": "bigint"},
             {"name": "pan", "mode": "NULLABLE", "type": "string"},
-            {"name": "wallet_state_id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "wallet_type_id", "mode": "NULLABLE", "type": "string"},
-            {"name": "modified_date", "mode": "NULLABLE", "type": "string"},
-            {"name": "created_date", "mode": "NULLABLE", "type": "string"},
-            {"name": "active_time", "mode": "NULLABLE", "type": "timestamp"},
-            {"name": "currency_code", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "customer_id", "mode": "NULLABLE", "type": "timestamp"},
+            {"name": "wallet_state_id", "mode": "NULLABLE", "type": "int"},
+            {"name": "wallet_type_id", "mode": "NULLABLE", "type": "int"},
+            {"name": "modified_date", "mode": "NULLABLE", "type": "timestamp"},
+            {"name": "created_date", "mode": "NULLABLE", "type": "timestamp"},
+            {"name": "active_time", "mode": "NULLABLE", "type": "datetime"},
+            {"name": "currency_code", "mode": "NULLABLE", "type": "string"},
+            {"name": "customer_id", "mode": "NULLABLE", "type": "string"},
         ]
         self.SCHEMA_RAW = {
-            'wallet_id': 'int64',
-            'pan': 'str',
-            'wallet_state_id': 'int64',
-            'wallet_type_id': 'str',
-            'modified_date': 'str',
-            'created_date': 'str',
-            'active_time': 'datetime64[ns]',
-            'currency_code': 'int64',
-            'customer_id': 'datetime64[ns]',
+            'wallet_id': RAW_TYPE_INT64,
+            'pan': RAW_TYPE_STR,
+            'wallet_state_id': RAW_TYPE_INT64,
+            'wallet_type_id': RAW_TYPE_INT64,
+            'modified_date': RAW_TYPE_DATETIME,
+            'created_date': RAW_TYPE_STR,
+            'active_time': RAW_TYPE_DATETIME,
+            'currency_code': RAW_TYPE_INT64,
+            'customer_id': RAW_TYPE_DATETIME,
         }
 
         # self.COLUMNS_SCHEMA = self.DEFAULT_COLUMNS + self.SCHEMA
@@ -62,11 +63,11 @@ class DLKWalletBalance(DaoDim, BaseModel):
             {"name": "date_modified", "mode": "NULLABLE", "type": "timestamp"},
         ]
         self.SCHEMA_RAW = {
-            'wallet_id': 'int64',
-            'balance': 'str',
-            'holding_balance': 'datetime64[ns]',
-            'available_balance': 'int64',
-            'date_modified': 'datetime64[ns]',
+            'wallet_id': RAW_TYPE_INT64,
+            'balance': RAW_TYPE_STR,
+            'holding_balance': RAW_TYPE_DATETIME,
+            'available_balance': RAW_TYPE_INT64,
+            'date_modified': RAW_TYPE_DATETIME,
         }
 
         # self.COLUMNS_SCHEMA = self.DEFAULT_COLUMNS + self.SCHEMA
@@ -108,21 +109,21 @@ class DLKWalletBalanceChange(DaoDim, BaseModel):
             {"name": "before_balance_raw", "mode": "NULLABLE", "type": "string"},
         ]
         self.SCHEMA_RAW = {
-            'balance_change_id': 'int64',
-            'wallet_id': 'str',
-            'transaction_id': 'str',
-            'request_log_id': 'str',
-            'trans_accounting_id': 'str',
-            'amount': 'int64',
-            'currency_code': 'str',
-            'direction': 'int64',
-            'before_balance': 'datetime64[ns]',
-            'after_balance': 'int64',
-            'date_created': 'datetime64[ns]',
-            'content': 'int64',
-            'status': 'datetime64[ns]',
-            'trans_type': 'int64',
-            'before_balance_raw': 'str',
+            'balance_change_id': RAW_TYPE_INT64,
+            'wallet_id': RAW_TYPE_STR,
+            'transaction_id': RAW_TYPE_STR,
+            'request_log_id': RAW_TYPE_STR,
+            'trans_accounting_id': RAW_TYPE_STR,
+            'amount': RAW_TYPE_INT64,
+            'currency_code': RAW_TYPE_STR,
+            'direction': RAW_TYPE_INT64,
+            'before_balance': RAW_TYPE_DATETIME,
+            'after_balance': RAW_TYPE_INT64,
+            'date_created': RAW_TYPE_DATETIME,
+            'content': RAW_TYPE_INT64,
+            'status': RAW_TYPE_DATETIME,
+            'trans_type': RAW_TYPE_INT64,
+            'before_balance_raw': RAW_TYPE_STR,
         }
 
         # self.COLUMNS_SCHEMA = self.DEFAULT_COLUMNS + self.SCHEMA
@@ -154,11 +155,11 @@ class DLKWalletState(DaoDim, BaseModel):
             {"name": "before_state", "mode": "NULLABLE", "type": "timestamp"},
         ]
         self.SCHEMA_RAW = {
-            'wallet_state_id': 'int64',
-            'name': 'str',
-            'locale_key': 'str',
-            'next_state': 'str',
-            'before_state': 'datetime64[ns]',
+            'wallet_state_id': RAW_TYPE_INT64,
+            'name': RAW_TYPE_STR,
+            'locale_key': RAW_TYPE_STR,
+            'next_state': RAW_TYPE_STR,
+            'before_state': RAW_TYPE_DATETIME,
         }
 
         # self.COLUMNS_SCHEMA = self.DEFAULT_COLUMNS + self.SCHEMA
