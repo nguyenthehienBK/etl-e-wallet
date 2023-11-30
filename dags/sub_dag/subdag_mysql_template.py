@@ -3,12 +3,13 @@ import sys
 
 abs_path = os.path.dirname(os.path.abspath(__file__)) + "/../../../.."
 sys.path.append(abs_path)
-from airflow.hooks.base_hook import BaseHook
+from airflow.models import DAG
+from airflow.operators import IcebergOperator
+from airflow.operators import MysqlToHdfsOperator, SourceFileToIcebergOperator
 from utils.date_time.date_time_utils import get_business_date
 from utils.lakehouse.table_utils import get_hdfs_path, get_sql_param, get_host_port, get_merge_query_dwh
 from datetime import timedelta
 from schema.lakehouse_template.schema_dlk import TEMPLATE_TABLE_SCHEMA
-from schema.generic.schema_dlk import GENERIC_TABLE_SCHEMA
 from schema.w3_core_mdm.schema_dlk import W3_CORE_MDM_TABLE_SCHEMA
 from schema.w3_core_uaa.schema_dlk import W3_CORE_UAA_TABLE_SCHEMA
 from schema.w3_common_partner.schema_dlk import W3_COMMON_PARTNER_TABLE_SCHEMA
@@ -17,7 +18,6 @@ from schema.w3_business_customer.schema_dlk import W3_BUSINESS_CUSTOMER_TABLE_SC
 from schema.w3_transfer_order.schema_dlk import W3_TRANSFER_ORDER_TABLE_SCHEMA
 from schema.w3_transfer_business.schema_dlk import W3_TRANSFER_BUSINESS_TABLE_SCHEMA
 from schema.w3_utility_management.schema_dlk import W3_UTILITY_MANAGEMENT_TABLE_SCHEMA
-from airflow.operators import MysqlToHdfsOperator, SourceFileToIcebergOperator
 from utils.lakehouse.lakehouse_layer_utils import (
     RAW,
     WAREHOUSE,
@@ -27,8 +27,6 @@ from utils.lakehouse.lakehouse_layer_utils import (
     SILVER,
     GOLD,
 )
-from airflow.models import DAG
-from airflow.operators import IcebergOperator
 
 HDFS_CONN_ID = "hdfs_conn_id"
 RAW_CONN_ID = "raw_conn_id"
@@ -202,7 +200,7 @@ def sub_load_to_warehouse(parent_dag_name, child_dag_name, args, **kwargs):
         sql = "dags/sql/template/load_to_warehouse_template.sql"
         host, port = get_host_port(hdfs_conn_id=hdfs_conn_id)
         sql_param = get_merge_query_dwh(tbl=tbl)
-        load_data_to_warehouse = IcebergOperator(
+        IcebergOperator(
             task_id=f"load_{table_name}_to_warehouse",
             execution_timeout=timedelta(hours=2),
             sql=sql,
@@ -226,5 +224,4 @@ def sub_load_to_warehouse(parent_dag_name, child_dag_name, args, **kwargs):
             },
             dag=dag,
         )
-        load_data_to_warehouse
     return dag

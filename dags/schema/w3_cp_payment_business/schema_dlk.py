@@ -1,10 +1,8 @@
 """
 Define table schema for staging
 """
-from airflow.models import Variable
 from schema.common.dao_dim import DaoDim
 from schema.common.model import BaseModel, FACT_TABLE_TYPE, DIM_TABLE_TYPE
-from utils.database.db_data_type import UpsertType
 from utils.lakehouse.table_utils import get_content_from_sql_path
 
 
@@ -54,18 +52,18 @@ class DLKPayment(DaoDim, BaseModel):
             'customer_type': 'str',
             'msisdn': 'str',
             'payment_id': 'str',
-            'retry': 'int64',
+            'retry': 'int',
             'status': 'str',
             'status_message': 'str',
-            'total_amount': 'float',
-            'total_commission': 'float',
-            'total_fee': 'float',
-            'total_revenue_shared': 'float',
-            'total_tax': 'float',
+            'total_amount': 'float64',
+            'total_commission': 'float64',
+            'total_fee': 'float64',
+            'total_revenue_shared': 'float64',
+            'total_tax': 'float64',
             'trans_type': 'str',
             'updated_date': 'datetime64[ns]',
             'user_id': 'int64',
-            'total_tax_of_commission': 'float',
+            'total_tax_of_commission': 'float64',
             'api_code': 'str',
             'order_id': 'str',
             'from_role_id': 'int64',

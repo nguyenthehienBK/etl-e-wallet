@@ -7,7 +7,7 @@ from utils.dag.dag_utils import CONCURRENCY, MAX_ACTIVE_RUNS
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.subdag_operator import SubDagOperator
 from airflow.executors import get_default_executor
-from sub_dag.subdag_template import sub_load_to_raw, sub_load_to_staging, sub_load_to_warehouse
+from sub_dag.subdag_mysql_template import sub_load_to_raw, sub_load_to_staging, sub_load_to_warehouse
 
 DAG_NAME = "01_w3_utility_management_daily"
 SCHEDULE_INTERVAL = '00 17 * * *'

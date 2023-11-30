@@ -3,15 +3,16 @@ import sys
 
 abs_path = os.path.dirname(os.path.abspath(__file__)) + "/../../../.."
 sys.path.append(abs_path)
-from airflow.hooks.base_hook import BaseHook
-from utils.date_time.date_time_utils import get_business_date
-from utils.lakehouse.table_utils import get_hdfs_path, get_sql_param, get_host_port, get_merge_query_dwh
+
 from datetime import timedelta
+from airflow.models import DAG
+from airflow.operators import OracleToHdfsOperator
+from airflow.operators import IcebergOperator
 from schema.lakehouse_template.schema_dlk import TEMPLATE_TABLE_SCHEMA
-from schema.generic.schema_dlk import GENERIC_TABLE_SCHEMA
 from schema.w3_system_accounting.schema_dlk import W3_SYSTEM_ACCOUNTING_TABLE_SCHEMA
 from schema.w3_cp_payment_business.schema_dlk import W3_CP_PAYMENT_BUSINESS_TABLE_SCHEMA
-from airflow.operators import OracleToHdfsOperator
+from utils.date_time.date_time_utils import get_business_date
+from utils.lakehouse.table_utils import get_hdfs_path, get_sql_param, get_host_port, get_merge_query_dwh
 from utils.lakehouse.lakehouse_layer_utils import (
     RAW,
     WAREHOUSE,
@@ -21,13 +22,11 @@ from utils.lakehouse.lakehouse_layer_utils import (
     SILVER,
     GOLD,
 )
-from airflow.models import DAG
-from airflow.operators import IcebergOperator
 
 HDFS_CONN_ID = "hdfs_conn_id"
 RAW_CONN_ID = "raw_conn_id"
 HIVE_SERVER2_CONN_ID = "hive_server2_conn_id"
-BUSSINESS_DATE = "business_date"
+BUSINESS_DATE = "business_date"
 EXT_DB_SOURCE = "db_source"
 EXT_TABLE = "extract_table"
 EXCEPT_TABLE = "except_table"
@@ -120,7 +119,7 @@ def sub_load_to_staging(parent_dag_name, child_dag_name, args, **kwargs):
                 "bucket_lakehouse": f"{db_source}",
                 "bucket_staging": f"{db_source}_staging",
                 "bucket_warehouse": f"{db_source}_datawarehouse",
-                "business_date": kwargs.get(BUSSINESS_DATE),
+                "business_date": kwargs.get(BUSINESS_DATE),
                 "table_name_raw": table_name,
                 "table_name_warehouse": table_name,
                 "raw_layer": BRONZE,
@@ -161,7 +160,7 @@ def sub_load_to_warehouse(parent_dag_name, child_dag_name, args, **kwargs):
                 "bucket_lakehouse": f"{db_source}",
                 "bucket_staging": f"{db_source}_staging",
                 "bucket_warehouse": f"{db_source}_datawarehouse",
-                "business_date": kwargs.get(BUSSINESS_DATE),
+                "business_date": kwargs.get(BUSINESS_DATE),
                 "table_name_raw": table_name,
                 "table_name_warehouse": table_name,
                 "raw_layer": BRONZE,
