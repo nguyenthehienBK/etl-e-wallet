@@ -19,13 +19,9 @@ class BaseModel:
         self.TIME_PARTITIONING = None
         self.CLUSTERING = None
         self.TABLE_TYPE = DIM_TABLE_TYPE
-        self.SERVER_NAME = ""  # Kafka connect
-        self.DB_NAME = ""  # Kafka connect
-        self.KEY_COLUMNS = []  # Kafka connect
-        self.AUTO_GEN_SQL = True  # Kafka connect
-        self.IS_AGGREGATED = False  # Kafka connect
         self.DATA_QUALITY = []  # Use for Data Quality config
         self.DEFAULT_TABLE_NAME = ""  # Tên bảng ở db nguồn, sử dụng trong migration
+        self.WRAP_CHAR = '`'
 
     def get_table_name(self):
         return self.TABLE_NAME
@@ -36,7 +32,7 @@ class BaseModel:
         wrap_char: str, define specific wrap char for column_name
                    default (`)
                    None will be treated as empty str
-                   (ex. wrap_char="`" -> mysql, cloud ; wrap_char="\"" -> postgres, mssql)
+                   (ex. wrap_char="`" -> mysql; wrap_char="\"" -> oracle)
         """
         wrap_char = "" if wrap_char is None else wrap_char
         list_columns = []
@@ -63,18 +59,6 @@ class BaseModel:
             list_columns.append(col)
         all_field = ',\n'.join(map(str, list_columns))
         return all_field
-
-
-class PostgreBaseModel(BaseModel):
-    def __init__(self, table_name):
-        super().__init__(table_name)
-        self.TABLE_NAME = table_name
-
-        # Trường mặc định bảng nào cũng cần có
-        self.DEFAULT_COLUMNS = [
-            {"name": "etl_date", "mode": "NULLABLE", "type": "TIMESTAMP"},
-            {"name": "business_date", "mode": "NULLABLE", "type": "STRING"},
-        ]
 
 
 class DimDate(BaseModel):

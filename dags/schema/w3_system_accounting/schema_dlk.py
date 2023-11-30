@@ -1,7 +1,6 @@
 """
 Define table schema for staging
 """
-from airflow.models import Variable
 from schema.common.dao_dim import DaoDim
 from schema.common.model import BaseModel, FACT_TABLE_TYPE, DIM_TABLE_TYPE
 from utils.database.db_data_type import UpsertType
@@ -49,6 +48,7 @@ class DLKWallet(DaoDim, BaseModel):
             "ORDER_BY": "id",
             "JOIN": ""
         }
+        self.WRAP_CHAR = '"'
 
 
 class DLKWalletBalance(DaoDim, BaseModel):
