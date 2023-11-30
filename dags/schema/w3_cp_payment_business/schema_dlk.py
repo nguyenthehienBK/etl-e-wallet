@@ -43,44 +43,44 @@ class DLKPayment(DaoDim, BaseModel):
             {"name": "to_name", "mode": "NULLABLE", "type": "string"},
         ]
         self.SCHEMA_RAW = {
-            'request_id': 'str',
-            'channel_id': 'str',
-            'client_request_id': 'str',
-            'created_date': 'datetime64[ns]',
-            'customer_account': 'str',
-            'customer_id': 'str',
-            'customer_type': 'str',
-            'msisdn': 'str',
-            'payment_id': 'str',
-            'retry': 'int',
-            'status': 'str',
-            'status_message': 'str',
-            'total_amount': 'float64',
-            'total_commission': 'float64',
-            'total_fee': 'float64',
-            'total_revenue_shared': 'float64',
-            'total_tax': 'float64',
-            'trans_type': 'str',
-            'updated_date': 'datetime64[ns]',
-            'user_id': 'int64',
-            'total_tax_of_commission': 'float64',
-            'api_code': 'str',
-            'order_id': 'str',
-            'from_role_id': 'int64',
-            'from_tier': 'int64',
-            'identify_type': 'str',
-            'response_code': 'str',
-            'client_id_token': 'str',
-            'email_token': 'str',
-            'from_name': 'str',
-            'to_name': 'str',
+            'REQUEST_ID': 'str',
+            'CHANNEL_ID': 'str',
+            'CLIENT_REQUEST_ID': 'str',
+            'CREATED_DATE': 'datetime64[ns]',
+            'CUSTOMER_ACCOUNT': 'str',
+            'CUSTOMER_ID': 'str',
+            'CUSTOMER_TYPE': 'str',
+            'MSISDN': 'str',
+            'PAYMENT_ID': 'str',
+            'RETRY': 'int',
+            'STATUS': 'str',
+            'STATUS_MESSAGE': 'str',
+            'TOTAL_AMOUNT': 'float64',
+            'TOTAL_COMMISSION': 'float64',
+            'TOTAL_FEE': 'float64',
+            'TOTAL_REVENUE_SHARED': 'float64',
+            'TOTAL_TAX': 'float64',
+            'TRANS_TYPE': 'str',
+            'UPDATED_DATE': 'datetime64[ns]',
+            'USER_ID': 'int64',
+            'TOTAL_TAX_OF_COMMISSION': 'float64',
+            'API_CODE': 'str',
+            'ORDER_ID': 'str',
+            'FROM_ROLE_ID': 'int64',
+            'FROM_TIER': 'int64',
+            'IDENTITY_TYPE': 'str',
+            'RESPONSE_CODE': 'str',
+            'CLIENT_ID_TOKEN': 'str',
+            'EMAIL_TOKEN': 'str',
+            'FROM_NAME': 'str',
+            'TO_NAME': 'str',
         }
 
         # self.COLUMNS_SCHEMA = self.DEFAULT_COLUMNS + self.SCHEMA
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "request_id", "type": "bigint"}
+            {"name": "REQUEST_ID", "type": "bigint"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
@@ -88,7 +88,7 @@ class DLKPayment(DaoDim, BaseModel):
         self.EXTRACT = {
             "TIMESTAMP": "",
             "TIMESTAMP_KEY": "",
-            "ORDER_BY": "request_id",
+            "ORDER_BY": "REQUEST_ID",
             "JOIN": ""
         }
         self.WRAP_CHAR = ''
