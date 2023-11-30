@@ -13,7 +13,7 @@ TBLPROPERTIES ('write.format.default'='parquet', 'write.parquet.compression-code
 MERGE INTO {{params.iceberg_catalog}}.{{params.bucket_warehouse}}.{{params.table_name_warehouse}} t
 USING (
     {{params.select_sql}}
-    FROM {{params.bucket_staging}}.{{params.table_name_warehouse}}_stg
+    FROM {{params.bucket_staging}}.{{params.table_name_warehouse}}
 ) s
 ON {{params.match_conditions}}
 WHEN MATCHED THEN UPDATE SET
