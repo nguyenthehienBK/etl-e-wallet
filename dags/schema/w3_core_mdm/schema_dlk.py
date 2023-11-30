@@ -1,10 +1,8 @@
 """
 Define table schema for staging
 """
-from airflow.models import Variable
 from schema.common.dao_dim import DaoDim
 from schema.common.model import BaseModel, FACT_TABLE_TYPE, DIM_TABLE_TYPE
-from utils.database.db_data_type import UpsertType
 from utils.lakehouse.table_utils import get_content_from_sql_path
 
 
@@ -534,7 +532,6 @@ DLK_CURRENCIES = "currencies"
 DLK_PAPER_TYPE = "paper_type"
 DLK_TRANS_TYPES = "trans_types"
 DLK_ROLE_TYPES = "role_types"
-DLK_INVOICE = "Temp2"
 
 W3_CORE_MDM_TABLE_SCHEMA = {
     DLK_TIERS: DLKTiers(DLK_TIERS),

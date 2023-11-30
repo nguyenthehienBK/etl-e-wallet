@@ -4,7 +4,6 @@ Define table schema for staging
 from schema.common.dao_dim import DaoDim
 from schema.common.model import BaseModel, FACT_TABLE_TYPE, DIM_TABLE_TYPE
 from utils.type.data_type import *
-from utils.database.db_data_type import UpsertType
 from utils.lakehouse.table_utils import get_content_from_sql_path
 
 

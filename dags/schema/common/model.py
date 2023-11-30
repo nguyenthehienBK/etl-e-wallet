@@ -59,28 +59,3 @@ class BaseModel:
             list_columns.append(col)
         all_field = ',\n'.join(map(str, list_columns))
         return all_field
-
-
-class DimDate(BaseModel):
-    def __init__(self, table_name):
-        super().__init__(table_name)
-        self.COLUMNS = [
-            {"name": "date_key", "mode": "NULLABLE", "type": "INTEGER"},
-            {"name": "date", "mode": "NULLABLE", "type": "DATE"},
-            {"name": "day_of_week", "mode": "NULLABLE", "type": "INTEGER"},
-            {"name": "day_of_month", "mode": "NULLABLE", "type": "INTEGER"},
-            {"name": "week", "mode": "NULLABLE", "type": "INTEGER"},
-            {"name": "month", "mode": "NULLABLE", "type": "INTEGER"},
-            {"name": "quarter", "mode": "NULLABLE", "type": "INTEGER"},
-            {"name": "quarter_name", "mode": "NULLABLE", "type": "STRING"},
-            {"name": "year", "mode": "NULLABLE", "type": "INTEGER"},
-            {"name": "month_abbreviated_name", "mode": "NULLABLE", "type": "STRING"},
-            {"name": "month_full_name", "mode": "NULLABLE", "type": "STRING"},
-            {"name": "week_day_abbreviated", "mode": "NULLABLE", "type": "STRING"},
-            {"name": "week_day", "mode": "NULLABLE", "type": "STRING"},
-        ]
-        self.COLUMNS_SCHEMA = self.COLUMNS
-        self.TABLE_TYPE = DIM_TABLE_TYPE
-
-    def get_list_columns(self, columns):
-        return super().get_list_columns(columns)

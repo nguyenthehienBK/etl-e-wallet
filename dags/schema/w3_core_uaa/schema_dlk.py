@@ -1,10 +1,8 @@
 """
 Define table schema for staging and warehouse
 """
-from airflow.models import Variable
 from schema.common.dao_dim import DaoDim
 from schema.common.model import BaseModel, FACT_TABLE_TYPE, DIM_TABLE_TYPE
-from utils.database.db_data_type import UpsertType
 from utils.lakehouse.table_utils import get_content_from_sql_path
 
 

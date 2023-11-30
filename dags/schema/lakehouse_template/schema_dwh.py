@@ -1,8 +1,3 @@
-"""
-Define table schema for staging
-File dags/schema/kv_mssql/schema_dlk.py
-"""
-from airflow.models import Variable
 from schema.common.dao_dim import DaoDim
 from schema.common.model import BaseModel, FACT_TABLE_TYPE, DIM_TABLE_TYPE
 from utils.database.db_data_type import UpsertType
