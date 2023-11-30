@@ -36,16 +36,13 @@ class DLKWallet(DaoDim, BaseModel):
         # self.COLUMNS_SCHEMA = self.DEFAULT_COLUMNS + self.SCHEMA
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
-        self.KEY_COLUMNS = [
-            {"name": "wallet_id", "type": "bigint"}
-        ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
         self.TABLE_TYPE = DIM_TABLE_TYPE
         self.EXTRACT = {
             "TIMESTAMP": "",
             "TIMESTAMP_KEY": "",
-            "ORDER_BY": "id",
+            "ORDER_BY": "wallet_id",
             "JOIN": ""
         }
         self.WRAP_CHAR = '"'
@@ -72,18 +69,16 @@ class DLKWalletBalance(DaoDim, BaseModel):
         # self.COLUMNS_SCHEMA = self.DEFAULT_COLUMNS + self.SCHEMA
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
-        self.KEY_COLUMNS = [
-            {"name": "id", "type": "bigint"}
-        ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
         self.TABLE_TYPE = DIM_TABLE_TYPE
         self.EXTRACT = {
             "TIMESTAMP": "",
             "TIMESTAMP_KEY": "",
-            "ORDER_BY": "id",
+            "ORDER_BY": "wallet_id",
             "JOIN": ""
         }
+        self.WRAP_CHAR = '"'
 
 
 class DLKWalletBalanceChange(DaoDim, BaseModel):
@@ -127,18 +122,16 @@ class DLKWalletBalanceChange(DaoDim, BaseModel):
         # self.COLUMNS_SCHEMA = self.DEFAULT_COLUMNS + self.SCHEMA
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
-        self.KEY_COLUMNS = [
-            {"name": "id", "type": "bigint"}
-        ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
         self.TABLE_TYPE = DIM_TABLE_TYPE
         self.EXTRACT = {
             "TIMESTAMP": "",
             "TIMESTAMP_KEY": "",
-            "ORDER_BY": "id",
+            "ORDER_BY": "balance_change_id",
             "JOIN": ""
         }
+        self.WRAP_CHAR = '"'
 
 
 class DLKWalletState(DaoDim, BaseModel):
@@ -162,18 +155,16 @@ class DLKWalletState(DaoDim, BaseModel):
         # self.COLUMNS_SCHEMA = self.DEFAULT_COLUMNS + self.SCHEMA
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
-        self.KEY_COLUMNS = [
-            {"name": "id", "type": "bigint"}
-        ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
         self.TABLE_TYPE = DIM_TABLE_TYPE
         self.EXTRACT = {
             "TIMESTAMP": "",
             "TIMESTAMP_KEY": "",
-            "ORDER_BY": "id",
+            "ORDER_BY": "wallet_state_id",
             "JOIN": ""
         }
+        self.WRAP_CHAR = '"'
 
 
 _ALL = "all"
