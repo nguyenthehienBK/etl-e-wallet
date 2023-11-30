@@ -79,7 +79,7 @@ class OracleToHdfsOperator(BaseOperator):
         )
 
         for df in pd.read_sql(self.query, db_conn, chunksize=self.chunk_size):
-            self.log.debug(df.dtypes)
+            self.log.info(df.dtypes)
             self.log.info('Cast with schema:')
             df_with_schema = df.astype(self.schema_raw, errors="ignore")
             df_with_replace = self.replace_string_none(df_with_schema, self.schema_raw)
