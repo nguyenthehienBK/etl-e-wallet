@@ -93,7 +93,7 @@ class DLKPayment(DaoDim, BaseModel):
             "ORDER_BY": "request_id",
             "JOIN": ""
         }
-        self.WRAP_CHAR = '"'
+        self.WRAP_CHAR = ''
 
 
 _ALL = "all"

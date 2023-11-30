@@ -49,7 +49,7 @@ class DLKWallet(DaoDim, BaseModel):
             "ORDER_BY": "wallet_id",
             "JOIN": ""
         }
-        self.WRAP_CHAR = '"'
+        self.WRAP_CHAR = ''
 
 
 class DLKWalletBalance(DaoDim, BaseModel):
@@ -85,7 +85,7 @@ class DLKWalletBalance(DaoDim, BaseModel):
             "ORDER_BY": "wallet_id",
             "JOIN": ""
         }
-        self.WRAP_CHAR = '"'
+        self.WRAP_CHAR = ''
 
 
 class DLKWalletBalanceChange(DaoDim, BaseModel):
@@ -141,7 +141,7 @@ class DLKWalletBalanceChange(DaoDim, BaseModel):
             "ORDER_BY": "balance_change_id",
             "JOIN": ""
         }
-        self.WRAP_CHAR = '"'
+        self.WRAP_CHAR = ''
 
 
 class DLKWalletState(DaoDim, BaseModel):
@@ -177,7 +177,7 @@ class DLKWalletState(DaoDim, BaseModel):
             "ORDER_BY": "wallet_state_id",
             "JOIN": ""
         }
-        self.WRAP_CHAR = '"'
+        self.WRAP_CHAR = ''
 
 
 _ALL = "all"
