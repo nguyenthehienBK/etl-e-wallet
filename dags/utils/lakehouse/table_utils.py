@@ -2,6 +2,10 @@ import datetime
 from dateutil.relativedelta import relativedelta
 from airflow.models import Variable
 from airflow.hooks.base_hook import BaseHook
+from utils.database.db_data_type import UpsertType
+
+PAGING = 100000
+MAXIMUM_FILE_LOAD_GCS2BQ = 10000
 
 
 def get_hdfs_path(
@@ -14,8 +18,6 @@ def get_hdfs_path(
     conn = BaseHook.get_connection(hdfs_conn_id)
     host = conn.host
     port = str(conn.port)
-    # host = 'host_test'
-    # port = 'post_test'
     if table_name is None:
         return ""
     if layer == "BRONZE":
@@ -96,12 +98,6 @@ def get_content_from_sql_path(sql_path: str) -> str:
     return data
 
 
-from utils.database.db_data_type import UpsertType
-
-PAGING = 100000
-MAXIMUM_FILE_LOAD_GCS2BQ = 10000
-
-
 def get_etl_time():
     etl_time = Variable.get("kv_etl_time", default_var={}, deserialize_json=True)
     from_date = etl_time.get("from")
@@ -115,34 +111,12 @@ def get_etl_time():
     return from_date, to_date
 
 
-"""
-File path:
-- Dim: dimensions_table/Branch/*.parquet AND dimensions_table/Branch/2019-08-26/*.parquet
-- Facts: facts_table/2019-08-26/share_prod_105/*.parquet
-fact_path = "FACTS_TABLE/extract_date_str/SHARE_PROD_FORMAT/table_name.parquet"
-dimension_path = "DIMENSIONS_TABLE/table_name/server_key__table_name__paging__file_idx.parquet"
-
-"""
-
-# FACTS_TABLE = 'facts_table'
-# DIMENSIONS_TABLE = 'dimensions_table'
 FIXED_TABLE = "fixed_table"
 CREATE_NEVER = "CREATE_NEVER"
 CREATE_IF_NEEDED = "CREATE_IF_NEEDED"
 WRITE_TRUNCATE = "WRITE_TRUNCATE"
 WRITE_APPEND = "WRITE_APPEND"
 WRITE_EMPTY = "WRITE_EMPTY"
-
-# BLOB_NAME_DIM = "{}/{}/{}.parquet"
-# BLOB_NAME_FACTS = "{}/{}/{}/{}.parquet"
-# SHARE_PROD_FORMAT = "share_prod_"
-
-
-"""
-File path:
-- Dim: dimensions_table/kv_mssql/2019-08-26/shard_105/Branch/Branch_*.parquet
-- Facts: facts_table/kv_mssql/2019-08-26/shard_105/Invoice/Invoice_*.parquet
-"""
 
 
 def get_partition_column_expr(table, alias_table=None):
@@ -188,10 +162,13 @@ def get_sql_param(tbl):
     join = tbl.EXTRACT["JOIN"]
     order_by = tbl.EXTRACT["ORDER_BY"]
     timestamp_key = tbl.EXTRACT["TIMESTAMP_KEY"]
+    wrap_char = tbl.WRAP_CHAR
     ls_columns = [s["name"] for s in tbl.SCHEMA]
-    columns = '`' + ls_columns[0] + '` AS ' + ls_columns[0]
+    # columns = '`' + ls_columns[0] + '` AS ' + ls_columns[0]
+    columns = wrap_char + ls_columns[0] + wrap_char + ' AS ' + ls_columns[0]
     for col in ls_columns[1:]:
-        columns = columns + ',`' + col + '` AS ' + col + '\n'
+        # columns = columns + ',`' + col + '` AS ' + col + '\n'
+        columns = columns + ',' + wrap_char + col + wrap_char + ' AS ' + col + '\n'
 
     sql_val = {
         "columns": columns,

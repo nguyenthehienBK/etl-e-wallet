@@ -1,9 +1,9 @@
 import os
 import sys
+from utils.lakehouse.lakehouse_layer_utils import RAW
 
 abs_path = os.path.dirname(os.path.abspath(__file__)) + "/../../.."
 sys.path.append(abs_path)
-from utils.lakehouse.lakehouse_layer_utils import RAW
 
 BRACES = "{}"
 ASTERISK = "*"
@@ -14,15 +14,6 @@ def generate_file_name_lakehouse(
 ):
     """
     return file_name for table (str)
-
-    # FORMAT: [gc_bucket/]layer/table_folder/partition/`table_name`_[chunk_]{}.data_format
-    [x] meaning that [x] can be removed from uri
-    ex:
-    retail_lakehouse/raw/invoice/20221201/invoice_{}.parquet
-    retail_lakehouse/raw/invoice_hour/20221201/invoice_{}.parquet
-
-    :ref: https://citigo.atlassian.net/wiki/spaces/DPO/pages/43302256720/Th+o+lu+n+m+t+s+v+n+v+i+Lakehouse+v+Iceberg
-
     :type layer: str
     :type table_folder: str
     :type partition: str
@@ -53,18 +44,6 @@ def get_source_uri_lakehouse(
 ):
     """
     return uri for table (str)
-
-    # FORMAT: [gs://][gc_bucket/]layer/table_folder[/partition][/`data_prefix`_][/*.data_format]
-    [x] meaning that [x] can be removed from uri
-    ex:
-    retail_lakehouse/raw/invoice/20221201/invoice_*.parquet
-    retail_lakehouse/raw/invoice_hour/20221201/invoice_*.parquet
-    retail_lakehouse/staging/invoice
-    retail_lakehouse/warehouse/invoice_fact
-    retail_lakehouse/mart/table_name
-
-    :ref: https://citigo.atlassian.net/wiki/spaces/DPO/pages/43302256720/Th+o+lu+n+m+t+s+v+n+v+i+Lakehouse+v+Iceberg
-
     :type layer: str
     :type table_folder: str
     :type partition: str
@@ -103,8 +82,6 @@ def get_source_uri_lakehouse(
 def get_source_uri_cdc(dimentions_table, topic, gc_bucket=None):
     """
     return uri for spark reading path from gcs (str)
-    # FORMAT: /gc_bucket/dimentions_table/topic
-
     :type gc_bucket: str
     :type dimentions_table: str
     :type topic: str
@@ -119,8 +96,6 @@ def get_source_regex_uri_cdc(
 ):
     """
     return uri with regex parsing from lst_yyyymmdd for spark reading path from gcs
-    # FORMAT: /gc_bucket/dimentions_table/topic/partition
-
     :type dimentions_table: str
     :type topic: str
     :type lst_yyyymmdd: lst of str
@@ -179,27 +154,6 @@ def get_partition_sqls_cdc(lst_yyyymmdd):
         )
         partition_sqls.append(sql_cond)
     return partition_sqls
-
-
-def get_partition_fields_cdc():
-    """
-    return dict
-    """
-    cdc_partitions = [
-        {
-            "type": "STRING",
-            "field": "year",
-        },
-        {
-            "type": "STRING",
-            "field": "month",
-        },
-        {
-            "type": "STRING",
-            "field": "day",
-        },
-    ]
-    return cdc_partitions
 
 
 def get_hdfs_path(
