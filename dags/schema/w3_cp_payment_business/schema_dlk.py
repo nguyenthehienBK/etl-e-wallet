@@ -45,22 +45,44 @@ class DLKPayment(DaoDim, BaseModel):
             {"name": "to_name", "mode": "NULLABLE", "type": "string"},
         ]
         self.SCHEMA_RAW = {
-            'wallet_id': 'int64',
-            'pan': 'str',
-            'wallet_state_id': 'int64',
-            'wallet_type_id': 'str',
-            'modified_date': 'str',
-            'created_date': 'str',
-            'active_time': 'datetime64[ns]',
-            'currency_code': 'int64',
-            'customer_id': 'datetime64[ns]',
+            'request_id': 'str',
+            'channel_id': 'str',
+            'client_request_id': 'str',
+            'created_date': 'datetime64[ns]',
+            'customer_account': 'str',
+            'customer_id': 'str',
+            'customer_type': 'str',
+            'msisdn': 'str',
+            'payment_id': 'str',
+            'retry': 'int64',
+            'status': 'str',
+            'status_message': 'str',
+            'total_amount': 'float',
+            'total_commission': 'float',
+            'total_fee': 'float',
+            'total_revenue_shared': 'float',
+            'total_tax': 'float',
+            'trans_type': 'str',
+            'updated_date': 'datetime64[ns]',
+            'user_id': 'int64',
+            'total_tax_of_commission': 'float',
+            'api_code': 'str',
+            'order_id': 'str',
+            'from_role_id': 'int64',
+            'from_tier': 'int64',
+            'identify_type': 'str',
+            'response_code': 'str',
+            'client_token_id': 'str',
+            'email_token': 'str',
+            'from_name': 'str',
+            'to_name': 'str',
         }
 
         # self.COLUMNS_SCHEMA = self.DEFAULT_COLUMNS + self.SCHEMA
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "wallet_id", "type": "bigint"}
+            {"name": "request_id", "type": "bigint"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
@@ -68,9 +90,10 @@ class DLKPayment(DaoDim, BaseModel):
         self.EXTRACT = {
             "TIMESTAMP": "",
             "TIMESTAMP_KEY": "",
-            "ORDER_BY": "id",
+            "ORDER_BY": "request_id",
             "JOIN": ""
         }
+        self.WRAP_CHAR = '"'
 
 
 _ALL = "all"
