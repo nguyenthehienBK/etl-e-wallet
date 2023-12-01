@@ -69,6 +69,328 @@ CREATE TABLE IF NOT EXISTS `fact_transaction`
     `wh_source_data` varchar(255)
 )
 
+// DIM_ACCOUNT_STATE
+CREATE TABLE IF NOT EXISTS `dim_account_state`
+ (
+	`account_state_key` bigint(20) NOT NULL,
+	`account_state` varchar(255) DEFAULT NULL,
+	`wh_etl_session_key` bigint(20) NOT NULL,
+	`wh_load_ts_unix` bigint(20) NOT NULL,
+	`wh_source_data` varchar(255) NOT NULL,
+  PRIMARY KEY (`account_state_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+REPLACE INTO `dim_account_state` (
+`account_state_key`,
+`account_state`,
+`wh_etl_session_key`,
+`wh_load_ts_unix`,
+`wh_source_data`) VALUES
+(1, 'Active', 99999999 ,1000000001, 'database'),
+(2, 'InActive', 8888888888 ,22222222222, 'database');
+
+
+
+
+// DIM_ACCOUNT_TIER
+CREATE TABLE IF NOT EXISTS `dim_account_tier`
+ (
+	`account_tier_key` bigint(20) NOT NULL,
+	`account_tier` varchar(255) DEFAULT NULL,
+	`wh_etl_session_key` bigint(20) NOT NULL,
+	`wh_load_ts_unix` bigint(20) NOT NULL,
+	`wh_source_data` varchar(255) NOT NULL,
+  PRIMARY KEY (`account_tier_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+REPLACE INTO `dim_account_tier` (
+`account_tier_key`,
+`account_tier`,
+`wh_etl_session_key`,
+`wh_load_ts_unix`,
+`wh_source_data`) VALUES
+('1', 'Silver', 99999999 ,1000000001, 'database'),
+('2', 'Gold', 8888888888 ,22222222222, 'database');
+
+
+// DIM_ACCOUNT_TYPE
+CREATE TABLE IF NOT EXISTS `dim_account_type`
+ (
+	`account_type_key` bigint(20) NOT NULL,
+	`account_type` varchar(255) DEFAULT NULL,
+	`wh_etl_session_key` bigint(20) NOT NULL,
+	`wh_load_ts_unix` bigint(20) NOT NULL,
+	`wh_source_data` varchar(255) NOT NULL,
+  PRIMARY KEY (`account_type_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+REPLACE INTO `dim_account_type` (
+`account_type_key`,
+`account_type`,
+`wh_etl_session_key`,
+`wh_load_ts_unix`,
+`wh_source_data`) VALUES
+('1', 'Normal', 99999999 ,1000000001, 'database'),
+('2', 'Special', 8888888888 ,22222222222, 'database');
+
+
+// DIM_APP_CHANNEL
+CREATE TABLE IF NOT EXISTS `dim_app_channel`
+ (
+	`app_channel_key` bigint(20) NOT NULL,
+	`app_channel_name` varchar(255) DEFAULT NULL,
+	`wh_etl_session_key` bigint(20) NOT NULL,
+	`wh_load_ts_unix` bigint(20) NOT NULL,
+	`wh_source_data` varchar(255) NOT NULL,
+  PRIMARY KEY (`app_channel_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+REPLACE INTO `dim_app_channel` (
+`app_channel_key`,
+`app_channel_name`,
+`wh_etl_session_key`,
+`wh_load_ts_unix`,
+`wh_source_data`) VALUES
+('1', 'Mobile', 99999999 ,1000000001, 'database'),
+('2', 'Web', 8888888888 ,22222222222, 'database');
+
+
+
+// DIM_AREA
+CREATE TABLE IF NOT EXISTS `dim_area`
+ (
+    `area_key` varchar(255) NOT NULL,
+    `area_id` bigint(20) NOT NULL,
+    `area_name` varchar(255) NOT NULL,
+    `parent_code` varchar(255) DEFAULT NULL,
+    `area_level` bigint(20) NOT NULL,
+    `country_code` varchar(255) NOT NULL,
+	`wh_etl_session_key` bigint(20) NOT NULL,
+	`wh_load_ts_unix` bigint(20) NOT NULL,
+	`wh_source_data` varchar(255) NOT NULL,
+  PRIMARY KEY (`area_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+REPLACE INTO `dim_area` (
+`area_key`,
+`area_id`,
+`area_name`,
+`parent_code`,
+`area_level`,
+`country_code`,
+`wh_etl_session_key`,
+`wh_load_ts_unix`,
+`wh_source_data`) VALUES
+('A01', 1,  'HaNoi', NULL, 1, 'VN', 99999999 ,1000000001, 'database'),
+('A02', 2,  'HCM', NULL, 1, 'VN', 99999999 ,1000000001, 'database');
+
+
+// DIM_BANK
+CREATE TABLE IF NOT EXISTS `dim_bank`
+ (
+    `bank_id` bigint(20)  NOT NULL,
+    `bank_code` varchar(255) NOT NULL,
+    `bank_name` varchar(255) NOT NULL,
+    `abbreviation` varchar(255) DEFAULT NULL,
+    `status` varchar(255) DEFAULT NULL,
+    `transfer_enabled` varchar(255) DEFAULT NULL,
+	`wh_etl_session_key` bigint(20) NOT NULL,
+	`wh_load_ts_unix` bigint(20) NOT NULL,
+	`wh_source_data` varchar(255) NOT NULL,
+  PRIMARY KEY (`bank_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+REPLACE INTO `dim_bank` (
+`bank_id`,
+`bank_code`,
+`bank_name`,
+`abbreviation`,
+`status`,
+`transfer_enabled`,
+`wh_etl_session_key`,
+`wh_load_ts_unix`,
+`wh_source_data`) VALUES
+(1, 'TCB',  'Techcombank', NULL, NULL, NULL, 99999999 ,1000000001, 'database'),
+(2, 'VCB',  'Vietcombank', NULL, NULL, NULL, 99999999 ,1000000001, 'database');
+
+
+// DIM_BANK_ACCOUNT
+CREATE TABLE IF NOT EXISTS `dim_bank_account`
+ (
+    `bank_account_key` bigint(20)  NOT NULL,
+    `bank_id` bigint(20)  NOT NULL,
+    `bank_msisdn` varchar(255) DEFAULT NULL,
+    `bank_account_no` varchar(255) DEFAULT NULL,
+    `bank_card_no` varchar(255) DEFAULT NULL,
+    `bank_branch_name` varchar(255) DEFAULT NULL,
+    `bank_account_name` varchar(255) DEFAULT NULL,
+	`wh_etl_session_key` bigint(20) NOT NULL,
+	`wh_load_ts_unix` bigint(20) NOT NULL,
+	`wh_source_data` varchar(255) NOT NULL,
+  PRIMARY KEY (`bank_account_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+REPLACE INTO `dim_bank_account` (
+`bank_account_key`,
+`bank_id`,
+`bank_msisdn`,
+`bank_account_no`,
+`bank_card_no`,
+`bank_branch_name`,
+`bank_account_name`,
+`wh_etl_session_key`,
+`wh_load_ts_unix`,
+`wh_source_data`) VALUES
+(1, 1,  NULL, NULL, NULL, NULL, NULL, 99999999 ,1000000001, 'database'),
+(2, 1,  NULL, NULL, NULL, NULL, NULL, 99999999 ,1000000001, 'database');
+
+// DIM_BTS_CELL
+CREATE TABLE IF NOT EXISTS `dim_bts_cell`
+ (
+    `cell_id` varchar(255) NOT NULL,
+    `cell_code` varchar(255) DEFAULT NULL,
+    `bts_code` varchar(255) DEFAULT NULL,
+    `area_id` bigint(20)  DEFAULT NULL,
+    `code_center_business` varchar(255) DEFAULT NULL,
+    `name_center_business` varchar(255) DEFAULT NULL,
+    `delegate_shop_code` varchar(255) DEFAULT NULL,
+	`wh_etl_session_key` bigint(20) NOT NULL,
+	`wh_load_ts_unix` bigint(20) NOT NULL,
+	`wh_source_data` varchar(255) NOT NULL,
+  PRIMARY KEY (`cell_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+REPLACE INTO `dim_bts_cell` (
+`cell_id`,
+`cell_code`,
+`bts_code`,
+`area_id`,
+`code_center_business`,
+`name_center_business`,
+`delegate_shop_code`,
+`wh_etl_session_key`,
+`wh_load_ts_unix`,
+`wh_source_data`) VALUES
+('1', 'IP',  NULL, 1, NULL, NULL, NULL, 99999999 ,1000000001, 'database'),
+('2', 'SS',  NULL, 1, NULL, NULL, NULL, 99999999 ,1000000001, 'database');
+
+
+// DIM_COUNTRY
+CREATE TABLE IF NOT EXISTS `dim_country`
+ (
+	`country_key` bigint(20) NOT NULL,
+	`account_state` varchar(255) DEFAULT NULL,
+	`country_name` bigint(20) NOT NULL,
+	`wh_load_ts_unix` bigint(20) NOT NULL,
+	`wh_source_data` varchar(255) NOT NULL,
+  PRIMARY KEY (`country_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+REPLACE INTO `dim_country` (
+`country_key`,
+`country_name`,
+`wh_etl_session_key`,
+`wh_load_ts_unix`,
+`wh_source_data`) VALUES
+(1, 'VN', 99999999 ,1000000001, 'database'),
+(2, 'Phil', 8888888888 ,22222222222, 'database');
+
+
+// DIM_CURRENCY
+CREATE TABLE IF NOT EXISTS `dim_currency`
+ (
+    `currency_key` varchar(255) NOT NULL,
+    `currency` varchar(255) DEFAULT NULL,
+    `currency_code` varchar(255) DEFAULT NULL,
+    `currency_num_code` bigint(20)  DEFAULT NULL,
+    `currency_symbol` varchar(255) DEFAULT NULL,
+	`wh_etl_session_key` bigint(20) NOT NULL,
+	`wh_load_ts_unix` bigint(20) NOT NULL,
+	`wh_source_data` varchar(255) NOT NULL,
+  PRIMARY KEY (`currency_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+REPLACE INTO `dim_currency` (
+`currency_key`,
+`currency`,
+`currency_code`,
+`currency_num_code`,
+`currency_symbol`,
+`wh_etl_session_key`
+`wh_load_ts_unix`,
+`wh_source_data`) VALUES
+('1', 'viet nam dong',  'NVD', 1, NULL, 99999999 ,1000000001, 'database'),
+('2', 'phil dong',  'ABC', 2, NULL, 99999999 ,1000000001, 'database');
+
+//DIM_DATE
+
+
+
+// DIM_EWALLET_SERVICE
+CREATE TABLE IF NOT EXISTS `dim_ewallet_service`
+ (
+	`service_key` bigint(20) NOT NULL,
+	`service_name` varchar(255) DEFAULT NULL,
+	`country_name` bigint(20) NOT NULL,
+	`wh_load_ts_unix` bigint(20) NOT NULL,
+	`wh_source_data` varchar(255) NOT NULL,
+  PRIMARY KEY (`service_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+REPLACE INTO `dim_ewallet_service` (
+`service_key`,
+`service_name`,
+`wh_etl_session_key`,
+`wh_load_ts_unix`,
+`wh_source_data`) VALUES
+(1, 'dich vu 1', 99999999 ,1000000001, 'database'),
+(2, 'dich vu 2', 8888888888 ,22222222222, 'database');
+
+
+
+// DIM_GENDER
+CREATE TABLE IF NOT EXISTS `dim_gender`
+ (
+	`gender_id` bigint(20) NOT NULL,
+	`name` varchar(255) DEFAULT NULL,
+	`country_name` bigint(20) NOT NULL,
+	`wh_load_ts_unix` bigint(20) NOT NULL,
+	`wh_source_data` varchar(255) NOT NULL,
+  PRIMARY KEY (`gender_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+REPLACE INTO `dim_gender` (
+`gender_id`,
+`name`,
+`wh_etl_session_key`,
+`wh_load_ts_unix`,
+`wh_source_data`) VALUES
+(1, 'Male', 99999999 ,1000000001, 'database'),
+(2, 'Female', 8888888888 ,22222222222, 'database');
+
+
+
+// DIM_IDENTITY_DOCUMENT_TYPE
+CREATE TABLE IF NOT EXISTS `dim_identity_document_type`
+ (
+	`document_type_key` bigint(20) NOT NULL,
+	`document_type` varchar(255) DEFAULT NULL,
+	`country_name` bigint(20) NOT NULL,
+	`wh_load_ts_unix` bigint(20) NOT NULL,
+	`wh_source_data` varchar(255) NOT NULL,
+  PRIMARY KEY (`document_type_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+REPLACE INTO `dim_identity_document_type` (
+`document_type_key`,
+`document_type`,
+`wh_etl_session_key`,
+`wh_load_ts_unix`,
+`wh_source_data`) VALUES
+(1, 'Type 1', 99999999 ,1000000001, 'database'),
+(2, 'Type 2', 8888888888 ,22222222222, 'database');
+
+
 
 --------------------------------------------------
 
