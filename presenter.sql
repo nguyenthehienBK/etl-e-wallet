@@ -21,7 +21,16 @@ CREATE TABLE IF NOT EXISTS `fact_account`
     `wh_etl_session_key` int,
     `wh_load_ts_unix` bigint,
     `wh_source_data` varchar(255)
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+REPLACE INTO `fact_account`
+VALUES(1000031501, 'C000033880', '84834481768', 1, 1, 100000.00,
+'925F584A8A004D63FD6539376E0220C9F315436E8DE0C83B259282FFBD0A145624004D85732B350278200CBFB625F31CB25B5E92111C37C6568D821AF5D63551EF36773FF1D5B364C83CFD72DBBADA26E5EA0C5DB91C9CA4A73AD76CF7EDBAAB0089684675B2F04ABFEAE4C41D49C22CDA39F76691961D1C3910074DF6CBD9F05E5BD7ADDBF62CE509208BDCDE77FE5C1224A17EC19D1537945A54DE26C24B4093DD0256763BB9F7D28849667C2851956CD52D6992AE6760AC27F858BAE0CD65B466F8E034811E5291BF4768B820EF58F19D36D043ACAC252003C1AED973DE7A',
+'925F584A8A004D63FD6539376E0220C9F315436E8DE0C83B259282FFBD0A145624004D85732B350278200CBFB625F31CB25B5E92111C37C6568D821AF5D63551EF36773FF1D5B364C83CFD72DBBADA26E5EA0C5DB91C9CA4A73AD76CF7EDBAAB0089684675B2F04ABFEAE4C41D49C22CDA39F76691961D1C3910074DF6CBD9F05E5BD7ADDBF62CE509208BDCDE77FE5C1224A17EC19D1537945A54DE26C24B4093DD0256763BB9F7D28849667C2851956CD52D6992AE6760AC27F858BAE0CD65B466F8E034811E5291BF4768B820EF58F19D36D043ACAC252003C1AED973DE7A',
+'925F584A8A004D63FD6539376E0220C9F315436E8DE0C83B259282FFBD0A145624004D85732B350278200CBFB625F31CB25B5E92111C37C6568D821AF5D63551EF36773FF1D5B364C83CFD72DBBADA26E5EA0C5DB91C9CA4A73AD76CF7EDBAAB0089684675B2F04ABFEAE4C41D49C22CDA39F76691961D1C3910074DF6CBD9F05E5BD7ADDBF62CE509208BDCDE77FE5C1224A17EC19D1537945A54DE26C24B4093DD0256763BB9F7D28849667C2851956CD52D6992AE6760AC27F858BAE0CD65B466F8E034811E5291BF4768B820EF58F19D36D043ACAC252003C1AED973DE7A',
+1, '2023-12-01 08:00:00', null, null, null, null, null, null, null, null, null, null
+);
+
 
 // FACT_TRANSACTION
 CREATE TABLE IF NOT EXISTS `fact_transaction`
@@ -67,7 +76,8 @@ CREATE TABLE IF NOT EXISTS `fact_transaction`
     `wh_etl_session_key` int,
     `wh_load_ts_unix` bigint,
     `wh_source_data` varchar(255)
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
 
 // DIM_ACCOUNT_STATE
 CREATE TABLE IF NOT EXISTS `dim_account_state`
@@ -86,10 +96,8 @@ REPLACE INTO `dim_account_state` (
 `wh_etl_session_key`,
 `wh_load_ts_unix`,
 `wh_source_data`) VALUES
-(1, 'Active', 99999999 ,1000000001, 'database'),
-(2, 'InActive', 8888888888 ,22222222222, 'database');
-
-
+(1, 'Active', 99999999, 1000000001, 'database'),
+(2, 'InActive', 8888888888, 22222222222, 'database');
 
 
 // DIM_ACCOUNT_TIER
@@ -109,8 +117,8 @@ REPLACE INTO `dim_account_tier` (
 `wh_etl_session_key`,
 `wh_load_ts_unix`,
 `wh_source_data`) VALUES
-('1', 'Silver', 99999999 ,1000000001, 'database'),
-('2', 'Gold', 8888888888 ,22222222222, 'database');
+('1', 'Silver', 99999999, 1000000001, 'database'),
+('2', 'Gold', 8888888888, 22222222222, 'database');
 
 
 // DIM_ACCOUNT_TYPE
@@ -130,8 +138,8 @@ REPLACE INTO `dim_account_type` (
 `wh_etl_session_key`,
 `wh_load_ts_unix`,
 `wh_source_data`) VALUES
-('1', 'Normal', 99999999 ,1000000001, 'database'),
-('2', 'Special', 8888888888 ,22222222222, 'database');
+('1', 'Normal', 99999999, 1000000001, 'database'),
+('2', 'Special', 8888888888, 22222222222, 'database');
 
 
 // DIM_APP_CHANNEL
@@ -151,9 +159,8 @@ REPLACE INTO `dim_app_channel` (
 `wh_etl_session_key`,
 `wh_load_ts_unix`,
 `wh_source_data`) VALUES
-('1', 'Mobile', 99999999 ,1000000001, 'database'),
-('2', 'Web', 8888888888 ,22222222222, 'database');
-
+('1', 'Mobile', 99999999, 1000000001, 'database'),
+('2', 'Web', 8888888888, 22222222222, 'database');
 
 
 // DIM_AREA
@@ -181,8 +188,8 @@ REPLACE INTO `dim_area` (
 `wh_etl_session_key`,
 `wh_load_ts_unix`,
 `wh_source_data`) VALUES
-('A01', 1,  'HaNoi', NULL, 1, 'VN', 99999999 ,1000000001, 'database'),
-('A02', 2,  'HCM', NULL, 1, 'VN', 99999999 ,1000000001, 'database');
+('A01', 1, 'HaNoi', NULL, 1, 'VN', 99999999, 1000000001, 'database'),
+('A02', 2, 'HCM', NULL, 1, 'VN', 99999999, 1000000001, 'database');
 
 
 // DIM_BANK
@@ -210,8 +217,8 @@ REPLACE INTO `dim_bank` (
 `wh_etl_session_key`,
 `wh_load_ts_unix`,
 `wh_source_data`) VALUES
-(1, 'TCB',  'Techcombank', NULL, NULL, NULL, 99999999 ,1000000001, 'database'),
-(2, 'VCB',  'Vietcombank', NULL, NULL, NULL, 99999999 ,1000000001, 'database');
+(1, 'TCB', 'Techcombank', NULL, NULL, NULL, 99999999, 1000000001, 'database'),
+(2, 'VCB', 'Vietcombank', NULL, NULL, NULL, 99999999, 1000000001, 'database');
 
 
 // DIM_BANK_ACCOUNT
@@ -241,8 +248,9 @@ REPLACE INTO `dim_bank_account` (
 `wh_etl_session_key`,
 `wh_load_ts_unix`,
 `wh_source_data`) VALUES
-(1, 1,  NULL, NULL, NULL, NULL, NULL, 99999999 ,1000000001, 'database'),
-(2, 1,  NULL, NULL, NULL, NULL, NULL, 99999999 ,1000000001, 'database');
+(1, 1,  NULL, NULL, NULL, NULL, NULL, 99999999, 1000000001, 'database'),
+(2, 1,  NULL, NULL, NULL, NULL, NULL, 99999999, 1000000001, 'database');
+
 
 // DIM_BTS_CELL
 CREATE TABLE IF NOT EXISTS `dim_bts_cell`
@@ -271,8 +279,8 @@ REPLACE INTO `dim_bts_cell` (
 `wh_etl_session_key`,
 `wh_load_ts_unix`,
 `wh_source_data`) VALUES
-('1', 'IP',  NULL, 1, NULL, NULL, NULL, 99999999 ,1000000001, 'database'),
-('2', 'SS',  NULL, 1, NULL, NULL, NULL, 99999999 ,1000000001, 'database');
+('1', 'IP',  NULL, 1, NULL, NULL, NULL, 99999999, 1000000001, 'database'),
+('2', 'SS',  NULL, 1, NULL, NULL, NULL, 99999999, 1000000001, 'database');
 
 
 // DIM_COUNTRY
@@ -292,8 +300,8 @@ REPLACE INTO `dim_country` (
 `wh_etl_session_key`,
 `wh_load_ts_unix`,
 `wh_source_data`) VALUES
-(1, 'VN', 99999999 ,1000000001, 'database'),
-(2, 'Phil', 8888888888 ,22222222222, 'database');
+(1, 'VN', 99999999, 1000000001, 'database'),
+(2, 'Phil', 8888888888, 22222222222, 'database');
 
 
 // DIM_CURRENCY
@@ -319,11 +327,11 @@ REPLACE INTO `dim_currency` (
 `wh_etl_session_key`
 `wh_load_ts_unix`,
 `wh_source_data`) VALUES
-('1', 'viet nam dong',  'NVD', 1, NULL, 99999999 ,1000000001, 'database'),
-('2', 'phil dong',  'ABC', 2, NULL, 99999999 ,1000000001, 'database');
+('1', 'viet nam dong', 'NVD', 1, NULL, 99999999, 1000000001, 'database'),
+('2', 'phil dong', 'ABC', 2, NULL, 99999999, 1000000001, 'database');
+
 
 //DIM_DATE
-
 
 
 // DIM_EWALLET_SERVICE
@@ -343,9 +351,8 @@ REPLACE INTO `dim_ewallet_service` (
 `wh_etl_session_key`,
 `wh_load_ts_unix`,
 `wh_source_data`) VALUES
-(1, 'dich vu 1', 99999999 ,1000000001, 'database'),
-(2, 'dich vu 2', 8888888888 ,22222222222, 'database');
-
+(1, 'dich vu 1', 99999999, 1000000001, 'database'),
+(2, 'dich vu 2', 8888888888, 22222222222, 'database');
 
 
 // DIM_GENDER
@@ -365,9 +372,8 @@ REPLACE INTO `dim_gender` (
 `wh_etl_session_key`,
 `wh_load_ts_unix`,
 `wh_source_data`) VALUES
-(1, 'Male', 99999999 ,1000000001, 'database'),
-(2, 'Female', 8888888888 ,22222222222, 'database');
-
+(1, 'Male', 99999999, 1000000001, 'database'),
+(2, 'Female', 8888888888, 22222222222, 'database');
 
 
 // DIM_IDENTITY_DOCUMENT_TYPE
@@ -387,17 +393,15 @@ REPLACE INTO `dim_identity_document_type` (
 `wh_etl_session_key`,
 `wh_load_ts_unix`,
 `wh_source_data`) VALUES
-(1, 'Type 1', 99999999 ,1000000001, 'database'),
-(2, 'Type 2', 8888888888 ,22222222222, 'database');
+(1, 'Type 1', 99999999, 1000000001, 'database'),
+(2, 'Type 2', 8888888888, 22222222222, 'database');
 
 
-
---------------------------------------------------
-
+// DIM_KPI_CRITERIA_CODE
 CREATE TABLE IF NOT EXISTS `dim_kpi_criteria_code`
 (
 `KPI_CRITERIA_KEY` varchar(255) NOT NULL,
-`ESCRIPTION` varchar(255),
+`DESCRIPTION` varchar(255),
 `PARENT_CODE` varchar(255),
 `LEVEL` bigint(20),
 `NAME` varchar(255),
@@ -409,11 +413,10 @@ CREATE TABLE IF NOT EXISTS `dim_kpi_criteria_code`
 PRIMARY KEY (`KPI_CRITERIA_KEY`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
-
 REPLACE INTO `dim_kpi_criteria_code` (
-	`KPI_CRITERIA_KEY` ,
-	`wh_etl_session_key` ,
-	`wh_load_ts_unix` ,
+	`KPI_CRITERIA_KEY`, 
+	`wh_etl_session_key`, 
+	`wh_load_ts_unix`, 
 	`wh_source_data`
 ) VALUES
 ('111111111', 156467215, 23215413234, "source_1"),
@@ -424,9 +427,7 @@ REPLACE INTO `dim_kpi_criteria_code` (
 ('666666666', 242342342, 12544657978, "source_2")
 
 
-
---------------------------------------------------
-
+// DIM_ORG_TYPE
 CREATE TABLE IF NOT EXISTS `dim_org_type`
 (
 `ORG_TYPE_KEY` bigint(20) NOT NULL,
@@ -437,11 +438,10 @@ CREATE TABLE IF NOT EXISTS `dim_org_type`
 PRIMARY KEY (`ORG_TYPE_KEY`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
-
 REPLACE INTO `dim_org_type` (
-	`ORG_TYPE_KEY` ,
-	`wh_etl_session_key` ,
-	`wh_load_ts_unix` ,
+	`ORG_TYPE_KEY`, 
+	`wh_etl_session_key`, 
+	`wh_load_ts_unix`, 
 	`wh_source_data`
 ) VALUES
 (111, 156467215, 23215413234, "source_1"),
@@ -449,8 +449,7 @@ REPLACE INTO `dim_org_type` (
 (333, 678643564, 14535345345, "source_3");
 
 
----------------------------------------------------
-
+// DIM_REASON
 CREATE TABLE IF NOT EXISTS `dim_reason`
 (
 `REASON_KEY` bigint(20) NOT NULL,
@@ -462,11 +461,10 @@ CREATE TABLE IF NOT EXISTS `dim_reason`
 PRIMARY KEY (`REASON_KEY`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
-
 REPLACE INTO `dim_reason` (
-	`REASON_KEY` ,
-	`wh_etl_session_key` ,
-	`wh_load_ts_unix` ,
+	`REASON_KEY`, 
+	`wh_etl_session_key`, 
+	`wh_load_ts_unix`, 
 	`wh_source_data`
 ) VALUES
 (123, 156467215, 23215413234, "source_1"),
@@ -474,9 +472,7 @@ REPLACE INTO `dim_reason` (
 (789, 678643564, 14535345345, "source_3")
 
 
-
----------------------------------------------------
-
+// DIM_REASON_GROUP
 CREATE TABLE IF NOT EXISTS `dim_reason_group`
 (
 `REASON_GROUP_KEY` bigint(20) NOT NULL,
@@ -487,21 +483,19 @@ CREATE TABLE IF NOT EXISTS `dim_reason_group`
 PRIMARY KEY (`REASON_GROUP_KEY`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
-
 REPLACE INTO `dim_reason_group` (
-	`REASON_GROUP_KEY` ,
-	`REASON_GROUP` ,
-	`wh_etl_session_key` ,
-	`wh_load_ts_unix` ,
+	`REASON_GROUP_KEY`, 
+	`REASON_GROUP`, 
+	`wh_etl_session_key`, 
+	`wh_load_ts_unix`, 
 	`wh_source_data`
 ) VALUES
-(1, 'group_1' , 156467215, 23215413234, "source_1"),
-(2, 'group_2' , 123124354, 12312312333, "source_2"),
-(3, 'group_3' , 678643564, 14535345345, "source_3")
+(1, 'group_1',  156467215, 23215413234, "source_1"),
+(2, 'group_2',  123124354, 12312312333, "source_2"),
+(3, 'group_3',  678643564, 14535345345, "source_3")
 
 
------------------------------------------------------
-
+// DIM_STRANGE_BEHAVIOUR
 CREATE TABLE IF NOT EXISTS `dim_strange_behaviour`
 (
 `BEHAVIOUR_KEY` bigint(20) NOT NULL,
@@ -513,24 +507,19 @@ CREATE TABLE IF NOT EXISTS `dim_strange_behaviour`
 PRIMARY KEY (`BEHAVIOUR_KEY`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
-
-
 REPLACE INTO `dim_strange_behaviour` (
-	`BEHAVIOUR_KEY` ,
-	`DESCRIPTION` ,
-	`wh_etl_session_key` ,
-	`wh_load_ts_unix` ,
+	`BEHAVIOUR_KEY`, 
+	`DESCRIPTION`, 
+	`wh_etl_session_key`, 
+	`wh_load_ts_unix`, 
 	`wh_source_data`
 ) VALUES
-(1111, 'des_1' , 156467215, 23215413234, "source_1"),
-(2222, 'des_2' , 123124354, 12312312333, "source_2"),
-(3333, 'des_3' , 678643564, 14535345345, "source_3")
+(1111, 'des_1',  156467215, 23215413234, "source_1"),
+(2222, 'des_2',  123124354, 12312312333, "source_2"),
+(3333, 'des_3',  678643564, 14535345345, "source_3")
 
 
-
-------------------------------------------------------
-
-
+// DIM_SUBSCRIBER_TYPE
 CREATE TABLE IF NOT EXISTS `dim_subscriber_type`
 (
 `SUBSCRIBER_KEY` bigint(20) NOT NULL,
@@ -541,23 +530,19 @@ CREATE TABLE IF NOT EXISTS `dim_subscriber_type`
 PRIMARY KEY (`SUBSCRIBER_KEY`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
-
-
 REPLACE INTO `dim_subscriber_type` (
-	`SUBSCRIBER_KEY` ,
-	`SUBSCRIBER` ,
-	`wh_etl_session_key` ,
-	`wh_load_ts_unix` ,
+	`SUBSCRIBER_KEY`, 
+	`SUBSCRIBER`, 
+	`wh_etl_session_key`, 
+	`wh_load_ts_unix`, 
 	`wh_source_data`
 ) VALUES
-(1111, 'sub_1' , 156467215, 23215413234, "source_1"),
-(2222, 'sub_2' , 123124354, 12312312333, "source_2"),
-(3333, 'sub_3' , 678643564, 14535345345, "source_3");
+(1111, 'sub_1',  156467215, 23215413234, "source_1"),
+(2222, 'sub_2',  123124354, 12312312333, "source_2"),
+(3333, 'sub_3',  678643564, 14535345345, "source_3");
 
 
-
--------------------------------------------------------
-
+// DIM_TELECOM_COM
 CREATE TABLE IF NOT EXISTS `dim_telecom_com`
 (
 `COMPANY_KEY` bigint(20) NOT NULL,
@@ -568,22 +553,19 @@ CREATE TABLE IF NOT EXISTS `dim_telecom_com`
 PRIMARY KEY (`COMPANY_KEY`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
-
 REPLACE INTO `dim_telecom_com` (
-	`COMPANY_KEY` ,
-	`NAME` ,
-	`wh_etl_session_key` ,
-	`wh_load_ts_unix` ,
+	`COMPANY_KEY`, 
+	`NAME`, 
+	`wh_etl_session_key`, 
+	`wh_load_ts_unix`, 
 	`wh_source_data`
 ) VALUES
-(1, 'company_a' , 156467215, 23215413234, "source_1"),
-(2, 'company_b' , 123124354, 12312312333, "source_2"),
-(3, 'company_c' , 678643564, 14535345345, "source_3");
+(1, 'company_a',  156467215, 23215413234, "source_1"),
+(2, 'company_b',  123124354, 12312312333, "source_2"),
+(3, 'company_c',  678643564, 14535345345, "source_3");
 
 
--------------------------------------------------------
-
-
+// DIM_TELECOM_SERVICE_TYPE
 CREATE TABLE IF NOT EXISTS `dim_telecom_service_type`
 (
 `SERVICE_TYPE_KEY` bigint(20) NOT NULL,
@@ -594,11 +576,10 @@ CREATE TABLE IF NOT EXISTS `dim_telecom_service_type`
 PRIMARY KEY (`SERVICE_TYPE_KEY`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
-
 REPLACE INTO `dim_telecom_service_type` (
-	`SERVICE_TYPE_KEY` ,
-	`wh_etl_session_key` ,
-	`wh_load_ts_unix` ,
+	`SERVICE_TYPE_KEY`, 
+	`wh_etl_session_key`, 
+	`wh_load_ts_unix`, 
 	`wh_source_data`
 ) VALUES
 (1111, 156467215, 23215413234, "source_1"),
@@ -606,9 +587,7 @@ REPLACE INTO `dim_telecom_service_type` (
 (3333, 678643564, 14535345345, "source_3");
 
 
--------------------------------------------------------
-
-
+// DIM_TRANSACTION_STATE
 CREATE TABLE IF NOT EXISTS `dim_transaction_state`
 (
 `TRANSACTION_STATE_ID` bigint(20) NOT NULL,
@@ -619,11 +598,10 @@ CREATE TABLE IF NOT EXISTS `dim_transaction_state`
 PRIMARY KEY (`TRANSACTION_STATE_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
-
 REPLACE INTO `dim_transaction_state` (
-	`TRANSACTION_STATE_ID` ,
-	`wh_etl_session_key` ,
-	`wh_load_ts_unix` ,
+	`TRANSACTION_STATE_ID`, 
+	`wh_etl_session_key`, 
+	`wh_load_ts_unix`, 
 	`wh_source_data`
 ) VALUES
 (11111, 156467215, 23215413234, "source_1"),
@@ -631,9 +609,7 @@ REPLACE INTO `dim_transaction_state` (
 (33333, 678643564, 14535345345, "source_3");
 
 
--------------------------------------------------------
-
-
+// DIM_TRANSACTION_TYPE
 CREATE TABLE IF NOT EXISTS `dim_transaction_type`
 (
 `TRANSACTION_TYPE_KEY` bigint(20) NOT NULL,
@@ -646,20 +622,18 @@ PRIMARY KEY (`TRANSACTION_TYPE_KEY`)
 
 
 REPLACE INTO `dim_transaction_type` (
-	`TRANSACTION_TYPE_KEY` ,
-	`NAME` ,
-	`wh_etl_session_key` ,
-	`wh_load_ts_unix` ,
+	`TRANSACTION_TYPE_KEY`, 
+	`NAME`, 
+	`wh_etl_session_key`, 
+	`wh_load_ts_unix`, 
 	`wh_source_data`
 ) VALUES
-(11111, 'transaction_a' , 156467215, 23215413234, "source_1"),
-(22222, 'transaction_b' , 123124354, 12312312333, "source_2"),
-(33333, 'transaction_c' , 678643564, 14535345345, "source_3");
+(11111, 'transaction_a',  156467215, 23215413234, "source_1"),
+(22222, 'transaction_b',  123124354, 12312312333, "source_2"),
+(33333, 'transaction_c',  678643564, 14535345345, "source_3");
 
 
--------------------------------------------------------
-
-
+// DIM_USER
 CREATE TABLE IF NOT EXISTS `dim_user`
 (
 `SURROGATE_KEY` bigint(20) NOT NULL,
@@ -690,33 +664,30 @@ CREATE TABLE IF NOT EXISTS `dim_user`
 PRIMARY KEY (`SURROGATE_KEY`, `USER_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
-
 REPLACE INTO `dim_user` (
-	`SURROGATE_KEY` ,
-	`USER_ID` ,
+	`SURROGATE_KEY`, 
+	`USER_ID`, 
 	`TEL_COM_ID`,
-	`CREATED_DATE` ,
-	`MODIFIED_DATE` ,
+	`CREATED_DATE`, 
+	`MODIFIED_DATE`, 
 	`AREA_CODE`,
-	`CELL_ID` ,
-	`BIRTHDAY` ,
-	`GENDER` ,
-	`wh_etl_session_key` ,
-	`wh_load_ts_unix` ,
+	`CELL_ID`, 
+	`BIRTHDAY`, 
+	`GENDER`, 
+	`wh_etl_session_key`, 
+	`wh_load_ts_unix`, 
 	`wh_source_data`
 ) VALUES
-(11111, 1 , 12312 , '2023-11-01' , '2023-11-01' , 29, '123' , '2000-01-01' , 1, 156467215, 23215413234, "source_1"),
-(22222, 2 , 21312 , '2023-11-01' , '2023-11-01' , 39, '111' , '1999-01-01' , 0, 123124354, 12312312333, "source_2"),
-(33333, 3 , 12312 , '2023-11-01' , '2023-11-01' , 21, '232' , '1998-01-01' , 1, 618643564, 14535345345, "source_3");
+(11111, 1,  12312, '2023-11-01', '2023-11-01',  29, '123', '2000-01-01',  1, 156467215, 23215413234, "source_1"),
+(22222, 2,  21312, '2023-11-01', '2023-11-01',  39, '111', '1999-01-01',  0, 123124354, 12312312333, "source_2"),
+(33333, 3,  12312, '2023-11-01', '2023-11-01',  21, '232', '1998-01-01',  1, 618643564, 14535345345, "source_3");
 
 
--------------------------------------------------------
-
-
+// DIM_USER_ROLE
 CREATE TABLE IF NOT EXISTS `dim_user_role`
 (
 `USER_ROLE_ID` bigint(20) NOT NULL,
-`ROLE_NAME` varchar(255) ,
+`ROLE_NAME` varchar(255), 
 `USER_ROLE_GROUP_ID` bigint(20) NOT NULL,
 `wh_etl_session_key` bigint(20) NOT NULL,
 `wh_load_ts_unix` bigint(20) NOT NULL,
@@ -724,40 +695,36 @@ CREATE TABLE IF NOT EXISTS `dim_user_role`
 PRIMARY KEY (`USER_ROLE_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
-
 REPLACE INTO `dim_user_role` (
-	`USER_ROLE_ID` ,
-	`USER_ROLE_GROUP_ID` ,
-	`wh_etl_session_key` ,
-	`wh_load_ts_unix` ,
+	`USER_ROLE_ID`, 
+	`USER_ROLE_GROUP_ID`, 
+	`wh_etl_session_key`, 
+	`wh_load_ts_unix`, 
 	`wh_source_data`
 ) VALUES
-(11111, 123 , 156467215, 23215413234, "source_1"),
-(22222, 232 , 123124354, 12312312333, "source_2"),
-(33333, 231 , 678643564, 14535345345, "source_3");
+(11111, 123,  156467215, 23215413234, "source_1"),
+(22222, 232,  123124354, 12312312333, "source_2"),
+(33333, 231,  678643564, 14535345345, "source_3");
 
 
--------------------------------------------------------
-
-
+// DIM_USER_ROLE_GROUP
 CREATE TABLE IF NOT EXISTS `dim_user_role_group`
 (
 `USER_ROLE_GROUP_KEY` bigint(20) NOT NULL,
-`GROUP_NAME` varchar(255) ,
+`GROUP_NAME` varchar(255), 
 `wh_etl_session_key` bigint(20) NOT NULL,
 `wh_load_ts_unix` bigint(20) NOT NULL,
 `wh_source_data` varchar(255) NOT NULL,
 PRIMARY KEY (`USER_ROLE_GROUP_KEY`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
-
 REPLACE INTO `dim_user_role_group` (
-	`USER_ROLE_GROUP_KEY` ,
-	`GROUP_NAME` ,
-	`wh_etl_session_key` ,
-	`wh_load_ts_unix` ,
+	`USER_ROLE_GROUP_KEY`, 
+	`GROUP_NAME`, 
+	`wh_etl_session_key`, 
+	`wh_load_ts_unix`, 
 	`wh_source_data`
 ) VALUES
-(11111, 'group 1' , 156467215, 23215413234, "source_1"),
-(22222, null , 123124354, 12312312333, "source_2"),
-(33333, 'group_2' , 678643564, 14535345345, "source_3");
+(11111, 'group 1',  156467215, 23215413234, "source_1"),
+(22222, null,  123124354, 12312312333, "source_2"),
+(33333, 'group_2',  678643564, 14535345345, "source_3");
