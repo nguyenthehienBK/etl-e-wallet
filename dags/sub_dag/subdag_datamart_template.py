@@ -13,15 +13,43 @@ def sub_load_datamart(parent_dag_name, child_dag_name, args, **kwargs):
     )
     datamart_name = kwargs.get("datamart_name")
     ls_dim_tbl = [
-        "dim_account",
-        "dim_profile"
+        'dim_account_state'
+        , 'dim_account_tier'
+        , 'dim_account_type'
+        , 'dim_app_channel'
+        , 'dim_area'
+        , 'dim_bank'
+        , 'dim_bank_account'
+        , 'dim_bts_cell'
+        , 'dim_country'
+        , 'dim_currency'
+        , 'dim_date'
+        , 'dim_ewallet_service'
+        , 'dim_gender'
+        , 'dim_identity_document_typ'
+        , 'dim_kpi_criteria_code'
+        , 'dim_org_type'
+        , 'dim_partner'
+        , 'dim_reason'
+        , 'dim_reason_group'
+        , 'dim_strange_behaviour'
+        , 'dim_subscriber_type'
+        , 'dim_telecom_com'
+        , 'dim_telecom_service_type'
+        , 'dim_transaction_state'
+        , 'dim_transaction_type'
+        , 'dim_user'
+        , 'dim_user_role'
+        , 'dim_user_role_group'
+        , 'fact_account'
+        , 'fact_transaction'
     ]
-
+    # sql = f"sql/datamart/{datamart_name}/load_{table}_datamart.sql",
     for table in ls_dim_tbl:
         load_table_datamart = IcebergOperator(
             task_id=f"load_{table}_to_datamart",
             execution_timeout=timedelta(hours=2),
-            sql=f"sql/datamart/{datamart_name}/load_{table}_datamart.sql",
+            sql=f"SELECT * FROM {datamart_name}.{table}",
             hive_server2_conn_id="hiveserver2_default_1",
             dag=dag_subdag,
             iceberg_db=f"iceberg.{datamart_name}",
