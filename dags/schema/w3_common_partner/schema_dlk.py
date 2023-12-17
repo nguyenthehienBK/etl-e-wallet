@@ -9,6 +9,7 @@ from utils.type.data_type import (
     ,RAW_TYPE_INT64
     ,RAW_TYPE_INT
     ,RAW_TYPE_STR
+    ,RAW_TYPE_BOOL
 )
 
 
@@ -154,7 +155,7 @@ class DLKPartnerServices(DaoDim, BaseModel):
             "external_service_code": RAW_TYPE_STR,
             "fspid": RAW_TYPE_STR,
             "status": RAW_TYPE_STR,
-            "flag_intermediary": "BOOL",
+            "flag_intermediary": RAW_TYPE_BOOL,
             "priority_partner_id": RAW_TYPE_INT64,
             "sub_partner_service_id": RAW_TYPE_INT64,
             "partner_wallet_id": RAW_TYPE_INT64,

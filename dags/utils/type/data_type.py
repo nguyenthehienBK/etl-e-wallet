@@ -2,6 +2,7 @@ RAW_TYPE_STR = 'str'
 RAW_TYPE_INT = 'int'
 RAW_TYPE_INT64 = 'int64'
 RAW_TYPE_DATETIME = 'datetime64[ns]'
+RAW_TYPE_BOOL = 'bool'
 
 LAKEHOUSE_TYPE_STR = 'string'
 LAKEHOUSE_TYPE_INT = 'int'
