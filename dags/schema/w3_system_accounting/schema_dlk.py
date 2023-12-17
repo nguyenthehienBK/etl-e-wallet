@@ -184,24 +184,31 @@ class DLKWalletMaster(DaoDim, BaseModel):
         super().__init__(table_name)
         self.SCHEMA = [
             {"name": "wallet_id", "mode": "NULLABLE", "type": "bigint"},
+            {"name": "pan", "mode": "NULLABLE", "type": "string"},            
             {"name": "wallet_state_id", "mode": "NULLABLE", "type": "int"},
             {"name": "wallet_type_id", "mode": "NULLABLE", "type": "int"},
             {"name": "name", "mode": "NULLABLE", "type": "string"},
             {"name": "code", "mode": "NULLABLE", "type": "string"},
             {"name": "currency_code", "mode": "NULLABLE", "type": "string"},
+            {"name": "parent_wallet_id", "mode": "NULLABLE", "type": "bigint"},
             {"name": "modified_date", "mode": "NULLABLE", "type": "timestamp"},
             {"name": "created_date", "mode": "NULLABLE", "type": "timestamp"},
+            {"name": "business_wallet_type", "mode": "NULLABLE", "type": "int"},
+            {"name": "client_id", "mode": "NULLABLE", "type": "string"},
         ]
         self.SCHEMA_RAW = {
             'wallet_id': RAW_TYPE_INT64,
+            'pan': RAW_TYPE_STR,
             'wallet_state_id': RAW_TYPE_INT64,
             'wallet_type_id': RAW_TYPE_INT64,
             'name': RAW_TYPE_STR,
             'code': RAW_TYPE_STR,
             'currency_code': RAW_TYPE_STR,
+            'parent_wallet_id': RAW_TYPE_INT64,
             'modified_date': RAW_TYPE_DATETIME,
             'created_date': RAW_TYPE_DATETIME,
-
+            'business_wallet_type': RAW_TYPE_INT,
+            'client_id': RAW_TYPE_STR
         }
 
         # self.COLUMNS_SCHEMA = self.DEFAULT_COLUMNS + self.SCHEMA
