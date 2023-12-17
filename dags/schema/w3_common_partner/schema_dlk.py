@@ -181,6 +181,7 @@ class DLKPartnerServices(DaoDim, BaseModel):
             "ORDER_BY": "id",
             "JOIN": ""
         }
+        self.WRAP_CHAR = ''
 
 _ALL = "all"
 """ ALL table name in database """
