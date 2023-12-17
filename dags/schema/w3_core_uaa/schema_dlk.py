@@ -4,7 +4,12 @@ Define table schema for staging and warehouse
 from schema.common.dao_dim import DaoDim
 from schema.common.model import BaseModel, FACT_TABLE_TYPE, DIM_TABLE_TYPE
 from utils.lakehouse.table_utils import get_content_from_sql_path
-from utils.type.data_type import *
+from utils.type.data_type import (
+    RAW_TYPE_DATETIME
+    ,RAW_TYPE_INT64
+    ,RAW_TYPE_INT
+    ,RAW_TYPE_STR
+)
 
 
 class DLKUserWallets(DaoDim, BaseModel):
