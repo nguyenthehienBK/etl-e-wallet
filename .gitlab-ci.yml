@@ -15,4 +15,4 @@ deploy_dev:
     - echo "Deploy to etl-dev server"
     - pwd
     - whoami
-    - rsync -ah --stats * /opt/on-vds-dmp-etl --delete
+    - rsync -ah --stats * /home/onenet/on-vds-dmp-etl --delete
