@@ -10,9 +10,9 @@ deploy_dev:
   only:
     - develop
   tags:
-    - etl
+    - etl-dev
   script:
-    - echo "Deploy to dev server"
+    - echo "Deploy to etl-dev server"
     - pwd
     - whoami
-    - rsync -ah --stats * /home/itadmin/on-vds-dmp-etl --delete
+    - rsync -ah --stats * /opt/on-vds-dmp-etl --delete
