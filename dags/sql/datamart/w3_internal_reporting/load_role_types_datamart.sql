@@ -14,4 +14,4 @@ SELECT
     ,deleted_by
     ,is_partner
     ,is_default
-FROM w3_common_mdm_datawarehouse.role_types
+FROM w3_core_mdm_datawarehouse.role_types

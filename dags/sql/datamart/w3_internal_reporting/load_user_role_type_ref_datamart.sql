@@ -3,10 +3,10 @@ SELECT
     ,user_id
     ,role_type_id
     ,tier_id
-    ,status
+    ,`status`
     ,phone_number_otp
     ,pin
-    ,password
+    ,`password`
     ,count_invalid_otp
     ,count_invalid_pin
     ,created_at

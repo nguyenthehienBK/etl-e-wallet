@@ -8,4 +8,4 @@ SELECT
     ,updated_by
     ,deleted_at
     ,deleted_by
-FROM w3_core_uaa_datawarehouse.users_walletets
+FROM w3_core_uaa_datawarehouse.users_wallets

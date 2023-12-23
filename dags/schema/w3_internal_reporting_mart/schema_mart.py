@@ -291,18 +291,18 @@ class MartPartnerServices(DaoDim, BaseModel):
     def __init__(self, table_name):
         super().__init__(table_name)
         self.SCHEMA =[
-            {"name": "id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "partner_id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "service_id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "priority_partner_id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "sub_partner_service_id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "partner_wallet_id", "mode": "NULLABLE", "type": "bigint"},
+            {"name": "id", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "partner_id", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "service_id", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "priority_partner_id", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "sub_partner_service_id", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "partner_wallet_id", "mode": "NULLABLE", "type": "bigint(20)"},
         ]
         
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "id", "type": "bigint"}
+            {"name": "id", "type": "bigint(20)"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
@@ -320,21 +320,21 @@ class MartPartnerInfos(DaoDim, BaseModel):
     def __init__(self, table_name):
         super().__init__(table_name)
         self.SCHEMA = [
-            {"name": "id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "partner_code", "mode": "NULLABLE", "type": "string"},
-            {"name": "partner_name", "mode": "NULLABLE", "type": "string"},
-            {"name": "role_type_code", "mode": "NULLABLE", "type": "string"},
-            {"name": "is_intermediary", "mode": "NULLABLE", "type": "bit"},
-            {"name": "tax_code", "mode": "NULLABLE", "type": "string"},
-            {"name": "business_license", "mode": "NULLABLE", "type": "string"},
-            {"name": "status", "mode": "NULLABLE", "type": "string"},
-            {"name": "description", "mode": "NULLABLE", "type": "string"},
+            {"name": "id", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "partner_code", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "partner_name", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "role_type_code", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "is_intermediary", "mode": "NULLABLE", "type": "bit(1)"},
+            {"name": "tax_code", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "business_license", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "status", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "description", "mode": "NULLABLE","type": "varchar(255)"},
         ]
         
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "id", "type": "bigint"}
+            {"name": "id", "type": "bigint(20)"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
@@ -350,27 +350,27 @@ class MartRoleTypes(DaoDim, BaseModel):
     def __init__(self, table_name):
         super().__init__(table_name)
         self.SCHEMA = [
-            {"name": "id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "description", "mode": "NULLABLE", "type": "string"},
-            {"name": "parent_id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "role_type_code", "mode": "NULLABLE", "type": "string"},
-            {"name": "role_type_name", "mode": "NULLABLE", "type": "string"},
-            {"name": "status", "mode": "NULLABLE", "type": "string"},
-            {"name": "system_id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "created_at", "mode": "NULLABLE", "type": "timestamp"},
-            {"name": "created_by", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "updated_at", "mode": "NULLABLE", "type": "timestamp"},
-            {"name": "updated_by", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "deleted_at", "mode": "NULLABLE", "type": "timestamp"},
-            {"name": "deleted_by", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "is_partner", "mode": "NULLABLE", "type": "bool"},
-            {"name": "is_default", "mode": "NULLABLE", "type": "bool"},
+            {"name": "id", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "description", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "parent_id", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "role_type_code", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "role_type_name", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "status", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "system_id", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "created_at", "mode": "NULLABLE", "type": "datetime"},
+            {"name": "created_by", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "updated_at", "mode": "NULLABLE", "type": "datetime"},
+            {"name": "updated_by", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "deleted_at", "mode": "NULLABLE", "type": "datetime"},
+            {"name": "deleted_by", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "is_partner", "mode": "NULLABLE", "type": "bit(1)"},
+            {"name": "is_default", "mode": "NULLABLE", "type": "bit(1)"},
         ]
 
         self.COLUMNS_SCHEMA = self.SCHEMA
         self.IS_WRITE_TRUNCATE = True
         self.KEY_COLUMNS = [
-            {"name": "id", "type": "bigint"}
+            {"name": "id", "type": "bigint(20)"}
         ]
         self.TIME_PARTITIONING = None
         self.MIGRATION_TYPE = 'SQL_ID'
