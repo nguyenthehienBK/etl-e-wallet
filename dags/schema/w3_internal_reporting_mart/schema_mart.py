@@ -346,6 +346,158 @@ class MartPartnerInfos(DaoDim, BaseModel):
             "JOIN": ""
         }
 
+class MartRoleTypes(DaoDim, BaseModel):
+    def __init__(self, table_name):
+        super().__init__(table_name)
+        self.SCHEMA = [
+            {"name": "id", "mode": "NULLABLE", "type": "bigint"},
+            {"name": "description", "mode": "NULLABLE", "type": "string"},
+            {"name": "parent_id", "mode": "NULLABLE", "type": "bigint"},
+            {"name": "role_type_code", "mode": "NULLABLE", "type": "string"},
+            {"name": "role_type_name", "mode": "NULLABLE", "type": "string"},
+            {"name": "status", "mode": "NULLABLE", "type": "string"},
+            {"name": "system_id", "mode": "NULLABLE", "type": "bigint"},
+            {"name": "created_at", "mode": "NULLABLE", "type": "timestamp"},
+            {"name": "created_by", "mode": "NULLABLE", "type": "bigint"},
+            {"name": "updated_at", "mode": "NULLABLE", "type": "timestamp"},
+            {"name": "updated_by", "mode": "NULLABLE", "type": "bigint"},
+            {"name": "deleted_at", "mode": "NULLABLE", "type": "timestamp"},
+            {"name": "deleted_by", "mode": "NULLABLE", "type": "bigint"},
+            {"name": "is_partner", "mode": "NULLABLE", "type": "bool"},
+            {"name": "is_default", "mode": "NULLABLE", "type": "bool"},
+        ]
+
+        self.COLUMNS_SCHEMA = self.SCHEMA
+        self.IS_WRITE_TRUNCATE = True
+        self.KEY_COLUMNS = [
+            {"name": "id", "type": "bigint"}
+        ]
+        self.TIME_PARTITIONING = None
+        self.MIGRATION_TYPE = 'SQL_ID'
+        self.TABLE_TYPE = DIM_TABLE_TYPE
+        self.EXTRACT = {
+            "TIMESTAMP": "",
+            "TIMESTAMP_KEY": "",
+            "ORDER_BY": "id",
+            "JOIN": ""
+        }
+
+class MartUserRoleTypeRef(DaoDim, BaseModel):
+    def __init__(self, table_name):
+        super().__init__(table_name)
+        self.SCHEMA = [
+            {"name": "id", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "user_id", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "role_type_id", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "tier_id", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "status", "mode": "NULLABLE", "type": "varchar(10)"},
+            {"name": "phone_number_otp", "mode": "NULLABLE", "type": "varchar(20)"},
+            {"name": "pin", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "password", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "count_invalid_otp", "mode": "NULLABLE", "type": "int(11)"},
+            {"name": "count_invalid_pin", "mode": "NULLABLE", "type": "int(11)"},
+            {"name": "created_at", "mode": "NULLABLE", "type": "datetime"},
+            {"name": "created_by", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "updated_at", "mode": "NULLABLE", "type": "datetime"},
+            {"name": "updated_by", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "deleted_at", "mode": "NULLABLE", "type": "datetime"},
+            {"name": "deleted_by", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "client_id", "mode": "NULLABLE", "type": "varchar(100)"},
+            {"name": "last_ip_address", "mode": "NULLABLE", "type": "varchar(100)"},
+            {"name": "count_invalid_pw", "mode": "NULLABLE", "type": "int(11)"},
+            {"name": "last_login_device_id", "mode": "NULLABLE", "type": "bigint(20)"},
+        ]
+        
+        self.COLUMNS_SCHEMA = self.SCHEMA
+        self.IS_WRITE_TRUNCATE = True
+        self.KEY_COLUMNS = [
+            {"name": "id", "type": "bigint(20)"}
+        ]
+        self.TIME_PARTITIONING = None
+        self.MIGRATION_TYPE = 'SQL_ID'
+        self.TABLE_TYPE = DIM_TABLE_TYPE
+        self.EXTRACT = {
+            "TIMESTAMP": "",
+            "TIMESTAMP_KEY": "",
+            "ORDER_BY": "id",
+            "JOIN": ""
+        }
+        self.WRAP_CHAR = ''
+
+class MartUsers(DaoDim, BaseModel):
+    def __init__(self, table_name):
+        super().__init__(table_name)
+        self.SCHEMA = [
+            {"name": "id", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "first_name", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "last_name", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "username", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "email", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "phone_number", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "birthday", "mode": "NULLABLE", "type": "date"},
+            {"name": "country", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "image_url", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "status", "mode": "NULLABLE", "type": "varchar(10)"},
+            {"name": "lang", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "sex", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "time_zone", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "reset_date", "mode": "NULLABLE", "type": "datetime"},
+            {"name": "reset_key", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "activation_key", "mode": "NULLABLE", "type": "varchar(255)"},
+            {"name": "created_at", "mode": "NULLABLE", "type": "datetime"},
+            {"name": "created_by", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "updated_at", "mode": "NULLABLE", "type": "datetime"},
+            {"name": "updated_by", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "deleted_at", "mode": "NULLABLE", "type": "datetime"},
+            {"name": "deleted_by", "mode": "NULLABLE", "type": "bigint(20)"}
+        ]
+        
+        self.COLUMNS_SCHEMA = self.SCHEMA
+        self.IS_WRITE_TRUNCATE = True
+        self.KEY_COLUMNS = [
+            {"name": "id", "type": "bigint(20)"}
+        ]
+        self.TIME_PARTITIONING = None
+        self.MIGRATION_TYPE = 'SQL_ID'
+        self.TABLE_TYPE = DIM_TABLE_TYPE
+        self.EXTRACT = {
+            "TIMESTAMP": "",
+            "TIMESTAMP_KEY": "",
+            "ORDER_BY": "id",
+            "JOIN": ""
+        }
+        self.WRAP_CHAR = ''
+
+class MartUserWallets(DaoDim, BaseModel):
+    def __init__(self, table_name):
+        super().__init__(table_name)
+        self.SCHEMA = [
+            {"name": "id", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "role_type_ref_id", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "wallet_id", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "created_at", "mode": "NULLABLE", "type": "datetime"},
+            {"name": "created_by", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "updated_at", "mode": "NULLABLE", "type": "datetime"},
+            {"name": "updated_by", "mode": "NULLABLE", "type": "bigint(20)"},
+            {"name": "deleted_at", "mode": "NULLABLE", "type": "datetime"},
+            {"name": "deleted_by", "mode": "NULLABLE", "type": "bigint(20)"},
+        ]
+        
+        self.COLUMNS_SCHEMA = self.SCHEMA
+        self.IS_WRITE_TRUNCATE = True
+        self.KEY_COLUMNS = [
+            {"name": "id", "type": "bigint(20)"}
+        ]
+        self.TIME_PARTITIONING = None
+        self.MIGRATION_TYPE = 'SQL_ID'
+        self.TABLE_TYPE = DIM_TABLE_TYPE
+        self.EXTRACT = {
+            "TIMESTAMP": "",
+            "TIMESTAMP_KEY": "",
+            "ORDER_BY": "id",
+            "JOIN": ""
+        }
+
 _ALL = "all"
 """ ALL table name in database """
 
@@ -360,6 +512,10 @@ MART_WALLET_CONTROL_BALANCE_CHANGE = "wallet_control_balance_change"
 MART_CONTROL_ACCOUNT = "control_account"
 MART_PARTNER_SERVICES = "partner_services"
 MART_PARTNER_INFOS = "partner_infos"
+MART_ROLE_TYPES = "roles_types"
+MART_USER_ROLE_TYPE_REF = "user_role_type_ref"
+MART_USERS = "users"
+MART_USER_WALLETS = "user_wallets"
 
 W3_INTERNAL_REPORTING_TABLE_SCHEMA = {
     MART_WALLET: MartWallet(MART_WALLET),
@@ -372,7 +528,11 @@ W3_INTERNAL_REPORTING_TABLE_SCHEMA = {
     MART_WALLET_CONTROL_BALANCE_CHANGE: MartWalletControlBalanceChange(MART_WALLET_CONTROL_BALANCE_CHANGE),
     MART_CONTROL_ACCOUNT: MartControlAccount(MART_CONTROL_ACCOUNT),
     MART_PARTNER_SERVICES: MartPartnerServices(MART_PARTNER_SERVICES),
-    MART_PARTNER_INFOS: MartPartnerInfos(MART_PARTNER_INFOS)
+    MART_PARTNER_INFOS: MartPartnerInfos(MART_PARTNER_INFOS),
+    MART_ROLE_TYPES: MartRoleTypes(MART_ROLE_TYPES),
+    MART_USER_ROLE_TYPE_REF: MartUserRoleTypeRef(MART_USER_ROLE_TYPE_REF),
+    MART_USERS: MartUsers(MART_USERS),
+    MART_USER_WALLETS: MartUserWallets(MART_USER_WALLETS)
 }
 
 _ALL_DIM = [
