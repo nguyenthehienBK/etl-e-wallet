@@ -1,5 +1,5 @@
 SELECT 
-    , balance_change_id
+    balance_change_id
     , wallet_id
     , transaction_id
     , request_log_id
@@ -11,4 +11,4 @@ SELECT
     , content
     , `status`
     , trans_type
-FROM w3_system_accounting_datawarehouse.wallet_balance_change;
+FROM w3_system_accounting_datawarehouse.wallet_balance_change

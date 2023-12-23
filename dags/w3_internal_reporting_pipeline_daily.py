@@ -45,7 +45,7 @@ start_pipeline = DummyOperator(
     dag=main_dag
 )
 
-load_to_mysql = SubDagOperator(
+load_to_mariadb = SubDagOperator(
     subdag=sub_load_mariadb(
         parent_dag_name=DAG_NAME,
         child_dag_name=LOAD_TO_MARIADB,
@@ -62,4 +62,4 @@ end_pipeline = DummyOperator(
     dag=main_dag
 )
 
-start_pipeline >> load_to_mysql >> end_pipeline
+start_pipeline >> load_to_mariadb >> end_pipeline
