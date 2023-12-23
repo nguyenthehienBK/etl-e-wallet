@@ -1,9 +1,15 @@
 from datetime import timedelta, datetime
+from schema.w3_internal_reporting_mart import W3_INTERNAL_REPORTING_TABLE_SCHEMA
 from utils.spark_thrift.connections import get_spark_thrift_conn
 from airflow.models import DAG
 from airflow.operators import IcebergOperator
 from airflow.operators import IcebergToMysqlOperator
 
+
+def get_table_schema(db_mart):
+    if db_mart == "w3_internal_reporting":
+        ls_tbl = W3_INTERNAL_REPORTING_TABLE_SCHEMA
+    return ls_tbl
 
 def sub_load_datamart(parent_dag_name, child_dag_name, args, **kwargs):
     dag_subdag = DAG(
@@ -101,6 +107,35 @@ def sub_load_mysql(parent_dag_name, child_dag_name, args, **kwargs):
             mysql_database="w3_core_mdm",
             mysql_table_name=table,
             mysql_schema=mysql_schema,
+            dag=dag_subdag
+        )
+        load_table_datamart
+
+    return dag_subdag
+
+def sub_load_mariadb(parent_dag_name, child_dag_name, args, **kwargs):
+    dag_subdag = DAG(
+        dag_id="%s.%s" % (parent_dag_name, child_dag_name),
+        default_args=args,
+        schedule_interval=None,
+        # concurrency=kwargs.get("concurrency"),
+    )
+    datamart_name = kwargs.get("datamart_name")
+    ls_tbl = get_table_schema(db_mart=datamart_name)
+
+    for table in ls_tbl:
+        tbl = ls_tbl.get(table)
+        # is_fact = True
+        table_name = tbl.TABLE_NAME
+        schema = tbl.SCHEMA
+        load_table_datamart = IcebergToMysqlOperator(
+            task_id=f"load_table_{table_name}_to_mart",
+            hive_server2_conn_id="hiveserver2_conn_id",
+            sql=f"sql/datamart/{datamart_name}/load_{table_name}_datamart.sql",
+            mysql_conn_id="mysql_w3_internal_reporting_conn_id",
+            mysql_database=datamart_name,
+            mysql_table_name=table_name,
+            mysql_schema=schema,
             dag=dag_subdag
         )
         load_table_datamart

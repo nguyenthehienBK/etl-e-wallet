@@ -7,7 +7,7 @@ from utils.variables.variables_utils import get_variables
 from utils.date_time.date_time_utils import get_business_date
 from utils.dag.dag_utils import CONCURRENCY, MAX_ACTIVE_RUNS
 from datetime import timedelta
-from dags.sub_dag.subdag_datamart_template import sub_load_mysql
+from dags.sub_dag.subdag_datamart_template import sub_load_mariadb
 
 
 DAG_NAME = "01_w3_internal_reporting_daily"
@@ -20,7 +20,7 @@ DELETE_OLD_FILE_RAW_TASK_NAME = 'delete_old_file_raw'
 LOAD_TO_RAW_TASK_NAME = 'load_to_raw'
 LOAD_TO_STAGING_TASK_NAME = 'load_to_staging'
 LOAD_TO_WAREHOUSE_TASK_NAME = 'load_to_warehouse'
-LOAD_TO_MARIADB = 'load_to_mysql'
+LOAD_TO_MARIADB = 'load_to_mariadb'
 START_TASK_NAME = 'start'
 END_TASK_NAME = 'end'
 OWNER_DAG = 'airflow'
@@ -46,9 +46,9 @@ start_pipeline = DummyOperator(
 )
 
 load_to_mysql = SubDagOperator(
-    subdag=sub_load_mysql(
+    subdag=sub_load_mariadb(
         parent_dag_name=DAG_NAME,
-        child_dag_name=LOAD_TO_WAREHOUSE_TASK_NAME,
+        child_dag_name=LOAD_TO_MARIADB,
         args=args,
         **variables
     ),
