@@ -9,3 +9,8 @@ LAKEHOUSE_TYPE_INT = 'int'
 LAKEHOUSE_TYPE_BIGINT = 'bigint'
 LAKEHOUSE_TYPE_DATETIME = 'datetime'
 LAKEHOUSE_TYPE_TIMESTAMP = 'timestamp'
+
+MART_TYPE_STR = 'varchar(255)'
+MART_TYPE_INT = 'int'
+MART_TYPE_BIGINT = 'bigint'
+MART_TYPE_TIMESTAMP = 'timestamp'
