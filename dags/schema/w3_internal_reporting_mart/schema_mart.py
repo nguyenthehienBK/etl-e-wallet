@@ -12,14 +12,14 @@ class MartWallet(DaoDim, BaseModel):
         super().__init__(table_name)
         self.SCHEMA = [
             {"name": "wallet_id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "pan", "mode": "NULLABLE", "type": "string"},
+            {"name": "pan", "mode": "NULLABLE", "type": "varchar(34)"},
             {"name": "wallet_state_id", "mode": "NULLABLE", "type": "int"},
             {"name": "wallet_type_id", "mode": "NULLABLE", "type": "int"},
             {"name": "modified_date", "mode": "NULLABLE", "type": "timestamp"},
             {"name": "created_date", "mode": "NULLABLE", "type": "timestamp"},
-            {"name": "active_time", "mode": "NULLABLE", "type": "datetime"}, 
-            {"name": "currency_code", "mode": "NULLABLE", "type": "string"},
-            {"name": "customer_id", "mode": "NULLABLE", "type": "string"},
+            {"name": "active_time", "mode": "NULLABLE", "type": "date"}, 
+            {"name": "currency_code", "mode": "NULLABLE", "type": "varchar(5)"},
+            {"name": "customer_id", "mode": "NULLABLE", "type": "bigint"},
         ]
 
         self.COLUMNS_SCHEMA = self.SCHEMA
@@ -44,7 +44,7 @@ class MartWalletBalance(DaoDim, BaseModel):
         super().__init__(table_name)
         self.SCHEMA = [
             {"name": "wallet_id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "balance", "mode": "NULLABLE", "type": "string"},
+            {"name": "balance", "mode": "NULLABLE", "type": "varchar(255)"},
             {"name": "holding_balance", "mode": "NULLABLE", "type": "timestamp"},
             {"name": "available_balance", "mode": "NULLABLE", "type": "bigint"},
             {"name": "date_modified", "mode": "NULLABLE", "type": "timestamp"},
@@ -73,14 +73,14 @@ class MartWalletBalanceChange(DaoDim, BaseModel):
         self.SCHEMA = [
             {"name": "balance_change_id", "mode": "NULLABLE", "type": "bigint"},
             {"name": "wallet_id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "transaction_id", "mode": "NULLABLE", "type": "string"},
-            {"name": "request_log_id", "mode": "NULLABLE", "type": "string"},
-            {"name": "trans_accounting_id", "mode": "NULLABLE", "type": "string"},
+            {"name": "transaction_id", "mode": "NULLABLE", "type": "bigint"},
+            {"name": "request_log_id", "mode": "NULLABLE", "type": "bigint"},
+            {"name": "trans_accounting_id", "mode": "NULLABLE", "type": "bigint"},
             {"name": "trans_type_id", "mode": "NULLABLE", "type": "bigint"},
             {"name": "amount", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "currency_code", "mode": "NULLABLE", "type": "string"},
+            {"name": "currency_code", "mode": "NULLABLE", "type": "varchar(10)"},
             {"name": "date_created", "mode": "NULLABLE", "type": "timestamp"},
-            {"name": "content", "mode": "NULLABLE", "type": "bigint"},
+            {"name": "content", "mode": "NULLABLE", "type": "varchar(500)"},
             {"name": "status", "mode": "NULLABLE", "type": "timestamp"},
             {"name": "trans_type", "mode": "NULLABLE", "type": "bigint"},
         ]
@@ -107,9 +107,9 @@ class MartWalletState(DaoDim, BaseModel):
         super().__init__(table_name)
         self.SCHEMA = [
             {"name": "wallet_state_id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "name", "mode": "NULLABLE", "type": "string"},
-            {"name": "locale_key", "mode": "NULLABLE", "type": "string"},
-            {"name": "next_state", "mode": "NULLABLE", "type": "string"},
+            {"name": "name", "mode": "NULLABLE", "type": "varchar(100)"},
+            {"name": "locale_key", "mode": "NULLABLE", "type": "varchar(50)"},
+            {"name": "next_state", "mode": "NULLABLE", "type": "varchar(50)"},
         ]
 
         self.COLUMNS_SCHEMA = self.SCHEMA
@@ -134,12 +134,12 @@ class MartWalletMaster(DaoDim, BaseModel):
         super().__init__(table_name)
         self.SCHEMA = [
             {"name": "wallet_id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "pan", "mode": "NULLABLE", "type": "string"},            
+            {"name": "pan", "mode": "NULLABLE", "type": "varchar(34)"},            
             {"name": "wallet_state_id", "mode": "NULLABLE", "type": "int"},
             {"name": "wallet_type_id", "mode": "NULLABLE", "type": "int"},
-            {"name": "name", "mode": "NULLABLE", "type": "string"},
-            {"name": "code", "mode": "NULLABLE", "type": "string"},
-            {"name": "currency_code", "mode": "NULLABLE", "type": "string"},
+            {"name": "name", "mode": "NULLABLE", "type": "varchar(100)"},
+            {"name": "code", "mode": "NULLABLE", "type": "varchar(200)"},
+            {"name": "currency_code", "mode": "NULLABLE", "type": "varchar(10)"},
             {"name": "parent_wallet_id", "mode": "NULLABLE", "type": "bigint"},
             {"name": "modified_date", "mode": "NULLABLE", "type": "timestamp"},
             {"name": "created_date", "mode": "NULLABLE", "type": "timestamp"},
@@ -166,9 +166,9 @@ class MartWalletType(DaoDim, BaseModel):
     def __init__(self, table_name):
         super().__init__(table_name)
         self.SCHEMA = [
-            {"name": "wallet_type_id", "mode": "NULLABLE", "type": "int"},
-            {"name": "name", "mode": "NULLABLE", "type": "string"},
-            {"name": "prefix_code", "mode": "NULLABLE", "type": "string"},
+            {"name": "wallet_type_id", "mode": "NULLABLE", "type": "bigint"},
+            {"name": "name", "mode": "NULLABLE", "type": "varchar(100)"},
+            {"name": "prefix_code", "mode": "NULLABLE", "type": "varchar(2)"},
             {"name": "type", "mode": "NULLABLE", "type": "bigint"},
             {"name": "status", "mode": "NULLABLE", "type": "bigint"},
         ]
@@ -195,15 +195,15 @@ class MartTransaction(DaoDim, BaseModel):
         super().__init__(table_name)
         self.SCHEMA = [
             {"name": "transaction_id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "currency_code", "mode": "NULLABLE", "type": "string"},
+            {"name": "currency_code", "mode": "NULLABLE", "type": "varchar(3)"},
             {"name": "trans_type_id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "partner_code", "mode": "NULLABLE", "type": "string"},
-            {"name": "service_code", "mode": "NULLABLE", "type": "string"},
-            {"name": "trans_type", "mode": "NULLABLE", "type": "string"},
+            {"name": "partner_code", "mode": "NULLABLE", "type": "varchar(50)"},
+            {"name": "service_code", "mode": "NULLABLE", "type": "varchar(50)"},
+            {"name": "trans_type", "mode": "NULLABLE", "type": "varchar(32)"},
             {"name": "date_created", "mode": "NULLABLE", "type": "timestamp"},
             {"name": "date_modified", "mode": "NULLABLE", "type": "timestamp"},
-            {"name": "date_expiried", "mode": "NULLABLE", "type": "timestamp"},
-            {"name": "date_finished", "mode": "NULLABLE", "type": "timestamp"},
+            {"name": "date_expiried", "mode": "NULLABLE", "type": "date"},
+            {"name": "date_finished", "mode": "NULLABLE", "type": "date"},
         ]
         
         self.COLUMNS_SCHEMA = self.SCHEMA
@@ -232,11 +232,11 @@ class MartWalletControlBalanceChange(DaoDim, BaseModel):
             {"name": "transaction_id", "mode": "NULLABLE", "type": "bigint"},
             {"name": "trans_type_id", "mode": "NULLABLE", "type": "bigint"},
             {"name": "amount", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "currency_code", "mode": "NULLABLE", "type": "string"},
+            {"name": "currency_code", "mode": "NULLABLE", "type": "varchar(3)"},
             {"name": "direction", "mode": "NULLABLE", "type": "bigint"},
             {"name": "before_balance", "mode": "NULLABLE", "type": "bigint"},
             {"name": "after_balance", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "date_created", "mode": "NULLABLE", "type": "timestamp"},
+            {"name": "date_created", "mode": "NULLABLE", "type": "date"},
         ]
         
         self.COLUMNS_SCHEMA = self.SCHEMA
@@ -261,14 +261,14 @@ class MartControlAccount(DaoDim, BaseModel):
         super().__init__(table_name)
         self.SCHEMA = [
             {"name": "id", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "code", "mode": "NULLABLE", "type": "string"},
-            {"name": "name", "mode": "NULLABLE", "type": "string"},
-            {"name": "currency_code", "mode": "NULLABLE", "type": "string"},
+            {"name": "code", "mode": "NULLABLE", "type": "varchar(100)"},
+            {"name": "name", "mode": "NULLABLE", "type": "varchar(200)"},
+            {"name": "currency_code", "mode": "NULLABLE", "type": "varchar(32)"},
             {"name": "wallet_type_id", "mode": "NULLABLE", "type": "int"},
             {"name": "status_code", "mode": "NULLABLE", "type": "bigint"},
-            {"name": "bank_code", "mode": "NULLABLE", "type": "string"},
-            {"name": "created_at", "mode": "NULLABLE", "type": "timestamp"},
-            {"name": "updated_at", "mode": "NULLABLE", "type": "timestamp"},
+            {"name": "bank_code", "mode": "NULLABLE", "type": "varchar"},
+            {"name": "created_at", "mode": "NULLABLE", "type": "date"},
+            {"name": "updated_at", "mode": "NULLABLE", "type": "date"},
         ]
 
         self.COLUMNS_SCHEMA = self.SCHEMA
