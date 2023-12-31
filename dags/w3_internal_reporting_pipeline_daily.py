@@ -3,12 +3,11 @@ from airflow.operators.subdag_operator import SubDagOperator
 from airflow.executors import get_default_executor
 from airflow.utils import dates
 from airflow.models import DAG
+from sub_dag.subdag_datamart_template import sub_load_mariadb
 from utils.variables.variables_utils import get_variables
 from utils.date_time.date_time_utils import get_business_date
 from utils.dag.dag_utils import CONCURRENCY, MAX_ACTIVE_RUNS
 from datetime import timedelta
-from dags.sub_dag.subdag_datamart_template import sub_load_mariadb
-
 
 DAG_NAME = "01_w3_internal_reporting_daily"
 SCHEDULE_INTERVAL = '00 18 * * *'
