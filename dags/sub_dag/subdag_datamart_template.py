@@ -5,6 +5,9 @@ from airflow.models import DAG
 from airflow.operators import IcebergOperator
 from airflow.operators import IcebergToMysqlOperator
 
+HIVE_SERVER2_CONN_ID = "hive_server2_conn_id"
+BUSINESS_DATE = "business_date"
+DATAMART_NAME = "datamart_name"
 
 def get_table_schema(db_mart):
     ls_tbl = []
@@ -121,9 +124,10 @@ def sub_load_mariadb(parent_dag_name, child_dag_name, args, **kwargs):
         schedule_interval=None,
         # concurrency=kwargs.get("concurrency"),
     )
-    datamart_name = kwargs.get("datamart_name")
-    ls_tbl = get_table_schema(db_mart=datamart_name)
+    datamart_name = kwargs.get(DATAMART_NAME)
+    hive_server2_conn_id = kwargs.get(HIVE_SERVER2_CONN_ID)
 
+    ls_tbl = get_table_schema(db_mart=datamart_name)
     for table in ls_tbl:
         tbl = ls_tbl.get(table)
         # is_fact = True
@@ -131,7 +135,7 @@ def sub_load_mariadb(parent_dag_name, child_dag_name, args, **kwargs):
         schema = tbl.SCHEMA
         load_table_datamart = IcebergToMysqlOperator(
             task_id=f"load_table_{table_name}_to_mart",
-            hive_server2_conn_id="hiveserver2_conn_id",
+            hive_server2_conn_id=hive_server2_conn_id,
             sql=f"sql/datamart/{datamart_name}/load_{table_name}_datamart.sql",
             mysql_conn_id="mysql_w3_internal_reporting_conn_id",
             mysql_database=datamart_name,
