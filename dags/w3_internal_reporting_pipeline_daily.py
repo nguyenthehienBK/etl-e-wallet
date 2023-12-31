@@ -15,10 +15,6 @@ variables = get_variables(name=DAG_NAME)
 BUSINESS_DATE = get_business_date(days=-1, business_date=variables.get("business_date"))
 LIST_TABLE_MIGRATION = variables.get('list_table_migration')
 variables['business_date'] = BUSINESS_DATE
-DELETE_OLD_FILE_RAW_TASK_NAME = 'delete_old_file_raw'
-LOAD_TO_RAW_TASK_NAME = 'load_to_raw'
-LOAD_TO_STAGING_TASK_NAME = 'load_to_staging'
-LOAD_TO_WAREHOUSE_TASK_NAME = 'load_to_warehouse'
 LOAD_TO_MARIADB = 'load_to_mariadb'
 START_TASK_NAME = 'start'
 END_TASK_NAME = 'end'
@@ -51,7 +47,7 @@ load_to_mariadb = SubDagOperator(
         args=args,
         **variables
     ),
-    task_id=LOAD_TO_WAREHOUSE_TASK_NAME,
+    task_id=LOAD_TO_MARIADB,
     executor=get_default_executor(),
     dag=main_dag
 )
