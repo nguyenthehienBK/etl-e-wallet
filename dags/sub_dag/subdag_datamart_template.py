@@ -7,6 +7,7 @@ from airflow.operators import IcebergToMysqlOperator
 
 
 def get_table_schema(db_mart):
+    ls_tbl = []
     if db_mart == "w3_internal_reporting":
         ls_tbl = W3_INTERNAL_REPORTING_TABLE_SCHEMA
     return ls_tbl
