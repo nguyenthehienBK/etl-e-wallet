@@ -1,5 +1,5 @@
 from datetime import timedelta, datetime
-from schema.w3_internal_reporting_mart import W3_INTERNAL_REPORTING_TABLE_SCHEMA
+from schema.w3_internal_reporting_mart.schema_mart import W3_INTERNAL_REPORTING_TABLE_SCHEMA
 from utils.spark_thrift.connections import get_spark_thrift_conn
 from airflow.models import DAG
 from airflow.operators import IcebergOperator
