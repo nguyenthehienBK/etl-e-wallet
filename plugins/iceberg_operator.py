@@ -222,7 +222,7 @@ class IcebergOperator(BaseOperator):
             if
             # ignore commented sql_query like "-- select 1 as t;"
             # do not ignore "-- select 1 as t \n select 2 as a"
-            not (sql_query.strip()[:2] == "--" and sql_query.strip().find("\n") == -1)
+            not (sql_query.strip().startswith == "--" and sql_query.strip().find("\n") == -1)
         ]
 
         for sql_query in sql_queries:
