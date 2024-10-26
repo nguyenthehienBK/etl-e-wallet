@@ -1,5 +1,5 @@
-# on-vds-dmp-etl
+# etl-e-wallet
 
-This repository contains ETL code for DMP
+This repository contains ETL code for e-wallet
 
 # Installation guide
